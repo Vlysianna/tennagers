@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teenagers</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">Teenager's</div>
+        <nav>
+            <ul class="items">
+                <li><a href="#">Our Story</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Your Styles</a></li>
+                <li><a href="#">Testimoni</a></li>
+                <li><a href="#">Get In Touch</a></li>
+            </ul>
+        </nav>
+    </div>
+    <section id="home">
+        <div class="container">
+            <div class="left-section">
+                <div class="main-content">
+                    <h1 class="title floating animate-on-scroll">
+                        Embrace your<br>
+                        <span class="animate-on-scroll">youth</span>. Redefine<br>
+                        the <span class="animate-on-scroll">trends</span>.
+                    </h1>
+                    <p class="subtitle">
+                        Teenagers hadir untuk kamu yang berani tampil beda tanpa harus terjebak tren. Dengan gaya
+                        minimalis
+                        dan potongan yang versatile, kami merancang fashion untuk generasi yang ingin tampil bersih,
+                        simpel,
+                        tapi tetap lantang. Karena jadi diri sendiri selalu relevan.
+                    </p>
+                    <div class="btn-main">
+                        <a href="#" class="collect-button">Lihat Koleksi</a>
+                        <a href="#" class="buy-button">Beli Sekarang</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="hero-image">
+                    <img id="main-hero-image" src="img/GAMBAR1.png" alt="Model Teenagers">
+                </div>
+                <div class="thumbnail-list">
+                    <img src="img/GAMBAR1.png" alt="Thumbnail 1" onclick="changeHeroImage('img/GAMBAR1.png', this)">
+                    <img src="img/GAMBAR2.png" alt="Thumbnail 2" onclick="changeHeroImage('img/GAMBAR2.png', this)">
+                    <img src="img/GAMBAR3.png" alt="Thumbnail 3" onclick="changeHeroImage('img/GAMBAR3.png', this)">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="description">
+        <div class="description-container">
+            <table>
+                <tr class="section-story">
+                    <td class="section-title animate-on-scroll">
+                        <h2>Our Story</h2>
+                    </td>
+                    <td colspan="2" class="section-content animate-on-scroll">
+                        <p>
+                            Kami percaya bahwa gaya adalah ekspresi jujur dari jiwa muda — bebas, bersih, dan berani.
+                            Dengan desain minimalis namun penuh karakter, koleksi kami dirancang untuk menghidupkan
+                            ulang arti 'simple is powerful'.
+                        </p>
+                    </td>
+                </tr>
+                <tr class="section-vision">
+                    <td></td>
+                    <td class="section-title animate-on-scroll">
+                        <h2>Our Vision</h2>
+                    </td>
+                    <td class="section-content animate-on-scroll">
+                        <p>
+                            Teenagers lahir untuk mendukung generasi muda tampil percaya diri tanpa harus mengikuti tren
+                            yang membatasi. Kami ingin menciptakan ruang di mana gaya menjadi bentuk ekspresi diri yang
+                            jujur dan bebas dengan pendekatan minimalis, modern, dan berkarakter.
+                        </p>
+                    </td>
+                </tr>
+                <tr class="section-mission">
+                    <td></td>
+                    <td class="section-title animate-on-scroll">
+                        <h2>Our Mission</h2>
+                    </td>
+                    <td class="section-content animate-on-scroll">
+                        <p>
+                            Kami percaya bahwa fashion bukan sekadar penampilan, melainkan cerminan dari keberanian
+                            memilih. Teenagers hadir untuk menghadirkan pilihan pakaian yang simpel, versatile, dan
+                            nyaman, agar setiap anak muda bisa meredefinisi gaya mereka dengan cara yang mudah, stylish,
+                            dan tetap autentik.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <script>
+        // Hero Image Gallery Functionality
+        function changeHeroImage(newImageSrc, clickedThumbnail) {
+            // Change main image
+            document.getElementById('main-hero-image').src = newImageSrc;
+            
+            // Update active thumbnail
+            const thumbnails = document.querySelectorAll('.thumbnail-list img');
+            thumbnails.forEach(thumb => {
+                thumb.style.border = 'none';
+                thumb.style.opacity = '0.8';
+            });
+            
+            if (clickedThumbnail) {
+                clickedThumbnail.style.border = '2px solid #303030';
+                clickedThumbnail.style.opacity = '1';
+            }
+            
+            // Reset auto-rotation
+            clearInterval(rotationInterval);
+            currentImageIndex = imageSources.findIndex(src => src === newImageSrc);
+            if (currentImageIndex === -1) currentImageIndex = 0;
+            rotationInterval = setInterval(rotateHeroImages, 5000);
+        }
+
+        // Auto-rotate images
+        let currentImageIndex = 0;
+        const imageSources = [
+            'img/GAMBAR1.png',
+            'img/GAMBAR2.png', 
+            'img/GAMBAR3.png'
+        ];
+        let rotationInterval = setInterval(rotateHeroImages, 5000);
+        
+        function rotateHeroImages() {
+            currentImageIndex = (currentImageIndex + 1) % imageSources.length;
+            document.getElementById('main-hero-image').src = imageSources[currentImageIndex];
+            
+            // Update active thumbnail
+            const thumbnails = document.querySelectorAll('.thumbnail-list img');
+            thumbnails.forEach((thumb, index) => {
+                if (index === currentImageIndex) {
+                    thumb.style.border = '2px solid #303030';
+                    thumb.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+                    thumb.style.opacity = '1';
+                } else {
+                    thumb.style.border = 'none';
+                    thumb.style.opacity = '0.8';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        // Scroll Animation Functionality
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                } else {
+                    entry.target.classList.remove('animate-in'); // Reset saat keluar viewport
+                }
+            });
+        }, {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe semua elemen dengan class animate-on-scroll
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            // Set initial state
+            el.classList.add('animate-ready');
+            scrollObserver.observe(el);
+        });
+
+        // Thumbnail Animation on Scroll
+        const thumbnailObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const thumbnails = entry.target.querySelectorAll('.thumbnail-list img');
+                thumbnails.forEach((thumb, index) => {
+                    if (entry.isIntersecting) {
+                        // Animasikan dengan delay bertahap
+                        thumb.style.transition = `opacity 0.5s ease ${index * 0.1}s, border 0.3s ease`;
+                        thumb.style.opacity = '1';
+                        
+                        // Highlight thumbnail pertama
+                        if (index === 0) {
+                            thumb.style.border = '2px solid #303030';
+                        }
+                    } else {
+                        // Reset saat keluar viewport
+                        thumb.style.opacity = '0';
+                        thumb.style.border = '2px solid transparent';
+                        thumb.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+                    }
+                });
+            });
+        }, { threshold: 0.1 });
+
+        // Observe thumbnail containers
+        document.querySelectorAll('.thumbnail-container').forEach(container => {
+            thumbnailObserver.observe(container);
+        });
+    });
+    </script>
+</body>
+
+</html>
