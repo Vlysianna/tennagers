@@ -1,14 +1,201 @@
-// Initialize AOS
-AOS.init({
-    duration: 1000,
-    once: true,
-    offset: 100
+// =====================
+// 1. NAVBAR & MOBILE MENU
+// =====================
+
+// Mobile Menu Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const closeMenuButton = document.getElementById('close-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileBackdrop = document.getElementById('mobile-backdrop');
+    const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+    const hamburgerLines = document.querySelectorAll('.hamburger-line');
+    const body = document.body;
+
+    function openMenu() {
+        mobileMenu.classList.remove('translate-x-full');
+        mobileMenu.classList.add('translate-x-0');
+        
+        mobileBackdrop.classList.add('opacity-100');
+        
+        hamburgerLines[0].classList.add('rotate-45', 'translate-y-2');
+        hamburgerLines[1].classList.add('opacity-0');
+        hamburgerLines[2].classList.add('-rotate-45', '-translate-y-2');
+        
+        mobileMenuItems.forEach(item => {
+            item.classList.remove('-translate-x-8', 'opacity-0');
+            item.classList.add('translate-x-0', 'opacity-100');
+        });
+        
+        body.style.overflow = 'hidden';
+    }
+    
+    function closeMenu() {
+        mobileMenu.classList.add('translate-x-full');
+        mobileMenu.classList.remove('translate-x-0');
+        
+        mobileBackdrop.classList.remove('opacity-100');
+        
+        // Animate X back to hamburger
+        hamburgerLines[0].classList.remove('rotate-45', 'translate-y-2');
+        hamburgerLines[1].classList.remove('opacity-0');
+        hamburgerLines[2].classList.remove('-rotate-45', '-translate-y-2');
+        
+        mobileMenuItems.forEach(item => {
+            item.classList.add('-translate-x-8', 'opacity-0');
+            item.classList.remove('translate-x-0', 'opacity-100');
+        });
+        
+        body.style.overflow = '';
+    }
+    
+    function toggleMenu() {
+        const isOpen = mobileMenu.classList.contains('translate-x-0');
+        
+        if (!isOpen) {
+            openMenu();
+        } else {
+            closeMenu();
+        }
+    }
+
+    if (mobileMenuButton) {
+        mobileMenuButton.addEventListener('click', toggleMenu);
+    }
+    
+    if (closeMenuButton) {
+        closeMenuButton.addEventListener('click', closeMenu);
+    }
+
+    // Close menu when clicking on backdrop
+    mobileBackdrop.addEventListener('click', closeMenu);
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (mobileMenu.classList.contains('translate-x-0') &&
+            !mobileMenu.contains(e.target) &&
+            !mobileMenuButton.contains(e.target)) {
+            closeMenu();
+        }
+    });
+    
+    // Add hover effects to menu items
+    document.querySelectorAll('#mobile-menu li a').forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            const line = this.querySelector('span');
+            line.classList.add('scale-x-100');
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            const line = this.querySelector('span');
+            line.classList.remove('scale-x-100');
+        });
+    });
+
+    // =====================
+    // GALLERY SHOWCASE
+    // =====================
+    
+    // Initialize Gallery Hover Effects
+    function initializeGallery() {
+        const galleryItems = document.querySelectorAll('#gallery-showcase .group');
+        
+        galleryItems.forEach((item, index) => {
+            // Add staggered animation on scroll
+            gsap.from(item, {
+                opacity: 0,
+                y: 30,
+                delay: index * 0.1,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                }
+            });
+            
+            // Add hover effect
+            item.addEventListener('mouseenter', () => {
+                const img = item.querySelector('img');
+                if (img) {
+                    gsap.to(img, {
+                        scale: 1.1,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                }
+                
+                const overlay = item.querySelector('div');
+                if (overlay) {
+                    gsap.to(overlay, {
+                        opacity: 1,
+                        duration: 0.3
+                    });
+                }
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                const img = item.querySelector('img');
+                if (img) {
+                    gsap.to(img, {
+                        scale: 1,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                }
+                
+                const overlay = item.querySelector('div');
+                if (overlay) {
+                    gsap.to(overlay, {
+                        opacity: 0,
+                        duration: 0.3
+                    });
+                }
+            });
+        });
+        
+        // Animate the quote with text splitting for more refined animation
+        const quoteElement = document.querySelector("#gallery-showcase h2");
+        if (quoteElement) {
+            // Split text into lines
+            const lines = quoteElement.innerHTML.split('<br>');
+            quoteElement.innerHTML = '';
+            
+            lines.forEach((line, i) => {
+                const lineDiv = document.createElement('div');
+                lineDiv.innerHTML = line;
+                lineDiv.style.overflow = 'hidden';
+                quoteElement.appendChild(lineDiv);
+                
+                const textContent = lineDiv.firstChild;
+                
+                gsap.from(textContent, {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    delay: 0.2 + (i * 0.3),
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: quoteElement,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    }
+                });
+            });
+        }
+    }
+    
+    // Call gallery initialization
+    if (document.querySelector('#gallery-showcase')) {
+        initializeGallery();
+    }
 });
 
-// GSAP Animations
-gsap.registerPlugin(ScrollTrigger);
+// =====================
+// 2. HERO SECTION (Swiper, Animasi, Thumbnail)
+// =====================
 
-// Hero Section Animations
+// GSAP Hero Section Animations
 gsap.from(".hero-content h1", {
     y: 100,
     opacity: 0,
@@ -64,6 +251,7 @@ const heroSwiper = new Swiper('.hero-swiper', {
         init: function() {
             updateSlideInfo(this.realIndex);
             updateThumbnailActive(this.realIndex);
+            adjustSlideInfoPosition();
         },
         slideChange: function() {
             updateSlideInfo(this.realIndex);
@@ -93,12 +281,35 @@ function updateSlideInfo(index) {
     }, 100);
 }
 
+// Adjust slide info position based on screen size
+function adjustSlideInfoPosition() {
+    const slideInfoContainer = document.querySelector('.slide-info').parentElement;
+    
+    function updatePosition() {
+        if (window.innerWidth < 768) {
+            slideInfoContainer.style.bottom = '90px';
+        } else {
+            slideInfoContainer.style.bottom = '50px';
+        }
+    }
+    
+    // Initial position
+    updatePosition();
+    
+    // Update on resize
+    window.addEventListener('resize', updatePosition);
+}
+
 // Update Thumbnail Active State
 function updateThumbnailActive(index) {
     const thumbnails = document.querySelectorAll('.thumbnail-container');
     thumbnails.forEach((thumb, i) => {
         const border = thumb.querySelector('.border-2');
         const overlay = thumb.querySelector('.bg-black\\/20');
+        
+        // Periksa apakah border dan overlay ada
+        if (!border || !overlay) return;
+        
         if (i === index) {
             border.classList.remove('border-transparent');
             border.classList.add('border-white');
@@ -182,181 +393,9 @@ document.querySelectorAll('.swiper-slide').forEach(slide => {
     });
 });
 
-// Mobile Menu Functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const closeMenuButton = document.getElementById('close-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const body = document.body;
-
-    function toggleMenu() {
-        const isOpen = mobileMenu.classList.contains('translate-x-0');
-        
-        if (!isOpen) {
-            // Opening animation
-            mobileMenu.classList.remove('translate-x-full');
-            mobileMenu.classList.add('translate-x-0');
-            gsap.from('#mobile-menu .mt-12 li', {
-                x: 50,
-                opacity: 0,
-                duration: 0.5,
-                stagger: 0.1,
-                ease: "power2.out"
-            });
-        } else {
-            // Closing animation
-            gsap.to('#mobile-menu', {
-                x: '100%',
-                duration: 0.5,
-                ease: "power2.inOut",
-                onComplete: () => {
-                    mobileMenu.classList.remove('translate-x-0');
-                    mobileMenu.classList.add('translate-x-full');
-                }
-            });
-        }
-        
-        body.style.overflow = isOpen ? '' : 'hidden';
-    }
-
-    mobileMenuButton?.addEventListener('click', toggleMenu);
-    closeMenuButton?.addEventListener('click', toggleMenu);
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (mobileMenu.classList.contains('translate-x-0') &&
-            !mobileMenu.contains(e.target) &&
-            !mobileMenuButton.contains(e.target)) {
-            toggleMenu();
-        }
-    });
-});
-
-// Smooth Scroll
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            gsap.to(window, {
-                duration: 1,
-                scrollTo: {
-                    y: target,
-                    offsetY: 100
-                },
-                ease: "power2.inOut"
-            });
-        }
-    });
-});
-
-// Cursor Effect with GSAP
-const cursor = document.createElement('div');
-const cursorOutline = document.createElement('div');
-cursor.className = 'cursor-dot';
-cursorOutline.className = 'cursor-outline';
-document.body.appendChild(cursor);
-document.body.appendChild(cursorOutline);
-
-gsap.set([cursor, cursorOutline], { xPercent: -50, yPercent: -50 });
-
-let xTo = gsap.quickTo(cursor, "x", { duration: 0.2, ease: "power3" }),
-    yTo = gsap.quickTo(cursor, "y", { duration: 0.2, ease: "power3" });
-
-let xToOutline = gsap.quickTo(cursorOutline, "x", { duration: 0.5, ease: "power3" }),
-    yToOutline = gsap.quickTo(cursorOutline, "y", { duration: 0.5, ease: "power3" });
-
-window.addEventListener("mousemove", e => {
-    xTo(e.clientX);
-    yTo(e.clientY);
-    xToOutline(e.clientX);
-    yToOutline(e.clientY);
-});
-
-// Hover effect for interactive elements
-const interactiveElements = document.querySelectorAll('a, button, .interactive');
-interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-        gsap.to(cursorOutline, {
-            scale: 1.5,
-            duration: 0.3,
-            ease: "power2.out"
-        });
-    });
-    
-    el.addEventListener('mouseleave', () => {
-        gsap.to(cursorOutline, {
-            scale: 1,
-            duration: 0.3,
-            ease: "power2.out"
-        });
-    });
-});
-
-// Parallax Effect
-document.addEventListener('mousemove', (e) => {
-    const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
-    const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
-    
-    gsap.to('.parallax', {
-        x: moveX,
-        y: moveY,
-        duration: 1,
-        ease: "power2.out"
-    });
-});
-
-// Hero Image Gallery Functionality
-function changeHeroImage(newImageSrc, clickedThumbnail) {
-    // Change main image
-    document.getElementById('main-hero-image').src = newImageSrc;
-
-    // Update active thumbnail
-    const thumbnails = document.querySelectorAll('.thumbnail-list img');
-    thumbnails.forEach(thumb => {
-        thumb.style.border = 'none';
-        thumb.style.opacity = '0.8';
-    });
-
-    if (clickedThumbnail) {
-        clickedThumbnail.style.border = '2px solid #303030';
-        clickedThumbnail.style.opacity = '1';
-    }
-
-    // Reset auto-rotation
-    clearInterval(rotationInterval);
-    currentImageIndex = imageSources.findIndex(src => src === newImageSrc);
-    if (currentImageIndex === -1) currentImageIndex = 0;
-    rotationInterval = setInterval(rotateHeroImages, 5000);
-}
-
-// Auto-rotate images
-let currentImageIndex = 0;
-const imageSources = [
-    'img/GAMBAR1.png',
-    'img/GAMBAR2.png',
-    'img/GAMBAR3.png'
-];
-let rotationInterval = setInterval(rotateHeroImages, 5000);
-
-function rotateHeroImages() {
-    currentImageIndex = (currentImageIndex + 1) % imageSources.length;
-    document.getElementById('main-hero-image').src = imageSources[currentImageIndex];
-
-    // Update active thumbnail
-    const thumbnails = document.querySelectorAll('.thumbnail-list img');
-    thumbnails.forEach((thumb, index) => {
-        if (index === currentImageIndex) {
-            thumb.style.border = '2px solid #303030';
-            thumb.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
-            thumb.style.opacity = '1';
-        } else {
-            thumb.style.border = 'none';
-            thumb.style.opacity = '0.8';
-        }
-    });
-}
-
+// =====================
+// 3. STORY / DESCRIPTION SECTION
+// =====================
 document.addEventListener('DOMContentLoaded', function () {
     // Scroll Animation Functionality
     const scrollObserver = new IntersectionObserver((entries) => {
@@ -364,37 +403,30 @@ document.addEventListener('DOMContentLoaded', function () {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
             } else {
-                entry.target.classList.remove('animate-in'); // Reset saat keluar viewport
+                entry.target.classList.remove('animate-in');
             }
         });
     }, {
         threshold: 0.2,
         rootMargin: '0px 0px -50px 0px'
     });
-
-    // Observe semua elemen dengan class animate-on-scroll
     document.querySelectorAll('.animate-on-scroll').forEach(el => {
-        // Set initial state
         el.classList.add('animate-ready');
         scrollObserver.observe(el);
     });
-
     // Thumbnail Animation on Scroll
     const thumbnailObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const thumbnails = entry.target.querySelectorAll('.thumbnail-list img');
+            if (thumbnails.length === 0) return;
             thumbnails.forEach((thumb, index) => {
                 if (entry.isIntersecting) {
-                    // Animasikan dengan delay bertahap
                     thumb.style.transition = `opacity 0.5s ease ${index * 0.1}s, border 0.3s ease`;
                     thumb.style.opacity = '1';
-
-                    // Highlight thumbnail pertama
                     if (index === 0) {
                         thumb.style.border = '2px solid #303030';
                     }
                 } else {
-                    // Reset saat keluar viewport
                     thumb.style.opacity = '0';
                     thumb.style.border = '2px solid transparent';
                     thumb.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
@@ -402,12 +434,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }, { threshold: 0.1 });
-
-    // Observe thumbnail containers
     document.querySelectorAll('.thumbnail-container').forEach(container => {
         thumbnailObserver.observe(container);
     });
-
     // Weekly Picks Card Animation
     const weeklyCards = document.querySelectorAll('.weekly-card');
     const mainCard = document.querySelector('.main-card');
@@ -576,221 +605,13 @@ document.addEventListener('DOMContentLoaded', function () {
             image.style.transform = 'none';
         });
     });
-
-    // Cursor effect
-    const cursor = document.createElement('div');
-    const cursorOutline = document.createElement('div');
-    cursor.className = 'cursor-dot';
-    cursorOutline.className = 'cursor-outline';
-    document.body.appendChild(cursor);
-    document.body.appendChild(cursorOutline);
-
-    let cursorX = 0;
-    let cursorY = 0;
-    let outlineX = 0;
-    let outlineY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-        cursorX = e.clientX;
-        cursorY = e.clientY;
-        
-        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-        
-        outlineX += (cursorX - outlineX) * 0.1;
-        outlineY += (cursorY - outlineY) * 0.1;
-        cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px)`;
-    });
-
-    // Story Section Animations
-    document.addEventListener('DOMContentLoaded', function() {
-        // Parallax effect for story images
-        const storyImages = document.querySelectorAll('#description .aspect-\\[4\\/5\\]');
-        let lastScrollY = window.scrollY;
-        let ticking = false;
-
-        function updateParallax() {
-            storyImages.forEach((img, index) => {
-                const speed = 0.1;
-                const yPos = -(window.scrollY * speed);
-                img.style.transform = `translateY(${yPos}px)`;
-            });
-            
-            ticking = false;
-        }
-
-        window.addEventListener('scroll', function() {
-            lastScrollY = window.scrollY;
-            if (!ticking) {
-                window.requestAnimationFrame(function() {
-                    updateParallax();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-
-        // Stats counter animation
-        const stats = document.querySelectorAll('.stat-item .text-3xl');
-        const statsSection = document.querySelector('#description');
-        let hasAnimated = false;
-
-        function animateStats() {
-            if (hasAnimated) return;
-            
-            stats.forEach(stat => {
-                const target = parseInt(stat.textContent);
-                let current = 0;
-                const increment = target / 50; // Adjust speed here
-                const duration = 1500; // Animation duration in milliseconds
-                const stepTime = duration / 50;
-                
-                function updateCount() {
-                    current += increment;
-                    if (current < target) {
-                        stat.textContent = Math.round(current) + '+';
-                        setTimeout(updateCount, stepTime);
-                    } else {
-                        stat.textContent = target + '+';
-                    }
-                }
-                
-                updateCount();
-            });
-            
-            hasAnimated = true;
-        }
-
-        // Intersection Observer for stats animation
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateStats();
-                }
-            });
-        }, { threshold: 0.5 });
-
-        statsSection && statsObserver.observe(statsSection);
-
-        // Image hover effect
-        const storyContainers = document.querySelectorAll('#description .aspect-\\[4\\/5\\]');
-        
-        storyContainers.forEach(container => {
-            container.addEventListener('mousemove', (e) => {
-                const rect = container.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const xPercent = (x / rect.width - 0.5) * 20;
-                const yPercent = (y / rect.height - 0.5) * 20;
-                
-                const image = container.querySelector('img');
-                image.style.transform = `translate(${xPercent}px, ${yPercent}px) scale(1.1)`;
-            });
-            
-            container.addEventListener('mouseleave', (e) => {
-                const image = container.querySelector('img');
-                image.style.transform = 'none';
-            });
-        });
-
-        // Smooth scroll for "Pelajari Lebih Lanjut" link
-        const learnMoreLink = document.querySelector('#description a[href="#"]');
-        learnMoreLink?.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetSection = document.querySelector('#our-collection');
-            if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
-
-    // Weekly Picks Mobile Interaction
-    const weeklyPicksSection = document.querySelector('#weekly-picks');
-    if (weeklyPicksSection) {
-        const filterButtons = weeklyPicksSection.querySelectorAll('.filter-btn');
-        const cards = weeklyPicksSection.querySelectorAll('.weekly-card');
-        const navigationDots = weeklyPicksSection.querySelectorAll('.flex.justify-center button');
-        let currentCardIndex = 0;
-
-        // Filter Button Interaction
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterButtons.forEach(btn => {
-                    btn.classList.remove('bg-primary', 'text-white');
-                    btn.classList.add('bg-gray-100', 'text-secondary');
-                });
-                
-                // Add active class to clicked button
-                button.classList.remove('bg-gray-100', 'text-secondary');
-                button.classList.add('bg-primary', 'text-white');
-            });
-        });
-
-        // Mobile Card Navigation
-        function updateCardVisibility() {
-            if (window.innerWidth < 1024) { // Mobile & tablet only
-                cards.forEach((card, index) => {
-                    card.style.display = index === currentCardIndex ? 'block' : 'none';
-                    
-                    // Update navigation dots
-                    navigationDots[index].classList.toggle('bg-primary', index === currentCardIndex);
-                    navigationDots[index].classList.toggle('bg-gray-200', index !== currentCardIndex);
-                });
-            } else {
-                // Reset all cards to visible for desktop
-                cards.forEach(card => {
-                    card.style.display = '';
-                });
-            }
-        }
-
-        // Initialize card visibility
-        updateCardVisibility();
-
-        // Handle navigation dot clicksm
-        navigationDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentCardIndex = index;
-                updateCardVisibility();
-            });
-        });
-
-        // Add touch swipe functionality
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        weeklyPicksSection.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-        });
-
-        weeklyPicksSection.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].clientX;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const swipeDistance = touchEndX - touchStartX;
-
-            if (Math.abs(swipeDistance) > swipeThreshold && window.innerWidth < 1024) {
-                if (swipeDistance > 0 && currentCardIndex > 0) {
-                    // Swipe right
-                    currentCardIndex--;
-                } else if (swipeDistance < 0 && currentCardIndex < cards.length - 1) {
-                    // Swipe left
-                    currentCardIndex++;
-                }
-                updateCardVisibility();
-            }
-        }
-
-        // Handle window resize
-        window.addEventListener('resize', updateCardVisibility);
-    }
 });
 
-// Vision Gallery Functionality
+// =====================
+// 4. VISION SECTION
+// =====================
+
+// Vision Gallery, Stats, Values
 document.addEventListener('DOMContentLoaded', function() {
     const visionSlides = document.querySelectorAll('.vision-slide');
     const visionQuotes = document.querySelectorAll('.vision-quote');
@@ -955,7 +776,425 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Collection Slider Variables
+// =====================
+// 5. WEEKLY PICKS SECTION (New Interactive Version)
+// =====================
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Weekly Picks Slider
+    const weeklyPicksContainer = document.querySelector('.weekly-picks-container');
+    if (!weeklyPicksContainer) return;
+
+    const weeklyTrack = document.querySelector('.weekly-picks-track');
+    const weeklyCards = document.querySelectorAll('.weekly-card');
+    const weeklyDots = document.querySelectorAll('.weekly-dot');
+    const prevBtn = document.querySelector('.weekly-nav-btn.prev');
+    const nextBtn = document.querySelector('.weekly-nav-btn.next');
+    const filterBtns = document.querySelectorAll('.weekly-filter-btn');
+    
+    let currentIndex = 0;
+    let cardWidth = 0;
+    let slideInterval;
+    let isAnimating = false;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    // Initialize
+    function initializeWeeklyPicks() {
+        // Calculate card width
+        updateCardWidth();
+        
+        // Set initial position
+        showCard(currentIndex);
+        
+        // Start autoplay for desktop
+        if (window.innerWidth >= 1024) {
+            startAutoplay();
+        }
+        
+        // Add event listeners
+        setupEventListeners();
+        
+        // Initialize filter buttons
+        initializeFilters();
+    }
+
+    // Update card width based on viewport
+    function updateCardWidth() {
+        if (window.innerWidth >= 1024) {
+            // Desktop
+            cardWidth = weeklyPicksContainer.offsetWidth;
+        } else if (window.innerWidth >= 768) {
+            // Tablet
+            cardWidth = weeklyPicksContainer.offsetWidth * 0.8;
+            } else {
+            // Mobile
+            cardWidth = weeklyPicksContainer.offsetWidth;
+        }
+    }
+    
+    // Show specific card
+    function showCard(index, animate = true) {
+        if (isAnimating) return;
+        
+        // Update current index
+        currentIndex = index;
+        
+        // Calculate position
+        const position = -index * cardWidth;
+        
+        // Apply transition if animate is true
+        if (animate) {
+            isAnimating = true;
+            weeklyTrack.style.transition = 'transform 500ms ease-out';
+            setTimeout(() => {
+                isAnimating = false;
+            }, 500);
+        } else {
+            weeklyTrack.style.transition = 'none';
+        }
+        
+        // Move track
+        weeklyTrack.style.transform = `translateX(${position}px)`;
+        
+        // Update dots
+        updateDots();
+    }
+    
+    // Update dot indicators
+    function updateDots() {
+        weeklyDots.forEach((dot, index) => {
+            if (index === currentIndex) {
+                dot.classList.add('bg-primary');
+                dot.classList.remove('bg-gray-200');
+                dot.style.width = '32px';
+            } else {
+                dot.classList.remove('bg-primary');
+                dot.classList.add('bg-gray-200');
+                dot.style.width = '8px';
+            }
+        });
+        }
+
+    // Next slide
+    function nextSlide() {
+        if (isAnimating) return;
+        
+        const nextIndex = (currentIndex + 1) % weeklyCards.length;
+        showCard(nextIndex);
+    }
+    
+    // Previous slide
+    function prevSlide() {
+        if (isAnimating) return;
+        
+        const prevIndex = (currentIndex - 1 + weeklyCards.length) % weeklyCards.length;
+        showCard(prevIndex);
+    }
+    
+    // Start autoplay
+    function startAutoplay() {
+        if (slideInterval) clearInterval(slideInterval);
+        slideInterval = setInterval(() => {
+            nextSlide();
+        }, 5000);
+    }
+    
+    // Stop autoplay
+    function stopAutoplay() {
+        if (slideInterval) {
+            clearInterval(slideInterval);
+            slideInterval = null;
+        }
+    }
+    
+    // Handle touch events
+    function handleTouchStart(e) {
+        touchStartX = e.touches[0].clientX;
+        stopAutoplay();
+    }
+    
+    function handleTouchMove(e) {
+        if (!touchStartX) return;
+        
+        const touchX = e.touches[0].clientX;
+        const diff = touchStartX - touchX;
+        const offset = -currentIndex * cardWidth - diff;
+        
+        // Apply drag effect
+        weeklyTrack.style.transition = 'none';
+        weeklyTrack.style.transform = `translateX(${offset}px)`;
+    }
+    
+    function handleTouchEnd(e) {
+        touchEndX = e.changedTouches[0].clientX;
+        
+        const diff = touchStartX - touchEndX;
+        const threshold = cardWidth * 0.2;
+        
+        if (Math.abs(diff) > threshold) {
+            if (diff > 0) {
+                // Swipe left, go to next
+                nextSlide();
+            } else {
+                // Swipe right, go to previous
+                prevSlide();
+            }
+        } else {
+            // Return to current slide
+            showCard(currentIndex);
+        }
+        
+        touchStartX = 0;
+        touchEndX = 0;
+        
+        if (window.innerWidth >= 1024) {
+            startAutoplay();
+        }
+    }
+    
+    // Setup event listeners
+    function setupEventListeners() {
+        // Navigation buttons
+        if (prevBtn) prevBtn.addEventListener('click', () => {
+            prevSlide();
+            stopAutoplay();
+        });
+        
+        if (nextBtn) nextBtn.addEventListener('click', () => {
+            nextSlide();
+            stopAutoplay();
+        });
+        
+        // Dot indicators
+        weeklyDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showCard(index);
+                stopAutoplay();
+            });
+        });
+
+        // Touch events
+        weeklyPicksContainer.addEventListener('touchstart', handleTouchStart);
+        weeklyPicksContainer.addEventListener('touchmove', handleTouchMove);
+        weeklyPicksContainer.addEventListener('touchend', handleTouchEnd);
+        
+        // Mouse events for desktop
+        weeklyPicksContainer.addEventListener('mouseenter', () => {
+            stopAutoplay();
+        });
+
+        weeklyPicksContainer.addEventListener('mouseleave', () => {
+            if (window.innerWidth >= 1024) {
+                startAutoplay();
+            }
+        });
+        
+        // Window resize
+        window.addEventListener('resize', () => {
+            updateCardWidth();
+            showCard(currentIndex, false);
+        });
+    }
+    
+    // Initialize filter functionality
+    function initializeFilters() {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(button => {
+                    // Desktop filter
+                    if (button.querySelector('span:first-child')) {
+                        button.querySelector('span:first-child').classList.remove('scale-x-100');
+                        button.querySelector('span:first-child').classList.add('scale-x-0');
+                        button.querySelector('span:last-child').classList.remove('text-primary');
+                        button.querySelector('span:last-child').classList.add('text-gray-500');
+                    }
+                    
+                    // Mobile filter
+                    if (button.classList.contains('snap-start')) {
+                        button.classList.remove('bg-primary', 'text-white');
+                        button.classList.add('bg-gray-100', 'text-secondary');
+                    }
+                    
+                    button.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Desktop filter
+                if (btn.querySelector('span:first-child')) {
+                    btn.querySelector('span:first-child').classList.add('scale-x-100');
+                    btn.querySelector('span:first-child').classList.remove('scale-x-0');
+                    btn.querySelector('span:last-child').classList.add('text-primary');
+                    btn.querySelector('span:last-child').classList.remove('text-gray-500');
+                }
+                
+                // Mobile filter
+                if (btn.classList.contains('snap-start')) {
+                    btn.classList.add('bg-primary', 'text-white');
+                    btn.classList.remove('bg-gray-100', 'text-secondary');
+                }
+                
+                // Filter cards
+                const category = btn.dataset.category;
+                filterCards(category);
+            });
+        });
+    }
+    
+    // Filter cards by category
+    function filterCards(category) {
+        // Reset position and current index
+        currentIndex = 0;
+        
+        // Variable to count visible cards
+        let visibleCount = 0;
+        let visibleCards = [];
+        
+        if (category === 'all') {
+            // Show all cards
+            weeklyCards.forEach(card => {
+                card.style.display = '';
+                visibleCount++;
+                visibleCards.push(card);
+            });
+        } else {
+            // Filter cards
+            weeklyCards.forEach(card => {
+                if (card.dataset.category === category) {
+                    card.style.display = '';
+                    visibleCount++;
+                    visibleCards.push(card);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // Update mobile dots based on visible cards
+        const dotsContainer = document.querySelector('.weekly-picks-container .flex.justify-center');
+        if (dotsContainer) {
+            // Clear existing dots
+            dotsContainer.innerHTML = '';
+            
+            // Create new dots based on visible cards
+            visibleCards.forEach((card, index) => {
+                const dot = document.createElement('button');
+                dot.className = `weekly-dot w-8 h-1 rounded-full ${index === 0 ? 'bg-primary' : 'bg-gray-200'} transition-all duration-300`;
+                dot.dataset.index = index;
+                
+                // Add click event
+                dot.addEventListener('click', () => {
+                    showCard(index);
+                    stopAutoplay();
+                });
+                
+                dotsContainer.appendChild(dot);
+            });
+        }
+        
+        // Update display
+        showCard(0, true);
+        
+        // Update all filter buttons to match this category
+        updateFilterButtonsForCategory(category);
+    }
+    
+    // Update filter buttons to match selected category
+    function updateFilterButtonsForCategory(category) {
+        // Update desktop filter buttons
+        const desktopButtons = document.querySelectorAll('.weekly-filter-btn:not(.snap-start)');
+        desktopButtons.forEach(btn => {
+            const btnCategory = btn.dataset.category;
+            const lineElement = btn.querySelector('span:first-child');
+            const textElement = btn.querySelector('span:last-child');
+            
+            if (btnCategory === category) {
+                btn.classList.add('active');
+                if (lineElement) {
+                    lineElement.classList.add('scale-x-100');
+                    lineElement.classList.remove('scale-x-0');
+                }
+                if (textElement) {
+                    textElement.classList.add('text-primary');
+                    textElement.classList.remove('text-gray-500');
+                }
+            } else {
+                btn.classList.remove('active');
+                if (lineElement) {
+                    lineElement.classList.remove('scale-x-100');
+                    lineElement.classList.add('scale-x-0');
+                }
+                if (textElement) {
+                    textElement.classList.remove('text-primary');
+                    textElement.classList.add('text-gray-500');
+                }
+            }
+        });
+        
+        // Update mobile filter buttons
+        const mobileButtons = document.querySelectorAll('.weekly-filter-btn.snap-start');
+        mobileButtons.forEach(btn => {
+            const btnCategory = btn.dataset.category;
+            
+            if (btnCategory === category) {
+                btn.classList.add('bg-primary', 'text-white');
+                btn.classList.remove('bg-gray-100', 'text-secondary');
+            } else {
+                btn.classList.remove('bg-primary', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-secondary');
+            }
+        });
+    }
+    
+    // Show card with specific category
+    function showCardWithCategory(category) {
+        // Find the first card with this category
+        let targetIndex = 0;
+        weeklyCards.forEach((card, index) => {
+            if (card.dataset.category === category) {
+                targetIndex = index;
+                return;
+            }
+        });
+        
+        // Update filter buttons
+        updateFilterButtonsForCategory(category);
+        
+        // Show the card
+        showCard(targetIndex);
+    }
+    
+    // Update navigation to show correct category when sliding
+    function updateCategoryOnSlide(index) {
+        const currentCard = weeklyCards[index];
+        if (!currentCard) return;
+        
+        const category = currentCard.dataset.category;
+        if (category) {
+            // Only update filter buttons, don't filter cards again
+            updateFilterButtonsForCategory(category);
+        }
+    }
+    
+    // Override showCard to update category
+    const originalShowCard = showCard;
+    showCard = function(index, animate = true) {
+        originalShowCard(index, animate);
+        updateCategoryOnSlide(index);
+    };
+    
+    // Initialize weekly picks
+    initializeWeeklyPicks();
+});
+
+// =====================
+// 6. COLLECTION SECTION (Slider)
+// =====================
+
+// Collection Slider, Dots, Nav
 let sliderInterval;
 let isSliderPaused = false;
 let currentSlideIndex = 0;
@@ -1131,6 +1370,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// =====================
+// 7. MODAL PRODUK
+// =====================
+
+// Product Quick View Modal
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('product-modal');
     const modalBackdrop = document.getElementById('modal-backdrop');
@@ -1233,3 +1477,265 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// =====================
+// 8. GLOBAL (Cursor, Smooth Scroll, AOS, dsb)
+// =====================
+
+// Cursor Effect, Smooth Scroll, AOS, dsb
+
+// Initialize AOS
+AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
+});
+
+// Tangani variabel rotationInterval jika ada
+if (typeof rotationInterval !== 'undefined') {
+    clearInterval(rotationInterval);
+}
+
+// GSAP Animations
+gsap.registerPlugin(ScrollTrigger);
+
+// Smooth Scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            gsap.to(window, {
+                duration: 1,
+                scrollTo: {
+                    y: target,
+                    offsetY: 100
+                },
+                ease: "power2.inOut"
+            });
+        }
+    });
+});
+
+// Cursor Effect with GSAP
+const cursor = document.createElement('div');
+const cursorOutline = document.createElement('div');
+cursor.className = 'cursor-dot';
+cursorOutline.className = 'cursor-outline';
+document.body.appendChild(cursor);
+document.body.appendChild(cursorOutline);
+
+gsap.set([cursor, cursorOutline], { xPercent: -50, yPercent: -50 });
+
+let xTo = gsap.quickTo(cursor, "x", { duration: 0.2, ease: "power3" }),
+    yTo = gsap.quickTo(cursor, "y", { duration: 0.2, ease: "power3" });
+
+let xToOutline = gsap.quickTo(cursorOutline, "x", { duration: 0.5, ease: "power3" }),
+    yToOutline = gsap.quickTo(cursorOutline, "y", { duration: 0.5, ease: "power3" });
+
+window.addEventListener("mousemove", e => {
+    xTo(e.clientX);
+    yTo(e.clientY);
+    xToOutline(e.clientX);
+    yToOutline(e.clientY);
+});
+
+// Hover effect for interactive elements
+const interactiveElements = document.querySelectorAll('a, button, .interactive');
+interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        gsap.to(cursorOutline, {
+            scale: 1.5,
+            duration: 0.3,
+            ease: "power2.out"
+        });
+    });
+    
+    el.addEventListener('mouseleave', () => {
+        gsap.to(cursorOutline, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out"
+        });
+    });
+});
+
+// Parallax Effect
+document.addEventListener('mousemove', (e) => {
+    const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+    const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+    
+    // Periksa apakah elemen parallax ada sebelum animasi
+    const parallaxElements = document.querySelectorAll('.parallax');
+    if (parallaxElements.length > 0) {
+        gsap.to('.parallax', {
+            x: moveX,
+            y: moveY,
+            duration: 1,
+            ease: "power2.out"
+        });
+    }
+});
+
+// =====================
+// 9. FIND YOUR STYLE QUIZ SECTION
+// =====================
+
+// STYLE QUIZ FUNCTIONALITY
+
+document.addEventListener('DOMContentLoaded', function() {
+    const quizModal = document.getElementById('style-quiz-modal');
+    const quizContent = document.getElementById('style-quiz-content');
+    const quizBackdrop = document.getElementById('style-quiz-backdrop');
+    const openQuizBtn = document.getElementById('open-style-quiz');
+    const closeQuizBtn = document.getElementById('close-style-quiz');
+    const tryAgainBtns = document.querySelectorAll('#try-again-btn, #try-again-btn-2');
+    const progressBar = document.getElementById('quiz-progress');
+    
+    let currentStep = 1;
+    let answers = {
+        step1: '',
+        step2: '',
+        step3: ''
+    };
+
+    // Open Quiz Modal
+    function openQuiz() {
+        quizModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        
+        // Animate backdrop
+        setTimeout(() => {
+            quizBackdrop.classList.add('opacity-100');
+        }, 50);
+        
+        // Animate content
+        setTimeout(() => {
+            quizContent.classList.remove('scale-95', 'opacity-0');
+            quizContent.classList.add('scale-100', 'opacity-100');
+        }, 150);
+    }
+
+    // Close Quiz Modal
+    function closeQuiz() {
+        // Animate content out
+        quizContent.classList.add('scale-95', 'opacity-0');
+        quizContent.classList.remove('scale-100', 'opacity-100');
+        
+        // Animate backdrop out
+        quizBackdrop.classList.remove('opacity-100');
+        
+        // Hide modal
+        setTimeout(() => {
+            quizModal.classList.add('hidden');
+            document.body.style.overflow = '';
+            resetQuiz();
+        }, 300);
+    }
+
+    // Reset Quiz
+    function resetQuiz() {
+        currentStep = 1;
+        answers = {
+            step1: '',
+            step2: '',
+            step3: ''
+        };
+        
+        // Hide all steps and show first step
+        document.querySelectorAll('#quiz-step-1, #quiz-step-2, #quiz-step-3, #quiz-result').forEach(step => {
+            step.classList.add('hidden');
+        });
+        document.getElementById('quiz-step-1').classList.remove('hidden');
+        
+        // Reset progress bar
+        progressBar.style.width = '33.33%';
+        
+        // Reset result sections
+        document.querySelectorAll('#result-clean, #result-bold').forEach(result => {
+            result.classList.add('hidden');
+    });
+    }
+
+    // Handle Answer Selection
+    function handleAnswer(step, value) {
+        answers[`step${step}`] = value;
+        
+        if (step < 3) {
+            // Show next step
+            document.getElementById(`quiz-step-${step}`).classList.add('hidden');
+            document.getElementById(`quiz-step-${step + 1}`).classList.remove('hidden');
+            
+            // Update progress bar
+            progressBar.style.width = `${(step + 1) * 33.33}%`;
+            
+            currentStep++;
+        } else {
+            // Show result
+                showQuizResult();
+            }
+    }
+
+    // Show Quiz Result
+    function showQuizResult() {
+        // Hide last step
+        document.getElementById('quiz-step-3').classList.add('hidden');
+        
+        // Show result container
+        const resultContainer = document.getElementById('quiz-result');
+        resultContainer.classList.remove('hidden');
+        
+        // Determine result type based on answers
+        const cleanAnswers = ['A', 'A', 'A']; // Answers that lead to clean result
+        const userAnswers = [answers.step1, answers.step2, answers.step3];
+        
+        // Count matching answers
+        const matchingAnswers = userAnswers.filter((answer, index) => answer === cleanAnswers[index]).length;
+        
+        // Show appropriate result
+        if (matchingAnswers >= 2) {
+            document.getElementById('result-clean').classList.remove('hidden');
+        } else {
+            document.getElementById('result-bold').classList.remove('hidden');
+        }
+        
+        // Animate result cards
+        gsap.from('#quiz-result .group', {
+            y: 50,
+            opacity: 0,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: "power2.out"
+        });
+    }
+
+    // Event Listeners
+    if (openQuizBtn) {
+        openQuizBtn.addEventListener('click', openQuiz);
+    }
+    
+    if (closeQuizBtn) {
+        closeQuizBtn.addEventListener('click', closeQuiz);
+        }
+    
+    // Close on backdrop click
+    quizBackdrop.addEventListener('click', closeQuiz);
+    
+    // Try Again buttons
+    tryAgainBtns.forEach(btn => {
+        btn.addEventListener('click', resetQuiz);
+    });
+    
+    // Answer buttons
+    document.querySelectorAll('.quiz-answer').forEach(button => {
+        button.addEventListener('click', function() {
+            const step = parseInt(this.dataset.step);
+            const value = this.dataset.value;
+            handleAnswer(step, value);
+        });
+    });
+});
+
+// =====================
+// END OF FILE
+// =====================

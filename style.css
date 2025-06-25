@@ -1,3 +1,145 @@
+/* =====================
+   HEADER & NAVBAR
+   ===================== */
+
+/* Hamburger Animation */
+.hamburger-line {
+    transform-origin: center;
+}
+
+.hamburger-line.rotate-45 {
+    transform: rotate(45deg) translate(2px, 2px);
+}
+
+.hamburger-line.-rotate-45 {
+    transform: rotate(-45deg) translate(2px, -2px);
+}
+
+/* Navbar Glassmorphism */
+.navbar-glass {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar Links */
+.nav-link {
+    position: relative;
+    color: black;
+    transition: all 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: #303030;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Get in Touch Button */
+.get-in-touch-btn {
+    background: #303030;
+    color: white;
+    border-radius: 9999px;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.get-in-touch-btn:hover {
+    background: white;
+    color: #303030;
+    border: 1px solid #303030;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Cursor effect (tambahan, jika ada perbedaan dengan yang sudah ada, silakan sesuaikan) */
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background: #333;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform 0.1s ease;
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: difference;
+    transition: all 0.1s ease;
+}
+
+/* Animasi untuk elemen yang muncul saat di-scroll */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+    .cursor-dot,
+    .cursor-outline {
+        display: none;
+    }
+}
+
+/* Slider styles (Collection section) */
+.slider-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.slider-track {
+    will-change: transform;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-300px * 4 - 2rem * 4));
+    }
+}
+
+.animate-slide {
+    animation: slide 30s linear infinite;
+}
+
+.slider-track:hover {
+    animation-play-state: paused;
+}
+
+/* =====================
+   END HEADER & NAVBAR
+   ===================== */
+
 /* Base styles */
 @font-face {
     font-family: Satoshi;
@@ -259,18 +401,6 @@ html {
     }
 }
 
-/* Scroll animations */
-.animate-on-scroll {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.animate-on-scroll.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 /* Slider styles */
 .slider-container {
     position: relative;
@@ -434,47 +564,244 @@ html {
     transform: translateY(-2px);
 }
 
-/* Navbar Glassmorphism */
-.navbar-glass {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.75), rgba(107, 107, 107, 0.75));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+/* Mobile Hero Section Enhancements */
+.slide-info {
+    backdrop-filter: blur(6px);
+    max-width: 260px;
 }
 
-/* Navbar Links */
-.nav-link {
+@media (max-width: 768px) {
+    .slide-info {
+        max-width: 200px;
+    }
+    
+    .thumbnail-container {
+        z-index: 30;
+    }
+    
+    /* Increase contrast for better visibility */
+    .slide-info {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+}
+
+/* =====================
+   WEEKLY PICKS SECTION
+   ===================== */
+
+.weekly-picks-container {
     position: relative;
-    color: black;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -4px;
-    left: 0;
-    background: #303030;
-    transition: all 0.3s ease;
-}
-
-.nav-link:hover::after {
     width: 100%;
 }
 
-/* Cursor effect */
-.cursor-dot {
-    width: 8px;
-    height: 8px;
-    background: #333;
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    mix-blend-mode: difference;
-    transition: transform 0.1s ease;
-} 
+.weekly-picks-track {
+    display: flex;
+    transition: transform 0.5s ease-out;
+}
+
+.weekly-card {
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.weekly-card .bg-white {
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
+}
+
+.weekly-card:hover .bg-white {
+    transform: translateY(-8px);
+}
+
+/* Weekly Filter Buttons */
+.weekly-filter-btn {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.weekly-filter-btn.active span:first-child {
+    transform: scaleX(1);
+}
+
+.weekly-filter-btn.active span:last-child {
+    color: var(--color-primary, #303030);
+}
+
+/* Weekly Navigation Buttons */
+.weekly-nav-btn {
+    cursor: pointer;
+    z-index: 10;
+}
+
+@media (min-width: 1024px) {
+    .weekly-picks-container:hover .weekly-nav-btn {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Weekly Dots */
+.weekly-dot {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Card Content Animation */
+.weekly-card:hover .transform.translate-y-10 {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.weekly-card-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary, #303030);
+    transition: width 0.3s ease;
+}
+
+.weekly-card-btn:hover::after {
+    width: 100%;
+}
+
+/* Mobile Scrollbar Hide */
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .weekly-card {
+        padding: 0.5rem;
+    }
+    
+    .weekly-picks-container {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        width: calc(100% + 2rem);
+        padding: 0 1rem;
+    }
+    
+    .weekly-nav-btn {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* =====================
+   END WEEKLY PICKS SECTION
+   ===================== */
+
+/* =====================
+   GALLERY SHOWCASE
+   ===================== */
+
+#gallery-showcase {
+    position: relative;
+}
+
+#gallery-showcase .grid {
+    min-height: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+}
+
+#gallery-showcase .group {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 0;
+    box-shadow: none;
+    transition: box-shadow 0.3s ease;
+}
+
+#gallery-showcase .row-span-2 {
+    grid-row: span 2;
+    height: auto;
+}
+
+#gallery-showcase .group:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#gallery-showcase .group img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+}
+
+#gallery-showcase .group:hover img {
+    transform: scale(1.1);
+}
+
+#gallery-showcase .group div {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#gallery-showcase .group:hover div {
+    opacity: 1;
+}
+
+#gallery-showcase h2 {
+    font-weight: 300;
+    line-height: 1.5;
+    margin-top: 2rem;
+}
+
+#gallery-showcase h2 span {
+    font-weight: 500;
+}
+
+#gallery-showcase h3 {
+    font-family: 'Satoshi', sans-serif;
+    letter-spacing: -1px;
+}
+
+@media (max-width: 768px) {
+    #gallery-showcase .grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+    }
+    
+    #gallery-showcase .col-span-2,
+    #gallery-showcase .col-span-3 {
+        grid-column: span 1;
+    }
+    
+    #gallery-showcase .row-span-2 {
+        grid-row: span 1;
+    }
+    
+    #gallery-showcase .group {
+        height: auto;
+        aspect-ratio: 1/1;
+    }
+    
+    #gallery-showcase h3 {
+        transform: none;
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    #gallery-showcase .grid {
+        min-height: auto;
+    }
+}
+
+/* =====================
+   END GALLERY SHOWCASE
+   ===================== */ 

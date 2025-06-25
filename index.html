@@ -79,6 +79,19 @@
             font-family: Satoshi;
             src: url(Satoshi.ttf);
         }
+        
+        /* Hamburger Animation */
+        .hamburger-line {
+            transform-origin: center;
+        }
+        
+        .hamburger-line.rotate-45 {
+            transform: rotate(45deg) translate(2px, 2px);
+        }
+        
+        .hamburger-line.-rotate-45 {
+            transform: rotate(-45deg) translate(2px, -2px);
+        }
 
         /* Navbar Glassmorphism */
         .navbar-glass {
@@ -208,10 +221,10 @@
         <div class="text-xl md:text-2xl font-semibold text-black">Teenager's</div>
         
         <!-- Mobile menu button -->
-        <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-gray-100/20 backdrop-blur-sm">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
+        <button id="mobile-menu-button" class="md:hidden flex flex-col items-center justify-center gap-1.5 p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-all duration-300 backdrop-blur-sm">
+            <span class="w-5 h-0.5 bg-primary rounded-full transform transition-all duration-300 hamburger-line"></span>
+            <span class="w-4 h-0.5 bg-primary rounded-full transform transition-all duration-300 hamburger-line"></span>
+            <span class="w-5 h-0.5 bg-primary rounded-full transform transition-all duration-300 hamburger-line"></span>
         </button>
 
         <nav class="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
@@ -223,20 +236,62 @@
         </nav>
 
         <!-- Mobile menu -->
-        <div id="mobile-menu" class="fixed inset-0 bg-white z-50 transform translate-x-full transition-transform duration-300 md:hidden">
-            <div class="p-4">
-                <button id="close-menu-button" class="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-                <ul class="mt-12 space-y-4">
-                    <li><a href="#" class="block text-lg font-medium text-black hover:text-primary transition-colors">Our Story</a></li>
-                    <li><a href="#" class="block text-lg font-medium text-black hover:text-primary transition-colors">Products</a></li>
-                    <li><a href="#" class="block text-lg font-medium text-black hover:text-primary transition-colors">Your Styles</a></li>
-                    <li><a href="#" class="block text-lg font-medium text-black hover:text-primary transition-colors">Testimoni</a></li>
-                    <li><a href="#" class="block text-lg font-medium text-black hover:text-primary transition-colors">Get in Touch</a></li>
-                </ul>
+        <div id="mobile-menu" class="fixed inset-0 z-50 transform translate-x-full transition-all duration-500 md:hidden">
+            <!-- Backdrop with blur -->
+            <div class="absolute inset-0 bg-black/20 backdrop-blur-md opacity-0 transition-opacity duration-500" id="mobile-backdrop"></div>
+            
+            <!-- Menu content -->
+            <div class="absolute right-0 top-0 bottom-0 w-4/5 max-w-sm bg-white shadow-2xl transform transition-transform duration-500 p-6 flex flex-col h-full">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="text-xl font-semibold text-primary">Teenager's</div>
+                    <button id="close-menu-button" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="bg-white p-4 rounded-lg">
+                    <ul class="space-y-6 flex-1">
+                        <li class="transform -translate-x-8 opacity-0 transition-all duration-300 delay-100 mobile-menu-item">
+                            <a href="#" class="flex items-center gap-3 text-lg font-medium text-black hover:text-primary transition-colors">
+                                <span class="w-6 h-0.5 bg-primary transform scale-x-0 transition-transform duration-300 origin-left group-hover:scale-x-100"></span>
+                                Our Story
+                            </a>
+                        </li>
+                        <li class="transform -translate-x-8 opacity-0 transition-all duration-300 delay-150 mobile-menu-item">
+                            <a href="#" class="flex items-center gap-3 text-lg font-medium text-black hover:text-primary transition-colors">
+                                <span class="w-6 h-0.5 bg-primary transform scale-x-0 transition-transform duration-300 origin-left group-hover:scale-x-100"></span>
+                                Products
+                            </a>
+                        </li>
+                        <li class="transform -translate-x-8 opacity-0 transition-all duration-300 delay-200 mobile-menu-item">
+                            <a href="#" class="flex items-center gap-3 text-lg font-medium text-black hover:text-primary transition-colors">
+                                <span class="w-6 h-0.5 bg-primary transform scale-x-0 transition-transform duration-300 origin-left group-hover:scale-x-100"></span>
+                                Your Styles
+                            </a>
+                        </li>
+                        <li class="transform -translate-x-8 opacity-0 transition-all duration-300 delay-250 mobile-menu-item">
+                            <a href="#" class="flex items-center gap-3 text-lg font-medium text-black hover:text-primary transition-colors">
+                                <span class="w-6 h-0.5 bg-primary transform scale-x-0 transition-transform duration-300 origin-left group-hover:scale-x-100"></span>
+                                Testimoni
+                            </a>
+                        </li>
+                        <li class="transform -translate-x-8 opacity-0 transition-all duration-300 delay-300 mobile-menu-item">
+                            <a href="#" class="flex items-center gap-3 text-lg font-medium text-black hover:text-primary transition-colors">
+                                <span class="w-6 h-0.5 bg-primary transform scale-x-0 transition-transform duration-300 origin-left group-hover:scale-x-100"></span>
+                                Get in Touch
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- <div class="mt-auto pt-6 border-t border-gray-100 transform -translate-y-8 opacity-0 transition-all duration-300 delay-400 mobile-menu-item bg-white rounded-lg">
+                    <div class="flex items-center gap-4 text-sm text-gray-500">
+                        <a href="#" class="hover:text-primary transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-primary transition-colors">TikTok</a>
+                        <a href="#" class="hover:text-primary transition-colors">Twitter</a>
+                    </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -321,7 +376,7 @@
                 </div>
 
                 <!-- Image Info -->
-                <div class="absolute bottom-4 left-4 md:bottom-[50px] md:left-[50px] z-20">
+                <div class="absolute bottom-[90px] left-4 md:bottom-[50px] md:left-[50px] z-20">
                     <div class="bg-white/80 backdrop-blur-sm p-4 rounded-xl max-w-[300px] transform translate-y-[100%] opacity-0 transition-all duration-500 slide-info">
                         <h3 class="text-lg font-medium text-primary mb-2 slide-title"></h3>
                         <p class="text-sm text-secondary slide-description"></p>
@@ -631,60 +686,165 @@
                 <h2 class="text-3xl md:text-[48px] font-medium mb-4 md:mb-6 leading-tight bg-gradient-to-r from-black to-[#333] bg-clip-text text-transparent transition-all duration-300">Weekly Picks</h2>
                 <p class="text-base md:text-lg leading-relaxed text-[#333] opacity-90">Pilihan terbaik minggu ini untuk tampil effortless dan stylish.</p>
 
+                <!-- Filter Categories -->
+                <div class="hidden lg:flex flex-col gap-4 mt-10">
+                    <button class="weekly-filter-btn flex items-center gap-3 group transition-all duration-300 active" data-category="all">
+                        <span class="w-6 h-0.5 bg-primary scale-x-100 origin-left transition-transform duration-300"></span>
+                        <span class="text-primary font-medium">Semua</span>
+                    </button>
+                    <button class="weekly-filter-btn flex items-center gap-3 group transition-all duration-300" data-category="new-drop">
+                        <span class="w-6 h-0.5 bg-primary scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+                        <span class="text-gray-500 group-hover:text-primary transition-colors duration-300">New Drop</span>
+                    </button>
+                    <button class="weekly-filter-btn flex items-center gap-3 group transition-all duration-300" data-category="teen-pick">
+                        <span class="w-6 h-0.5 bg-primary scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+                        <span class="text-gray-500 group-hover:text-primary transition-colors duration-300">Teen Pick</span>
+                    </button>
+                    <button class="weekly-filter-btn flex items-center gap-3 group transition-all duration-300" data-category="unisex">
+                        <span class="w-6 h-0.5 bg-primary scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
+                        <span class="text-gray-500 group-hover:text-primary transition-colors duration-300">Unisex</span>
+                    </button>
+                </div>
+
                 <!-- Mobile Filter -->
-                <div class="flex lg:hidden gap-3 w-full overflow-x-auto pb-2 snap-x snap-mandatory mt-6">
-                    <button class="filter-btn snap-start min-w-[100px] px-4 py-2 rounded-full bg-primary text-white text-sm font-medium">Semua</button>
-                    <button class="filter-btn snap-start min-w-[100px] px-4 py-2 rounded-full bg-gray-100 text-secondary text-sm font-medium">New Drop</button>
-                    <button class="filter-btn snap-start min-w-[100px] px-4 py-2 rounded-full bg-gray-100 text-secondary text-sm font-medium">Teen Pick</button>
-                    <button class="filter-btn snap-start min-w-[100px] px-4 py-2 rounded-full bg-gray-100 text-secondary text-sm font-medium">Unisex</button>
+                <div class="flex lg:hidden gap-3 w-full overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory mt-6">
+                    <button class="weekly-filter-btn snap-start min-w-[100px] px-4 py-2 rounded-full bg-primary text-white text-sm font-medium" data-category="all">Semua</button>
+                    <button class="weekly-filter-btn snap-start min-w-[100px] px-4 py-2 rounded-full bg-gray-100 text-secondary text-sm font-medium" data-category="new-drop">New Drop</button>
+                    <button class="weekly-filter-btn snap-start min-w-[100px] px-4 py-2 rounded-full bg-gray-100 text-secondary text-sm font-medium" data-category="teen-pick">Teen Pick</button>
+                    <button class="weekly-filter-btn snap-start min-w-[100px] px-4 py-2 rounded-full bg-gray-100 text-secondary text-sm font-medium" data-category="unisex">Unisex</button>
+                </div>
+                
+                <!-- Navigation Controls (Desktop) -->
+                <div class="hidden lg:flex items-center gap-4 mt-10">
+                    <button class="weekly-nav-btn prev w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-primary hover:border-primary transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button class="weekly-nav-btn next w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-primary hover:border-primary transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[420px_40px_repeat(2,200px)] gap-6 md:gap-10 items-start">
-                <div class="weekly-card main-card group relative bg-white rounded transition-all duration-400 cursor-pointer hover:-translate-y-2 hover:shadow-lg md:col-span-2 lg:col-span-1">
-                    <div class="relative overflow-hidden rounded aspect-[3/2]">
-                        <img src="img/two-people.png" alt="New Drop Fashion" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
-                        <div class="absolute bottom-5 left-5 text-white px-4 py-2 text-xs font-medium tracking-wider uppercase rounded backdrop-blur-lg bg-gradient-to-r from-black/40 to-black/20 transform transition-all duration-300 hover:-translate-y-1">Teenager's</div>
+            <!-- Weekly Picks Cards Container -->
+            <div class="weekly-picks-container relative overflow-hidden">
+                <div class="weekly-picks-track flex transition-transform duration-500 ease-out">
+                    <!-- Card 1 -->
+                    <div class="weekly-card min-w-full md:min-w-[80%] lg:min-w-[calc(100%-40px)] p-1 group" data-category="new-drop">
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
+                            <div class="grid grid-cols-1 md:grid-cols-[1.5fr_1fr] gap-4">
+                                <!-- Image Section -->
+                                <div class="relative overflow-hidden aspect-[3/2]">
+                                    <img src="img/two-people.png" alt="New Drop Fashion" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <div class="absolute bottom-5 left-5 text-white px-4 py-2 text-xs font-medium tracking-wider uppercase rounded backdrop-blur-lg bg-black/20 transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">Teenager's</div>
                     </div>
-                    <div class="py-6 transform transition-all duration-300 hover:-translate-y-1">
-                        <div class="text-sm uppercase tracking-[1.5px] text-[#666] mb-3 font-medium relative inline-block after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[#666] after:to-transparent after:transition-all after:duration-300 hover:after:w-full">New Drop</div>
-                        <h3 class="text-xl md:text-2xl font-semibold text-[#111] leading-tight m-0 transition-colors duration-300 hover:text-black">Gaya simpel, percaya diri</h3>
+                                
+                                <!-- Content Section -->
+                                <div class="p-6 flex flex-col justify-between">
+                                    <div>
+                                        <div class="text-sm uppercase tracking-[1.5px] text-primary mb-3 font-medium">New Drop</div>
+                                        <h3 class="text-xl md:text-2xl font-semibold text-[#111] leading-tight mb-4">Gaya simpel, percaya diri</h3>
+                                        <p class="text-gray-500 text-sm md:text-base hidden md:block">Koleksi terbaru dengan desain minimalis yang memberikan kesan percaya diri tanpa perlu berlebihan.</p>
+                                    </div>
+                                    
+                                    <div class="mt-4 md:mt-0">
+                                        <button class="weekly-card-btn relative overflow-hidden inline-flex items-center gap-2 text-primary font-medium group">
+                                            <span class="relative z-10">Lihat Detail</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 relative z-10 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                            <div class="absolute bottom-0 left-0 w-full h-0.5 bg-primary transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                 </div>
                 
-                <div class="hidden lg:block"></div>
-                
-                <div class="weekly-card secondary-card group relative bg-white rounded transition-all duration-400 cursor-pointer hover:-translate-y-2 hover:shadow-lg">
-                    <div class="relative overflow-hidden rounded aspect-[2/3]">
-                        <img src="img/GAMBAR5.png" alt="Teen Pick Fashion" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                    <!-- Card 2 -->
+                    <div class="weekly-card min-w-full md:min-w-[80%] lg:min-w-[calc(100%-40px)] p-1 group" data-category="teen-pick">
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
+                            <div class="grid grid-cols-1 md:grid-cols-[1.5fr_1fr] gap-4">
+                                <!-- Image Section -->
+                                <div class="relative overflow-hidden aspect-[3/2]">
+                                    <img src="img/GAMBAR5.png" alt="Teen Pick Fashion" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <div class="absolute bottom-5 left-5 text-white px-4 py-2 text-xs font-medium tracking-wider uppercase rounded backdrop-blur-lg bg-black/20 transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">Teenager's</div>
+                                </div>
+                                
+                                <!-- Content Section -->
+                                <div class="p-6 flex flex-col justify-between">
+                                    <div>
+                                        <div class="text-sm uppercase tracking-[1.5px] text-primary mb-3 font-medium">Teen Pick</div>
+                                        <h3 class="text-xl md:text-2xl font-semibold text-[#111] leading-tight mb-4">Layer it. Own it</h3>
+                                        <p class="text-gray-500 text-sm md:text-base hidden md:block">Eksplorasi gaya berlapis yang memberikan dimensi pada penampilanmu dan cocok untuk berbagai kesempatan.</p>
                     </div>
-                    <div class="py-6 transform transition-all duration-300 hover:-translate-y-1">
-                        <div class="text-sm uppercase tracking-[1.5px] text-[#666] mb-3 font-medium relative inline-block after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[#666] after:to-transparent after:transition-all after:duration-300 hover:after:w-full">Teen Pick</div>
-                        <h3 class="text-xl md:text-2xl font-semibold text-[#111] leading-tight m-0 transition-colors duration-300 hover:text-black">Layer it. Own it</h3>
+                                    
+                                    <div class="mt-4 md:mt-0">
+                                        <button class="weekly-card-btn relative overflow-hidden inline-flex items-center gap-2 text-primary font-medium group">
+                                            <span class="relative z-10">Lihat Detail</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 relative z-10 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                            <div class="absolute bottom-0 left-0 w-full h-0.5 bg-primary transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                 </div>
 
-                <div class="weekly-card secondary-card group relative bg-white rounded transition-all duration-400 cursor-pointer hover:-translate-y-2 hover:shadow-lg">
-                    <div class="relative overflow-hidden rounded aspect-[2/3]">
-                        <img src="img/GAMBAR6.png" alt="Unisex Fashion" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                    <!-- Card 3 -->
+                    <div class="weekly-card min-w-full md:min-w-[80%] lg:min-w-[calc(100%-40px)] p-1 group" data-category="unisex">
+                        <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
+                            <div class="grid grid-cols-1 md:grid-cols-[1.5fr_1fr] gap-4">
+                                <!-- Image Section -->
+                                <div class="relative overflow-hidden aspect-[3/2]">
+                                    <img src="img/GAMBAR6.png" alt="Unisex Fashion" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <div class="absolute bottom-5 left-5 text-white px-4 py-2 text-xs font-medium tracking-wider uppercase rounded backdrop-blur-lg bg-black/20 transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">Teenager's</div>
                     </div>
-                    <div class="py-6 transform transition-all duration-300 hover:-translate-y-1">
-                        <div class="text-sm uppercase tracking-[1.5px] text-[#666] mb-3 font-medium relative inline-block after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-[#666] after:to-transparent after:transition-all after:duration-300 hover:after:w-full">Unisex</div>
-                        <h3 class="text-xl md:text-2xl font-semibold text-[#111] leading-tight m-0 transition-colors duration-300 hover:text-black">Warna yang bicara</h3>
+                                
+                                <!-- Content Section -->
+                                <div class="p-6 flex flex-col justify-between">
+                                    <div>
+                                        <div class="text-sm uppercase tracking-[1.5px] text-primary mb-3 font-medium">Unisex</div>
+                                        <h3 class="text-xl md:text-2xl font-semibold text-[#111] leading-tight mb-4">Warna yang bicara</h3>
+                                        <p class="text-gray-500 text-sm md:text-base hidden md:block">Koleksi unisex dengan permainan warna yang menjadi statement fashion tanpa perlu banyak aksesoris.</p>
+                                    </div>
+                                    
+                                    <div class="mt-4 md:mt-0">
+                                        <button class="weekly-card-btn relative overflow-hidden inline-flex items-center gap-2 text-primary font-medium group">
+                                            <span class="relative z-10">Lihat Detail</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 relative z-10 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                            <div class="absolute bottom-0 left-0 w-full h-0.5 bg-primary transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></div>
+                                        </button>
+                                    </div>
+                                </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Navigation Dots -->
+                <!-- Mobile Progress Indicator -->
         <div class="flex justify-center gap-2 mt-8 lg:hidden">
-            <button class="w-2.5 h-2.5 rounded-full bg-primary"></button>
-            <button class="w-2.5 h-2.5 rounded-full bg-gray-200"></button>
-            <button class="w-2.5 h-2.5 rounded-full bg-gray-200"></button>
+                    <button class="weekly-dot w-8 h-1 rounded-full bg-primary transition-all duration-300" data-index="0"></button>
+                    <button class="weekly-dot w-8 h-1 rounded-full bg-gray-200 transition-all duration-300" data-index="1"></button>
+                    <button class="weekly-dot w-8 h-1 rounded-full bg-gray-200 transition-all duration-300" data-index="2"></button>
+                </div>
+
+
+            </div>
         </div>
     </section>
 
-    <section id="our-collection" class="py-12 md:py-[100px] px-4 md:px-[120px] bg-gradient-to-b from-white to-gray-50 overflow-hidden">
+    <section id="our-collection" class="py-12 md:py-[100px] px-4 md:px-[120px] overflow-hidden">
         <div class="mb-8 md:mb-16">
             <span class="block text-xs md:text-sm font-medium tracking-[0.2em] text-gray-400 mb-2 md:mb-3 uppercase">Koleksi Kami</span>
             <h2 class="text-3xl md:text-[48px] font-medium mb-4 md:mb-6 leading-tight bg-gradient-to-r from-black to-[#333] bg-clip-text text-transparent">Our Collection</h2>
@@ -708,7 +868,7 @@
                 <!-- Slide items with fixed dimensions -->
                 <div class="slide-item min-w-[250px] md:min-w-[300px] bg-white rounded-lg overflow-hidden shadow-md group" data-index="1">
                     <div class="relative h-[350px] md:h-[400px] overflow-hidden">
-                        <img src="img/baju1.png" alt="Collection 1" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
+                        <img src="img/1.png" alt="Collection 1" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                             <div class="transform translate-y-10 group-hover:translate-y-0 transition-transform duration-300 space-y-2 md:space-y-3">
                                 <button class="w-full bg-white text-black px-4 md:px-6 py-2 rounded-full text-sm md:text-base font-medium hover:bg-black hover:text-white transition-all duration-300 quick-view-btn" data-product-id="1" data-product-name="Oversized T-Shirt" data-product-price="Rp 299.000" data-product-image="img/GAMBAR4.png" data-product-category="T-Shirt">Quick View</button>
@@ -733,7 +893,7 @@
                 <!-- Slide 2 -->
                 <div class="slide-item min-w-[250px] md:min-w-[300px] bg-white rounded-lg overflow-hidden shadow-md group" data-index="2">
                     <div class="relative h-[350px] md:h-[400px] overflow-hidden">
-                        <img src="img/baju2.png" alt="Collection 2" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
+                        <img src="img/2.png" alt="Collection 2" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                             <div class="transform translate-y-10 group-hover:translate-y-0 transition-transform duration-300 space-y-2 md:space-y-3">
                                 <button class="w-full bg-white text-black px-4 md:px-6 py-2 rounded-full text-sm md:text-base font-medium hover:bg-black hover:text-white transition-all duration-300 quick-view-btn" data-product-id="2" data-product-name="Cargo Pants" data-product-price="Rp 399.000" data-product-image="img/GAMBAR8.png" data-product-category="Pants">Quick View</button>
@@ -758,7 +918,7 @@
                 <!-- Slide 3 -->
                 <div class="slide-item min-w-[250px] md:min-w-[300px] bg-white rounded-lg overflow-hidden shadow-md group" data-index="3">
                     <div class="relative h-[350px] md:h-[400px] overflow-hidden">
-                        <img src="img/baju3.png" alt="Collection 3" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
+                        <img src="img/3.png" alt="Collection 3" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                             <div class="transform translate-y-10 group-hover:translate-y-0 transition-transform duration-300 space-y-2 md:space-y-3">
                                 <button class="w-full bg-white text-black px-4 md:px-6 py-2 rounded-full text-sm md:text-base font-medium hover:bg-black hover:text-white transition-all duration-300 quick-view-btn" data-product-id="3" data-product-name="Denim Jacket" data-product-price="Rp 449.000" data-product-image="img/GAMBAR9.png" data-product-category="Jacket">Quick View</button>
@@ -782,7 +942,7 @@
                 <!-- Slide 4 -->
                 <div class="slide-item min-w-[250px] md:min-w-[300px] bg-white rounded-lg overflow-hidden shadow-md group" data-index="4">
                     <div class="relative h-[350px] md:h-[400px] overflow-hidden">
-                        <img src="img/baju4.png" alt="Collection 4"     class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
+                        <img src="img/4.png" alt="Collection 4"     class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                             <div class="transform translate-y-10 group-hover:translate-y-0 transition-transform duration-300 space-y-2 md:space-y-3">
                                 <button class="w-full bg-white text-black px-4 md:px-6 py-2 rounded-full text-sm md:text-base font-medium hover:bg-black hover:text-white transition-all duration-300 quick-view-btn" data-product-id="4" data-product-name="Basic Hoodie" data-product-price="Rp 349.000" data-product-image="img/GAMBAR3.png" data-product-category="Hoodie">Quick View</button>
@@ -810,6 +970,483 @@
                 <button class="w-8 md:w-12 h-1 bg-gray-300 rounded-full transition-all duration-300 hover:bg-gray-400 slider-dot" data-index="2"></button>
                 <button class="w-8 md:w-12 h-1 bg-gray-300 rounded-full transition-all duration-300 hover:bg-gray-400 slider-dot" data-index="3"></button>
                 <button class="w-8 md:w-12 h-1 bg-gray-300 rounded-full transition-all duration-300 hover:bg-gray-400 slider-dot" data-index="4"></button>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- SECTION: FIND YOUR STYLES -->
+    <section id="find-your-style" class="py-24 px-4 md:px-[120px] bg-white relative overflow-hidden">
+      <!-- Background Elements -->
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="max-w-7xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-16 relative">
+          <div class="inline-block">
+            <span class="text-sm font-medium text-primary/60 tracking-wider uppercase mb-3 block">Personal Style Quiz</span>
+            <h2 class="text-4xl md:text-5xl font-semibold text-primary mb-6 relative">
+              Find Your Style
+              <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-primary to-transparent rounded-full"></div>
+            </h2>
+          </div>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto mt-8">
+            Temukan gaya yang paling mencerminkan karaktermu melalui quiz singkat kami. 
+            Dapatkan rekomendasi outfit yang sesuai dengan preferensimu.
+          </p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="max-w-2xl mx-auto">
+          <div class="space-y-8">
+            <div class="relative">
+              <div class="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-primary to-transparent"></div>
+              <div class="space-y-6">
+                <div class="flex items-start gap-6">
+                  <span class="text-4xl font-light text-primary/30">01</span>
+                  <div>
+                    <h3 class="text-xl font-medium text-primary mb-2">Jawab Quiz Singkat</h3>
+                    <p class="text-gray-600">Pilih jawaban yang paling sesuai dengan preferensi gayamu</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-6">
+                  <span class="text-4xl font-light text-primary/30">02</span>
+                  <div>
+                    <h3 class="text-xl font-medium text-primary mb-2">Dapatkan Rekomendasi</h3>
+                    <p class="text-gray-600">Kami akan memberikan saran outfit yang cocok untukmu</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-6">
+                  <span class="text-4xl font-light text-primary/30">03</span>
+                  <div>
+                    <h3 class="text-xl font-medium text-primary mb-2">Ekspresikan Dirimu</h3>
+                    <p class="text-gray-600">Tampil percaya diri dengan gaya yang autentik</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button id="open-style-quiz" class="group relative w-full">
+              <div class="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+              <div class="relative px-12 py-4 bg-white rounded-lg leading-none flex items-center justify-center space-x-3">
+                <span class="text-primary font-medium">Mulai Quiz</span>
+                <svg class="w-5 h-5 text-primary transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL: STYLE QUIZ -->
+    <div id="style-quiz-modal" class="fixed inset-0 z-50 hidden">
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0" id="style-quiz-backdrop"></div>
+      
+      <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 scale-95 opacity-0" id="style-quiz-content">
+          <!-- Close Button -->
+          <button id="close-style-quiz" class="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center transition-all duration-300">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+
+          <!-- Progress Bar -->
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gray-100">
+            <div class="h-full w-1/3 bg-gradient-to-r from-primary to-secondary transition-all duration-300" id="quiz-progress"></div>
+          </div>
+
+          <div class="p-8 md:p-12" id="quiz-step-container">
+            <!-- Step 1: Question -->
+            <div id="quiz-step-1" class="space-y-8">
+              <div class="text-center">
+                <span class="inline-block text-sm font-medium text-primary/60 tracking-wider uppercase mb-3">Langkah 1/3</span>
+                <h3 class="text-2xl md:text-3xl font-semibold text-primary">Gaya kamu lebih ke arah mana?</h3>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <button class="quiz-answer group relative p-6 rounded-xl border-2 border-gray-100 hover:border-primary transition-all duration-300" data-step="1" data-value="A">
+                  <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 rounded-xl transition-all duration-300"></div>
+                  <div class="relative flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                      </svg>
+                    </div>
+                    <div class="text-left">
+                      <h4 class="text-lg font-medium text-primary mb-2">Simpel dan bersih</h4>
+                      <p class="text-gray-600 text-sm">Kamu suka tampilan yang rapi dan minimalis</p>
+                    </div>
+                  </div>
+                </button>
+
+                <button class="quiz-answer group relative p-6 rounded-xl border-2 border-gray-100 hover:border-primary transition-all duration-300" data-step="1" data-value="B">
+                  <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 rounded-xl transition-all duration-300"></div>
+                  <div class="relative flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                      </svg>
+                    </div>
+                    <div class="text-left">
+                      <h4 class="text-lg font-medium text-primary mb-2">Berani beda</h4>
+                      <p class="text-gray-600 text-sm">Kamu suka eksplorasi dan tampil unik</p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 2: Question -->
+            <div id="quiz-step-2" class="hidden space-y-8">
+              <div class="text-center">
+                <span class="inline-block text-sm font-medium text-primary/60 tracking-wider uppercase mb-3">Langkah 2/3</span>
+                <h3 class="text-2xl md:text-3xl font-semibold text-primary">Warna yang kamu pilih biasanya?</h3>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <button class="quiz-answer group relative p-6 rounded-xl border-2 border-gray-100 hover:border-primary transition-all duration-300" data-step="2" data-value="A">
+                  <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 rounded-xl transition-all duration-300"></div>
+                  <div class="relative flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <div class="flex gap-1">
+                        <span class="w-2 h-2 rounded-full bg-black"></span>
+                        <span class="w-2 h-2 rounded-full bg-white border border-gray-300"></span>
+                        <span class="w-2 h-2 rounded-full bg-gray-500"></span>
+                      </div>
+                    </div>
+                    <div class="text-left">
+                      <h4 class="text-lg font-medium text-primary mb-2">Netral</h4>
+                      <p class="text-gray-600 text-sm">Hitam, putih, abu-abu</p>
+                    </div>
+                  </div>
+                </button>
+
+                <button class="quiz-answer group relative p-6 rounded-xl border-2 border-gray-100 hover:border-primary transition-all duration-300" data-step="2" data-value="B">
+                  <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 rounded-xl transition-all duration-300"></div>
+                  <div class="relative flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <div class="flex gap-1">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                        <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                      </div>
+                    </div>
+                    <div class="text-left">
+                      <h4 class="text-lg font-medium text-primary mb-2">Cerah</h4>
+                      <p class="text-gray-600 text-sm">Warna-warna yang stand out</p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 3: Question -->
+            <div id="quiz-step-3" class="hidden space-y-8">
+              <div class="text-center">
+                <span class="inline-block text-sm font-medium text-primary/60 tracking-wider uppercase mb-3">Langkah 3/3</span>
+                <h3 class="text-2xl md:text-3xl font-semibold text-primary">Buat kamu fashion itu...</h3>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <button class="quiz-answer group relative p-6 rounded-xl border-2 border-gray-100 hover:border-primary transition-all duration-300" data-step="3" data-value="A">
+                  <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 rounded-xl transition-all duration-300"></div>
+                  <div class="relative flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                    </div>
+                    <div class="text-left">
+                      <h4 class="text-lg font-medium text-primary mb-2">Kenyamanan</h4>
+                      <p class="text-gray-600 text-sm">Cara tampil rapi dan nyaman</p>
+                    </div>
+                  </div>
+                </button>
+
+                <button class="quiz-answer group relative p-6 rounded-xl border-2 border-gray-100 hover:border-primary transition-all duration-300" data-step="3" data-value="B">
+                  <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 rounded-xl transition-all duration-300"></div>
+                  <div class="relative flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                      </svg>
+                    </div>
+                    <div class="text-left">
+                      <h4 class="text-lg font-medium text-primary mb-2">Ekspresi</h4>
+                      <p class="text-gray-600 text-sm">Cara nunjukin karakter</p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quiz Result -->
+            <div id="quiz-result" class="hidden">
+              <!-- Clean Result -->
+              <div id="result-clean" class="hidden space-y-8">
+                <div class="text-center">
+                  <span class="inline-block text-sm font-medium text-primary/60 tracking-wider uppercase mb-3">Hasil Quiz</span>
+                  <h3 class="text-2xl md:text-3xl font-semibold text-primary mb-4">Clean Casual Look</h3>
+                  <p class="text-gray-600">Kamu memiliki selera fashion yang elegan dan minimalis.<br>Berikut rekomendasi outfit yang sesuai dengan gayamu.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div class="group relative transform transition-all duration-500 hover:-translate-y-2">
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                    <div class="relative bg-white rounded-xl overflow-hidden shadow-sm group-hover:shadow-xl transition-all duration-500">
+                      <div class="aspect-[4/5] overflow-hidden">
+                        <img src="img/1.png" alt="Clean Style 1" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="group relative transform transition-all duration-500 hover:-translate-y-2">
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                    <div class="relative bg-white rounded-xl overflow-hidden shadow-sm group-hover:shadow-xl transition-all duration-500">
+                      <div class="aspect-[4/5] overflow-hidden">
+                        <img src="img/2.png" alt="Clean Style 2" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="group relative transform transition-all duration-500 hover:-translate-y-2">
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                    <div class="relative bg-white rounded-xl overflow-hidden shadow-sm group-hover:shadow-xl transition-all duration-500">
+                      <div class="aspect-[4/5] overflow-hidden">
+                        <img src="img/3.png" alt="Clean Style 3" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+                  <a href="#our-collection" class="w-full sm:w-auto px-8 py-3 rounded-full bg-primary text-white font-medium hover:bg-primary/90 transition-all duration-300 text-center">Lihat Koleksi</a>
+                  <button class="w-full sm:w-auto px-8 py-3 rounded-full border-2 border-primary text-primary font-medium hover:bg-primary/5 transition-all duration-300" id="try-again-btn">Coba Lagi</button>
+                </div>
+              </div>
+
+              <!-- Bold Result -->
+              <div id="result-bold" class="hidden space-y-8">
+                <div class="text-center">
+                  <span class="inline-block text-sm font-medium text-primary/60 tracking-wider uppercase mb-3">Hasil Quiz</span>
+                  <h3 class="text-2xl md:text-3xl font-semibold text-primary mb-4">Bold Streetwear</h3>
+                  <p class="text-gray-600">Kamu punya karakter fashion yang kuat dan berani.<br>Berikut rekomendasi outfit yang cocok dengan gayamu.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div class="group relative transform transition-all duration-500 hover:-translate-y-2">
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                    <div class="relative bg-white rounded-xl overflow-hidden shadow-sm group-hover:shadow-xl transition-all duration-500">
+                      <div class="aspect-[4/5] overflow-hidden">
+                        <img src="img/4.png" alt="Bold Style 1" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="group relative transform transition-all duration-500 hover:-translate-y-2">
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                    <div class="relative bg-white rounded-xl overflow-hidden shadow-sm group-hover:shadow-xl transition-all duration-500">
+                      <div class="aspect-[4/5] overflow-hidden">
+                        <img src="img/5.png" alt="Bold Style 2" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="group relative transform transition-all duration-500 hover:-translate-y-2">
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+                    <div class="relative bg-white rounded-xl overflow-hidden shadow-sm group-hover:shadow-xl transition-all duration-500">
+                      <div class="aspect-[4/5] overflow-hidden">
+                        <img src="img/6.png" alt="Bold Style 3" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+                  <a href="#our-collection" class="w-full sm:w-auto px-8 py-3 rounded-full bg-primary text-white font-medium hover:bg-primary/90 transition-all duration-300 text-center">Lihat Koleksi</a>
+                  <button class="w-full sm:w-auto px-8 py-3 rounded-full border-2 border-primary text-primary font-medium hover:bg-primary/5 transition-all duration-300" id="try-again-btn-2">Coba Lagi</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <!-- SECTION: OUR COLLECTION -->
+     <section id="testimonials" class="py-16 md:py-24 px-4 md:px-[120px] bg-white">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-[48px] font-medium mb-4 md:mb-6 leading-tight bg-gradient-to-r from-black to-[#333] bg-clip-text text-transparent">Styled by <span class="italic">You</span></h2>
+                <p class="text-base md:text-lg leading-relaxed text-[#333] opacity-90 max-w-[700px] mx-auto">
+                    Gaya minimalis, kesan maksimal. Simak apa kata mereka yang sudah redefine tren bareng Teenagers.
+                </p>
+            </div>
+
+            <!-- Testimonials Grid - Row 1 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                    <p class="text-gray-700 mb-6">"Saya suka banget sama konsep minimalis dari Teenagers. Baju-bajunya simpel tapi tetap keren dan bisa dipakai di berbagai kesempatan. Kualitasnya juga bagus!"</p>
+                    <p class="font-medium">Budi Santoso</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                    <p class="text-gray-700 mb-6">"Teenagers mengubah cara saya berpakaian. Desainnya yang clean dan versatile membuat saya lebih percaya diri. Saya suka banget dengan kualitas bahannya yang nyaman dipakai seharian, dan potongannya yang selalu pas di badan. Koleksi Teenagers jadi andalan saya untuk daily outfit!"</p>
+                    <p class="font-medium">Dewi Lestari</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                    <p class="text-gray-700 mb-6">"Teenagers mengubah cara saya memandang fashion. Desainnya yang clean dan versatile membuat saya lebih percaya diri dalam berpenampilan sehari-hari."</p>
+                    <p class="font-medium">Agus Purnomo</p>
+                </div>
+            </div>
+
+            <!-- Testimonials Grid - Row 2 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                    <p class="text-gray-700 mb-6">"Sebagai mahasiswa, saya butuh pakaian yang praktis tapi tetap stylish. Teenagers menjawab kebutuhan itu dengan sempurna. Harganya juga worth it banget untuk kualitas yang ditawarkan."</p>
+                    <p class="font-medium">Ratna Wijaya</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                    <p class="text-gray-700 mb-6">"Saya sudah coba banyak brand lokal, tapi Teenagers punya tempat spesial di lemari saya. Potongannya pas dan nyaman dipakai seharian. Definisi perfect basic wardrobe!"</p>
+                    <p class="font-medium">Faisal Ramadhan</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                    <p class="text-gray-700 mb-6">"Teenagers membuat saya lebih berani bereksperimen dengan gaya minimalis. Sekarang outfit sehari-hari jadi lebih effortless tapi tetap fashionable."</p>
+                    <p class="font-medium">Maya Putri</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: CONTACT US -->
+    <section id="contact" class="bg-[#303030] text-white">
+        <div class="grid grid-cols-1 md:grid-cols-2">
+            <!-- Left Side - Image -->
+            <div class="relative h-[300px] md:h-auto">
+                <img src="img/model.jpg" alt="Contact Us" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/30"></div>
+                <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#303030] to-transparent"></div>
+            </div>
+            
+            <!-- Right Side - Contact Form -->
+            <div class="p-8 md:p-16 lg:p-20">
+                <h2 class="text-3xl md:text-4xl font-medium mb-4">We'd Love to Hear from You</h2>
+                <p class="text-white/80 mb-8">Punya pertanyaan soal produk? Tim kami siap bantu kamu kapan saja.</p>
+                
+                <!-- Contact Form -->
+                <form class="space-y-6">
+                    <div>
+                        <input type="text" placeholder="Nama Lengkap" class="w-full bg-transparent border-b border-white/30 py-2 px-0 text-white placeholder-white/50 focus:outline-none focus:border-white transition-all">
+                    </div>
+                    <div>
+                        <input type="email" placeholder="Email" class="w-full bg-transparent border-b border-white/30 py-2 px-0 text-white placeholder-white/50 focus:outline-none focus:border-white transition-all">
+                    </div>
+                    <div>
+                        <textarea placeholder="Pesan" rows="3" class="w-full bg-transparent border-b border-white/30 py-2 px-0 text-white placeholder-white/50 focus:outline-none focus:border-white transition-all resize-none"></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="px-8 py-3 bg-white text-[#303030] hover:bg-white/90 transition-all">Kirim</button>
+                    </div>
+                </form>
+                
+                <!-- Contact Info -->
+                <div class="mt-16 grid grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-medium mb-4">Call Center</h3>
+                        <p class="text-white/80 mb-2">081234567890</p>
+                        <p class="text-white/80">+ (62) 81234567890</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-medium mb-4">Our Location</h3>
+                        <p class="text-white/80 mb-2">Indonesia, Jakarta - 13750</p>
+                        <p class="text-white/80">Jl. Bambu Apus No. 07</p>
+                    </div>
+                </div>
+                
+                <!-- Email and Social Media -->
+                <div class="mt-8 grid grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-medium mb-4">Email</h3>
+                        <p class="text-white/80">hello@teenagers.id</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-medium mb-4">Social Media</h3>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-white hover:text-white/80">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                </svg>
+                            </a>
+                            <a href="#" class="text-white hover:text-white/80">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                                    <path d="M15 10l-4 4l6 6l4-16l-18 7l4 2l2 6l3-4"></path>
+                                </svg>
+                            </a>
+                            <a href="#" class="text-white hover:text-white/80">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: GALLERY SHOWCASE -->
+    <section id="gallery-showcase" class="relative bg-white overflow-hidden py-16 md:py-20">
+        <div class="max-w-7xl mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-3 gap-2 md:gap-4">
+                <div class="col-span-1 row-span-1 overflow-hidden group">
+                    <img src="img/image 14.png" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <div class="col-span-1 row-span-1 overflow-hidden group bg-[#303030] flex items-center justify-center">
+                    <h3 class="text-white text-4xl md:text-5xl font-medium transform -rotate-90">Teenager's</h3>
+                </div>
+                <div class="col-span-1 row-span-1 overflow-hidden group">
+                    <img src="img/model.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <div class="col-span-1 row-span-1 overflow-hidden group aspect-[16/9]">
+                    <img src="img/GAMBAR1.png" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <div class="col-span-1 row-span-1 overflow-hidden group bg-white flex items-center justify-center">
+                    <img src="img/Mask group.png" class="w-420 h-auto object-contain transition-transform duration-700 group-hover:scale-110">
+                </div>
+                
+                <div class="col-span-1 row-span-1 overflow-hidden group">
+                    <img src="img/GAMBAR2.png" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <div class="col-span-1 row-span-2 overflow-hidden group aspect-[16/9]">
+                    <img src="img/GAMBAR4.png" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+            </div>
+            
+            <div class="py-16 md:py-20 px-4 md:px-8 text-center">
+                <h2 class="text-2xl md:text-3xl lg:text-4xl font-light text-gray-800 max-w-4xl mx-auto leading-relaxed">
+                    Simplicity isn't about having less.<br>
+                    <span class="font-medium">It's about showing more without shouting.</span>
+                </h2>
             </div>
         </div>
     </section>
