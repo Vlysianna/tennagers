@@ -23,6 +23,20 @@ Website Teenager's dirancang dengan pendekatan minimalis yang mencerminkan filos
 - **Interactive Elements**: Elemen interaktif untuk meningkatkan engagement pengunjung
 - **Responsive Design**: Pengalaman yang optimal di semua perangkat
 
+## 📱 Screenshot Website
+
+### Homepage
+![Teenager's Website](screenshoot/prevuew.png)
+
+### Gallery Showcase
+![Gallery Showcase](screenshoot/gallery-preview.png)
+
+### Style Quiz
+![Style Quiz](screenshoot/Quiz-preview.png)
+
+### Our Collection
+![Our Collection](screenshoot/our-preview.png)
+
 ## ✨ Fitur Unggulan
 
 ### 1. Hero Section dengan Swiper Interaktif
@@ -68,10 +82,6 @@ Menu navigasi responsif dengan animasi yang halus untuk pengalaman pengguna yang
 - **Flexbox & CSS Grid** - Layout yang fleksibel dan responsif
 - **Media Queries** - Adaptasi tampilan untuk berbagai ukuran layar
 - **Dynamic Sizing** - Ukuran elemen yang menyesuaikan dengan viewport
-
-## 📱 Screenshot
-
-![Teenager's Website](screenshoot/prevuew.png)
 
 ## 🚀 Cara Menjalankan Proyek
 
