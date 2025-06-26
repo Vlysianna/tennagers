@@ -719,7 +719,6 @@ html {
     transform: scale(1.1);
 }
 
-/* Left Column */
 .left-column .item-1 {
     height: 400px;
 }
@@ -732,7 +731,6 @@ html {
     height: 300px;
 }
 
-/* Center Column */
 .center-column .item-2 {
     height: 600px;
     background-color: #303030;
@@ -754,7 +752,6 @@ html {
     height: 400px;
 }
 
-/* Right Column */
 .right-column .item-3 {
     height: 300px;
 }
