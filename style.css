@@ -765,7 +765,7 @@ html {
 
 .text-section {
     text-align: center;
-    padding: 60px 20px;
+    padding: 60px;
 }
 
 .text-section h2 {
@@ -801,9 +801,13 @@ html {
 }
 
 @media (max-width: 768px) {
+    .gallery-container {
+        padding: 20px 20px;
+    }
+
     .gallery-grid {
         display: grid;
-        grid-template-columns: repeat(3, 100px);
+        grid-template-columns: repeat(3, 140px);
         gap: 20px;
         justify-content: center;
     }
@@ -813,7 +817,6 @@ html {
     }
 
     .grid-item {
-        width: 100px;
         height: 100px;
         background: #ccc;
         display: flex;
@@ -822,30 +825,30 @@ html {
     }
 
     .left-column .item-1 {
-        height: 100px;
+        height: 150px;
     }
 
     .center-column .item-2 {
-        height: 150px;
+        height: 250px;
     }
     .right-column .item-3 {
-        height: 75px;
+        height: 150px;
     }
 
     .left-column .item-4 {
-        height: 75px;
+        height: 125px;
     }
 
     .center-column .item-5 {
-        height: 100px;
+        height: 150px;
     }
 
     .right-column .item-6 {
-        height: 175px;
+        height: 250px;
     }
 
     .left-column .item-7 {
-        height: 75px;
+        height: 125px;
     }
 
     .center-column .item-2 h3 {
@@ -857,9 +860,9 @@ html {
     }
 
     .unmute-btn {
-        width: 15px;
-        height: 15px;
-        font-size: 7px;
+        width: 25px;
+        height: 25px;
+        font-size: 14px;
         bottom: 10px;
         right: 10px;
     }
@@ -868,22 +871,3 @@ html {
 /* =====================
    END GALLERY SHOWCASE
    ===================== */ 
-
-/* =====================
-   DIVIDER
-   ===================== */ 
-
-   .img-its-day img {
-        width: 100px;
-        height: 100px;
-   }
-
-   @media (max-width: 768px) {
-        .its-day-present {
-            display: flex;
-            justify-content: center;
-        }
-   }
-/* =====================
-   END DIVIDER
-   ===================== */
