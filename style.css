@@ -703,102 +703,141 @@ html {
    GALLERY SHOWCASE
    ===================== */
 
-#gallery-showcase {
-    position: relative;
+.gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
 }
 
-#gallery-showcase .grid {
-    min-height: auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 1fr;
+.gallery-grid {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 60px;
 }
 
-#gallery-showcase .group {
+.column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.grid-item {
     position: relative;
-    cursor: pointer;
     overflow: hidden;
-    border-radius: 0;
-    box-shadow: none;
-    transition: box-shadow 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
-#gallery-showcase .row-span-2 {
-    grid-row: span 2;
-    height: auto;
+.grid-item:hover {
+    transform: scale(1.02);
 }
 
-#gallery-showcase .group:hover {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-#gallery-showcase .group img {
+.grid-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.7s ease;
 }
 
-#gallery-showcase .group:hover img {
+.grid-item:hover img {
     transform: scale(1.1);
 }
 
-#gallery-showcase .group div {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+/* Left Column */
+.left-column .item-1 {
+    height: 400px;
 }
 
-#gallery-showcase .group:hover div {
-    opacity: 1;
+.left-column .item-4 {
+    height: 300px;
 }
 
-#gallery-showcase h2 {
-    font-weight: 300;
-    line-height: 1.5;
-    margin-top: 2rem;
+.left-column .item-7 {
+    height: 300px;
 }
 
-#gallery-showcase h2 span {
+/* Center Column */
+.center-column .item-2 {
+    height: 600px;
+    background-color: #303030;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.center-column .item-2 h3 {
+    color: white;
+    font-size: 42px;
     font-weight: 500;
+    transform: rotate(-90deg);
+    white-space: nowrap;
+    letter-spacing: 2px;
 }
 
-#gallery-showcase h3 {
-    font-family: 'Satoshi', sans-serif;
-    letter-spacing: -1px;
+.center-column .item-5 {
+    height: 400px;
+}
+
+/* Right Column */
+.right-column .item-3 {
+    height: 300px;
+}
+
+.right-column .item-6 {
+    height: 700px;
+}
+
+.text-section {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.text-section h2 {
+    font-size: 32px;
+    font-weight: 300;
+    color: #333;
+    line-height: 1.4;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.text-section .bold-text {
+    font-weight: 600;
+    color: #222;
 }
 
 @media (max-width: 768px) {
-    #gallery-showcase .grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: auto;
+    .gallery-grid {
+        flex-direction: column;
     }
-    
-    #gallery-showcase .col-span-2,
-    #gallery-showcase .col-span-3 {
-        grid-column: span 1;
-    }
-    
-    #gallery-showcase .row-span-2 {
-        grid-row: span 1;
-    }
-    
-    #gallery-showcase .group {
-        height: auto;
-        aspect-ratio: 1/1;
-    }
-    
-    #gallery-showcase h3 {
-        transform: none;
-        font-size: 1.5rem;
-    }
-}
 
-@media (min-width: 768px) and (max-width: 1024px) {
-    #gallery-showcase .grid {
-        min-height: auto;
+    .column {
+        margin-bottom: 20px;
+    }
+
+    .left-column .item-1,
+    .center-column .item-2,
+    .right-column .item-3 {
+        height: 250px;
+    }
+
+    .left-column .item-4,
+    .left-column .item-7,
+    .center-column .item-5 {
+        height: 180px;
+    }
+
+    .right-column .item-6 {
+        height: 372px;
+    }
+
+    .center-column .item-2 h3 {
+        font-size: 28px;
+        transform: rotate(0deg);
+    }
+
+    .text-section h2 {
+        font-size: 24px;
     }
 }
 
