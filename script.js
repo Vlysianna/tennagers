@@ -2,7 +2,6 @@
 // 1. NAVBAR & MOBILE MENU
 // =====================
 
-// Mobile Menu Functionality
 document.addEventListener('DOMContentLoaded', function () {
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const closeMenuButton = document.getElementById('close-menu-button');
@@ -30,20 +29,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Handle all navigation links with custom scroll
     const allNavLinks = document.querySelectorAll('a[href^="#"]');
 
     allNavLinks.forEach(link => {
         link.addEventListener('click', function (e) {
-            e.preventDefault(); // Prevent default anchor behavior
+            e.preventDefault();
 
-            // Get target section
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
 
             if (targetSection) {
-                // Smooth scroll with JavaScript
-                const yOffset = -80; // Offset for fixed header
+                const yOffset = -80;
                 const y = targetSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
                 window.scrollTo({
@@ -51,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     behavior: 'smooth'
                 });
 
-                // Close mobile menu if open
                 if (mobileMenu.classList.contains('translate-x-0')) {
                     closeMenu();
                 }
@@ -83,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         mobileBackdrop.classList.remove('opacity-100');
 
-        // Animate X back to hamburger
         hamburgerLines[0].classList.remove('rotate-45', 'translate-y-2');
         hamburgerLines[1].classList.remove('opacity-0');
         hamburgerLines[2].classList.remove('-rotate-45', '-translate-y-2');
@@ -114,10 +108,8 @@ document.addEventListener('DOMContentLoaded', function () {
         closeMenuButton.addEventListener('click', closeMenu);
     }
 
-    // Close menu when clicking on backdrop
     mobileBackdrop.addEventListener('click', closeMenu);
 
-    // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (mobileMenu.classList.contains('translate-x-0') &&
             !mobileMenu.contains(e.target) &&
@@ -126,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Add hover effects to menu items
     document.querySelectorAll('#mobile-menu li a').forEach(link => {
         link.addEventListener('mouseenter', function () {
             const line = this.querySelector('span');
@@ -143,12 +134,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // GALLERY SHOWCASE
     // =====================
 
-    // Initialize Gallery Hover Effects
     function initializeGallery() {
         const galleryItems = document.querySelectorAll('#gallery-showcase .group');
 
         galleryItems.forEach((item, index) => {
-            // Add staggered animation on scroll
             gsap.from(item, {
                 opacity: 0,
                 y: 30,
@@ -161,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // Add hover effect
             item.addEventListener('mouseenter', () => {
                 const img = item.querySelector('img');
                 if (img) {
@@ -201,10 +189,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Animate the quote with text splitting for more refined animation
         const quoteElement = document.querySelector("#gallery-showcase h2");
         if (quoteElement) {
-            // Split text into lines
             const lines = quoteElement.innerHTML.split('<br>');
             quoteElement.innerHTML = '';
 
@@ -236,9 +222,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const video = document.querySelector('.item-6 .my-video');
         const unmuteBtn = document.querySelector('.unmute-btn');
         
-        if (!video || !unmuteBtn) return; // Exit jika elemen tidak ditemukan
+        if (!video || !unmuteBtn) return;
 
-        // Autoplay muted ketika masuk viewport
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -251,19 +236,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         observer.observe(video);
 
-        // Unmute functionality
         unmuteBtn.addEventListener('click', () => {
             video.muted = !video.muted;
             unmuteBtn.textContent = video.muted ? '🔇' : '🔊';
             
-            // Coba play lagi setelah unmute (untuk beberapa browser)
             if (!video.paused) {
                 video.play().catch(e => console.log('Play after unmute error:', e));
             }
         });
     }
 
-    // Call gallery initialization
     if (document.querySelector('#gallery-showcase')) {
         initializeGallery();
         initGalleryVideo();
@@ -274,7 +256,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // 2. HERO SECTION (Swiper, Animasi, Thumbnail)
 // =====================
 
-// GSAP Hero Section Animations
 gsap.from(".hero-content h1", {
     y: 100,
     opacity: 0,
@@ -298,7 +279,6 @@ gsap.from(".hero-content .flex", {
     ease: "power4.out"
 });
 
-// Hero Gallery Configuration
 const heroSlideInfo = [
     {
         title: "Modern Casual Style",
@@ -314,7 +294,6 @@ const heroSlideInfo = [
     }
 ];
 
-// Initialize Hero Swiper
 const heroSwiper = new Swiper('.hero-swiper', {
     effect: 'fade',
     fadeEffect: {
@@ -339,28 +318,23 @@ const heroSwiper = new Swiper('.hero-swiper', {
     }
 });
 
-// Update Slide Information
 function updateSlideInfo(index) {
     const slideInfo = document.querySelector('.slide-info');
     const slideTitle = slideInfo.querySelector('.slide-title');
     const slideDescription = slideInfo.querySelector('.slide-description');
 
-    // Reset animation
     slideInfo.style.transform = 'translateY(100%)';
     slideInfo.style.opacity = '0';
 
-    // Update content
     slideTitle.textContent = heroSlideInfo[index].title;
     slideDescription.textContent = heroSlideInfo[index].description;
 
-    // Trigger animation
     setTimeout(() => {
         slideInfo.style.transform = 'translateY(0)';
         slideInfo.style.opacity = '1';
     }, 100);
 }
 
-// Adjust slide info position based on screen size
 function adjustSlideInfoPosition() {
     const slideInfoContainer = document.querySelector('.slide-info').parentElement;
 
@@ -371,22 +345,17 @@ function adjustSlideInfoPosition() {
             slideInfoContainer.style.bottom = '50px';
         }
     }
-
-    // Initial position
     updatePosition();
 
-    // Update on resize
     window.addEventListener('resize', updatePosition);
 }
 
-// Update Thumbnail Active State
 function updateThumbnailActive(index) {
     const thumbnails = document.querySelectorAll('.thumbnail-container');
     thumbnails.forEach((thumb, i) => {
         const border = thumb.querySelector('.border-2');
         const overlay = thumb.querySelector('.bg-black\\/20');
 
-        // Periksa apakah border dan overlay ada
         if (!border || !overlay) return;
 
         if (i === index) {
@@ -395,7 +364,6 @@ function updateThumbnailActive(index) {
             overlay.classList.add('bg-black/0');
             overlay.classList.remove('bg-black/20');
 
-            // Scale effect
             gsap.to(thumb, {
                 scale: 1.1,
                 duration: 0.3,
@@ -407,7 +375,6 @@ function updateThumbnailActive(index) {
             overlay.classList.remove('bg-black/0');
             overlay.classList.add('bg-black/20');
 
-            // Reset scale
             gsap.to(thumb, {
                 scale: 1,
                 duration: 0.3,
@@ -417,13 +384,11 @@ function updateThumbnailActive(index) {
     });
 }
 
-// Thumbnail Click Handler
 document.querySelectorAll('.thumbnail-container').forEach((thumb, index) => {
     thumb.addEventListener('click', () => {
         heroSwiper.slideTo(index);
     });
 
-    // Hover effect
     thumb.addEventListener('mouseenter', () => {
         if (index !== heroSwiper.realIndex) {
             gsap.to(thumb, {
@@ -445,7 +410,6 @@ document.querySelectorAll('.thumbnail-container').forEach((thumb, index) => {
     });
 });
 
-// Parallax effect for hero images
 document.querySelectorAll('.swiper-slide').forEach(slide => {
     slide.addEventListener('mousemove', (e) => {
         const { left, top, width, height } = slide.getBoundingClientRect();
@@ -472,11 +436,11 @@ document.querySelectorAll('.swiper-slide').forEach(slide => {
     });
 });
 
+
 // =====================
 // 3. STORY / DESCRIPTION SECTION
 // =====================
 document.addEventListener('DOMContentLoaded', function () {
-    // Scroll Animation Functionality
     const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -489,11 +453,12 @@ document.addEventListener('DOMContentLoaded', function () {
         threshold: 0.2,
         rootMargin: '0px 0px -50px 0px'
     });
+
     document.querySelectorAll('.animate-on-scroll').forEach(el => {
         el.classList.add('animate-ready');
         scrollObserver.observe(el);
     });
-    // Thumbnail Animation on Scroll
+
     const thumbnailObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const thumbnails = entry.target.querySelectorAll('.thumbnail-list img');
@@ -516,30 +481,26 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.thumbnail-container').forEach(container => {
         thumbnailObserver.observe(container);
     });
-    // Weekly Picks Card Animation
+
     const weeklyCards = document.querySelectorAll('.weekly-card');
     const mainCard = document.querySelector('.main-card');
     const secondaryCards = document.querySelectorAll('.secondary-card');
 
-    // Get initial dimensions
     const mainCardRect = mainCard.getBoundingClientRect();
     const mainCardWidth = mainCardRect.width;
     const secondaryCardRect = secondaryCards[0].getBoundingClientRect();
     const secondaryCardWidth = secondaryCardRect.width;
 
-    // Set same height for all cards initially
-    const targetHeight = 500; // Set fixed height for all cards
+    const targetHeight = 500;
     weeklyCards.forEach(card => {
         const imageContainer = card.querySelector('.relative.overflow-hidden');
         card.style.height = `${targetHeight}px`;
-        imageContainer.style.height = `${targetHeight * 0.7}px`; // Image takes 70% of card height
+        imageContainer.style.height = `${targetHeight * 0.7}px`;
 
-        // Tambahkan overlay gradient untuk efek hover
         const overlay = document.createElement('div');
         overlay.className = 'absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300';
         imageContainer.appendChild(overlay);
 
-        // Tambahkan efek shine
         const shine = document.createElement('div');
         shine.className = 'absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent -translate-x-full';
         imageContainer.appendChild(shine);
@@ -551,7 +512,6 @@ document.addEventListener('DOMContentLoaded', function () {
         card.dataset.index = index;
         card.style.position = 'relative';
 
-        // Tambahkan efek hover untuk teks
         const textContainer = card.querySelector('.py-6');
         const title = textContainer.querySelector('h3');
         const category = textContainer.querySelector('.text-sm');
@@ -566,10 +526,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Function to handle card hover
     function handleCardHover(hoveredCard, isHovering) {
         const hoveredIndex = parseInt(hoveredCard.dataset.index);
-        const moveDistance = mainCardWidth - secondaryCardWidth + 40; // Tambah gap
+        const moveDistance = mainCardWidth - secondaryCardWidth + 40;
 
         weeklyCards.forEach(card => {
             const imageContainer = card.querySelector('.relative.overflow-hidden');
@@ -582,24 +541,20 @@ document.addEventListener('DOMContentLoaded', function () {
             const isMainCard = card.classList.contains('main-card');
             const cardIndex = parseInt(card.dataset.index);
 
-            // Reset semua transisi untuk smooth animation
             card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
             imageContainer.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
 
             if (isHovering) {
                 if (isMainCard) {
-                    // Card 1 mengecil
                     card.style.width = `${secondaryCardWidth}px`;
                     imageContainer.style.aspectRatio = '2/3';
                     card.style.transform = 'none';
                     card.style.zIndex = '1';
                     overlay.style.opacity = '0';
                 } else if (card === hoveredCard) {
-                    // Card yang di-hover membesar dan bergerak ke posisi card 1
                     card.style.width = `${mainCardWidth}px`;
                     imageContainer.style.aspectRatio = '3/2';
 
-                    // Jika card 2 yang di-hover, geser ke kiri dengan offset khusus
                     if (cardIndex === 1) {
                         card.style.transform = `translateX(-${moveDistance}px) scale(1.02)`;
                     } else {
@@ -609,22 +564,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     card.style.zIndex = '10';
                     overlay.style.opacity = '1';
 
-                    // Animate text
                     title.style.transform = 'translateY(-5px)';
                     title.style.color = '#000';
                     category.style.transform = 'translateX(5px)';
 
-                    // Animate shine effect
                     shine.style.transition = 'transform 0.8s ease';
                     shine.style.transform = 'translateX(100%)';
                 } else {
-                    // Card lain mengecil dan bergerak
                     card.style.width = `${secondaryCardWidth}px`;
                     imageContainer.style.aspectRatio = '2/3';
 
-                    // Jika ini card 3 dan card 2 yang di-hover
                     if (cardIndex === 2 && hoveredIndex === 1) {
-                        // Bergerak lebih jauh ke kanan untuk menghindari overlap
                         const card2Width = mainCardWidth - secondaryCardWidth;
                         card.style.transform = `translateX(-${moveDistance - card2Width / 2}px)`;
                     } else {
@@ -635,7 +585,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     overlay.style.opacity = '0';
                 }
             } else {
-                // Kembalikan ke posisi awal
                 if (isMainCard) {
                     card.style.width = `${mainCardWidth}px`;
                     imageContainer.style.aspectRatio = '3/2';
@@ -647,23 +596,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.style.zIndex = isMainCard ? '2' : '1';
                 overlay.style.opacity = '0';
 
-                // Reset text animation
                 title.style.transform = 'none';
                 title.style.color = '';
                 category.style.transform = 'none';
 
-                // Reset shine
                 shine.style.transform = '-translateX(-100%)';
             }
         });
     }
 
-    // Add hover event listeners and mouse move effect
     weeklyCards.forEach(card => {
         card.addEventListener('mouseenter', () => handleCardHover(card, true));
         card.addEventListener('mouseleave', () => handleCardHover(card, false));
 
-        // Tambahkan efek mouse move untuk parallax
         card.addEventListener('mousemove', (e) => {
             if (card.dataset.isExpanded === 'true' || card === e.currentTarget) {
                 const rect = card.getBoundingClientRect();
@@ -678,7 +623,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Reset parallax on mouse leave
         card.addEventListener('mouseleave', () => {
             const image = card.querySelector('img');
             image.style.transform = 'none';
@@ -690,7 +634,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // 4. VISION SECTION
 // =====================
 
-// Vision Gallery, Stats, Values
 document.addEventListener('DOMContentLoaded', function () {
     const visionSlides = document.querySelectorAll('.vision-slide');
     const visionQuotes = document.querySelectorAll('.vision-quote');
@@ -701,7 +644,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let slideInterval;
 
     function showSlide(index) {
-        // Hide all slides and quotes
         visionSlides.forEach(slide => {
             slide.style.opacity = '0';
             slide.style.zIndex = '0';
@@ -714,7 +656,6 @@ document.addEventListener('DOMContentLoaded', function () {
             dot.classList.add('bg-white/50', 'w-2');
         });
 
-        // Show current slide and quote
         visionSlides[index].style.opacity = '1';
         visionSlides[index].style.zIndex = '1';
         visionQuotes[index].classList.remove('hidden');
@@ -732,10 +673,8 @@ document.addEventListener('DOMContentLoaded', function () {
         showSlide(currentSlide);
     }
 
-    // Initialize slider
     showSlide(currentSlide);
 
-    // Start auto-rotation
     function startSlideInterval() {
         slideInterval = setInterval(nextSlide, 5000);
     }
@@ -746,7 +685,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     startSlideInterval();
 
-    // Event listeners
     prevButton?.addEventListener('click', () => {
         prevSlide();
         stopSlideInterval();
@@ -768,7 +706,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Vision Stats Animation
     const visionStats = document.querySelectorAll('.vision-stat');
     let hasAnimated = false;
 
@@ -779,7 +716,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const numberElement = stat.querySelector('.text-4xl');
             const targetNumber = parseInt(numberElement.textContent);
             let currentNumber = 0;
-            const duration = 2000; // 2 seconds
+            const duration = 2000;
             const steps = 60;
             const increment = targetNumber / steps;
             const stepDuration = duration / steps;
@@ -798,7 +735,6 @@ document.addEventListener('DOMContentLoaded', function () {
         hasAnimated = true;
     }
 
-    // Intersection Observer for stats animation
     const statsObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -811,7 +747,6 @@ document.addEventListener('DOMContentLoaded', function () {
         statsObserver.observe(stat);
     });
 
-    // Vision Values Animation
     const visionValues = document.querySelectorAll('.vision-value');
 
     visionValues.forEach((value, index) => {
@@ -833,7 +768,6 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.observe(value);
     });
 
-    // Parallax effect for vision gallery
     const visionGallery = document.querySelector('.vision-gallery');
 
     if (visionGallery) {
@@ -860,7 +794,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // =====================
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Weekly Picks Slider
     const weeklyPicksContainer = document.querySelector('.weekly-picks-container');
     if (!weeklyPicksContainer) return;
 
@@ -878,51 +811,37 @@ document.addEventListener('DOMContentLoaded', function () {
     let touchStartX = 0;
     let touchEndX = 0;
 
-    // Initialize
     function initializeWeeklyPicks() {
-        // Calculate card width
         updateCardWidth();
 
-        // Set initial position
         showCard(currentIndex);
 
-        // Start autoplay for desktop
         if (window.innerWidth >= 1024) {
             startAutoplay();
         }
 
-        // Add event listeners
         setupEventListeners();
 
-        // Initialize filter buttons
         initializeFilters();
     }
 
-    // Update card width based on viewport
     function updateCardWidth() {
         if (window.innerWidth >= 1024) {
-            // Desktop
             cardWidth = weeklyPicksContainer.offsetWidth;
         } else if (window.innerWidth >= 768) {
-            // Tablet
             cardWidth = weeklyPicksContainer.offsetWidth * 0.8;
         } else {
-            // Mobile
             cardWidth = weeklyPicksContainer.offsetWidth;
         }
     }
 
-    // Show specific card
     function showCard(index, animate = true) {
         if (isAnimating) return;
 
-        // Update current index
         currentIndex = index;
 
-        // Calculate position
         const position = -index * cardWidth;
 
-        // Apply transition if animate is true
         if (animate) {
             isAnimating = true;
             weeklyTrack.style.transition = 'transform 500ms ease-out';
@@ -933,14 +852,11 @@ document.addEventListener('DOMContentLoaded', function () {
             weeklyTrack.style.transition = 'none';
         }
 
-        // Move track
         weeklyTrack.style.transform = `translateX(${position}px)`;
 
-        // Update dots
         updateDots();
     }
 
-    // Update dot indicators
     function updateDots() {
         weeklyDots.forEach((dot, index) => {
             if (index === currentIndex) {
@@ -955,7 +871,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Next slide
     function nextSlide() {
         if (isAnimating) return;
 
@@ -963,7 +878,6 @@ document.addEventListener('DOMContentLoaded', function () {
         showCard(nextIndex);
     }
 
-    // Previous slide
     function prevSlide() {
         if (isAnimating) return;
 
@@ -971,7 +885,6 @@ document.addEventListener('DOMContentLoaded', function () {
         showCard(prevIndex);
     }
 
-    // Start autoplay
     function startAutoplay() {
         if (slideInterval) clearInterval(slideInterval);
         slideInterval = setInterval(() => {
@@ -979,7 +892,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000);
     }
 
-    // Stop autoplay
     function stopAutoplay() {
         if (slideInterval) {
             clearInterval(slideInterval);
@@ -987,7 +899,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Handle touch events
     function handleTouchStart(e) {
         touchStartX = e.touches[0].clientX;
         stopAutoplay();
@@ -1000,7 +911,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const diff = touchStartX - touchX;
         const offset = -currentIndex * cardWidth - diff;
 
-        // Apply drag effect
         weeklyTrack.style.transition = 'none';
         weeklyTrack.style.transform = `translateX(${offset}px)`;
     }
@@ -1013,14 +923,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (Math.abs(diff) > threshold) {
             if (diff > 0) {
-                // Swipe left, go to next
                 nextSlide();
             } else {
-                // Swipe right, go to previous
                 prevSlide();
             }
         } else {
-            // Return to current slide
             showCard(currentIndex);
         }
 
@@ -1032,9 +939,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Setup event listeners
     function setupEventListeners() {
-        // Navigation buttons
         if (prevBtn) prevBtn.addEventListener('click', () => {
             prevSlide();
             stopAutoplay();
@@ -1045,7 +950,6 @@ document.addEventListener('DOMContentLoaded', function () {
             stopAutoplay();
         });
 
-        // Dot indicators
         weeklyDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 showCard(index);
@@ -1053,12 +957,10 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Touch events
         weeklyPicksContainer.addEventListener('touchstart', handleTouchStart);
         weeklyPicksContainer.addEventListener('touchmove', handleTouchMove);
         weeklyPicksContainer.addEventListener('touchend', handleTouchEnd);
 
-        // Mouse events for desktop
         weeklyPicksContainer.addEventListener('mouseenter', () => {
             stopAutoplay();
         });
@@ -1069,20 +971,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Window resize
         window.addEventListener('resize', () => {
             updateCardWidth();
             showCard(currentIndex, false);
         });
     }
 
-    // Initialize filter functionality
     function initializeFilters() {
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Remove active class from all buttons
                 filterBtns.forEach(button => {
-                    // Desktop filter
                     if (button.querySelector('span:first-child')) {
                         button.querySelector('span:first-child').classList.remove('scale-x-100');
                         button.querySelector('span:first-child').classList.add('scale-x-0');
@@ -1090,7 +988,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         button.querySelector('span:last-child').classList.add('text-gray-500');
                     }
 
-                    // Mobile filter
                     if (button.classList.contains('snap-start')) {
                         button.classList.remove('bg-primary', 'text-white');
                         button.classList.add('bg-gray-100', 'text-secondary');
@@ -1099,10 +996,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     button.classList.remove('active');
                 });
 
-                // Add active class to clicked button
                 btn.classList.add('active');
 
-                // Desktop filter
                 if (btn.querySelector('span:first-child')) {
                     btn.querySelector('span:first-child').classList.add('scale-x-100');
                     btn.querySelector('span:first-child').classList.remove('scale-x-0');
@@ -1110,37 +1005,30 @@ document.addEventListener('DOMContentLoaded', function () {
                     btn.querySelector('span:last-child').classList.remove('text-gray-500');
                 }
 
-                // Mobile filter
                 if (btn.classList.contains('snap-start')) {
                     btn.classList.add('bg-primary', 'text-white');
                     btn.classList.remove('bg-gray-100', 'text-secondary');
                 }
 
-                // Filter cards
                 const category = btn.dataset.category;
                 filterCards(category);
             });
         });
     }
 
-    // Filter cards by category
     function filterCards(category) {
-        // Reset position and current index
         currentIndex = 0;
 
-        // Variable to count visible cards
         let visibleCount = 0;
         let visibleCards = [];
 
         if (category === 'all') {
-            // Show all cards
             weeklyCards.forEach(card => {
                 card.style.display = '';
                 visibleCount++;
                 visibleCards.push(card);
             });
         } else {
-            // Filter cards
             weeklyCards.forEach(card => {
                 if (card.dataset.category === category) {
                     card.style.display = '';
@@ -1152,19 +1040,15 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // Update mobile dots based on visible cards
         const dotsContainer = document.querySelector('.weekly-picks-container .flex.justify-center');
         if (dotsContainer) {
-            // Clear existing dots
             dotsContainer.innerHTML = '';
 
-            // Create new dots based on visible cards
             visibleCards.forEach((card, index) => {
                 const dot = document.createElement('button');
                 dot.className = `weekly-dot w-8 h-1 rounded-full ${index === 0 ? 'bg-primary' : 'bg-gray-200'} transition-all duration-300`;
                 dot.dataset.index = index;
 
-                // Add click event
                 dot.addEventListener('click', () => {
                     showCard(index);
                     stopAutoplay();
@@ -1174,16 +1058,12 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // Update display
         showCard(0, true);
 
-        // Update all filter buttons to match this category
         updateFilterButtonsForCategory(category);
     }
 
-    // Update filter buttons to match selected category
     function updateFilterButtonsForCategory(category) {
-        // Update desktop filter buttons
         const desktopButtons = document.querySelectorAll('.weekly-filter-btn:not(.snap-start)');
         desktopButtons.forEach(btn => {
             const btnCategory = btn.dataset.category;
@@ -1514,28 +1394,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Cursor Effect, Smooth Scroll, AOS, dsb
 
-// Initialize AOS
 AOS.init({
     duration: 1000,
     once: true,
     offset: 100
 });
 
-// Tangani variabel rotationInterval jika ada
 if (typeof rotationInterval !== 'undefined') {
     clearInterval(rotationInterval);
 }
 
-// GSAP Animations
 gsap.registerPlugin(ScrollTrigger);
 
-// Smooth Scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            const yOffset = -80; // Header offset
+            const yOffset = -80;
             const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
             window.scrollTo({
@@ -1546,7 +1422,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Cursor Effect with GSAP
 const cursor = document.createElement('div');
 const cursorOutline = document.createElement('div');
 cursor.className = 'cursor-dot';
@@ -1589,7 +1464,6 @@ interactiveElements.forEach(el => {
     });
 });
 
-// Parallax Effect
 document.addEventListener('mousemove', (e) => {
     const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
     const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
