@@ -24,6 +24,9 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
+    <!-- Link ke file CSS eksternal -->
+    <link rel="stylesheet" href="style.css">
+
     <script>
         tailwind.config = {
             theme: {
@@ -74,148 +77,6 @@
             }
         }
     </script>
-    <style>
-        /* Menghapus smooth scroll default HTML */
-        html {
-            scroll-behavior: auto;
-        }
-        
-        @font-face {
-            font-family: Satoshi;
-            src: url(Satoshi.ttf);
-        }
-        
-        /* Hamburger Animation */
-        .hamburger-line {
-            transform-origin: center;
-        }
-        
-        .hamburger-line.rotate-45 {
-            transform: rotate(45deg) translate(2px, 2px);
-        }
-        
-        .hamburger-line.-rotate-45 {
-            transform: rotate(-45deg) translate(2px, -2px);
-        }
-
-        /* Navbar Glassmorphism */
-        .navbar-glass {
-            background: linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Navbar Links */
-        .nav-link {
-            position: relative;
-            color: black;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background: #303030;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-            /* Get in Touch Button */
-        .get-in-touch-btn {
-            color: black;
-            border-radius: 9999px;
-            padding: 8px 20px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .get-in-touch-btn:hover {
-            color: #303030;
-            border: 1px solid #303030;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Cursor effect */
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background: #333;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            transition: transform 0.1s ease;
-        }
-
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 2px solid #333;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            mix-blend-mode: difference;
-            transition: all 0.1s ease;
-        }
-
-        /* Animasi untuk elemen yang muncul saat di-scroll */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .animate-on-scroll.animate-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @media (max-width: 480px) {
-            .cursor-dot,
-            .cursor-outline {
-                display: none;
-            }
-        }
-
-        /* Slider styles */
-        .slider-container {
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .slider-track {
-            will-change: transform;
-        }
-
-        @keyframes slide {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(calc(-300px * 4 - 2rem * 4));
-            }
-        }
-
-        .animate-slide {
-            animation: slide 30s linear infinite;
-        }
-
-        .slider-track:hover {
-            animation-play-state: paused;
-        }
-    </style>
 </head>
 
 <body class="font-satoshi overflow-x-hidden bg-white">
@@ -1641,7 +1502,7 @@
             <div class="border-t border-gray-200 pt-8 pb-4">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <div class="mb-4 md:mb-0">
-                        <p class="text-gray-500 text-sm">&copy; 2023 Teenager's. All rights reserved.</p>
+                        <p class="text-gray-500 text-sm">&copy; 2025 Teenager's. All rights reserved.</p>
                     </div>
                     <div class="flex space-x-6">
                         <a href="#home" class="text-gray-500 hover:text-primary text-sm transition-colors duration-300">Privacy Policy</a>
