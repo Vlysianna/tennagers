@@ -67,7 +67,7 @@ Bagian yang menampilkan visi brand dengan quotes dari tim kreatif yang ditampilk
 
 ## 📱 Screenshot
 
-![Teenagers Website](img/prevuew.png)
+![Teenagers Website](screenshoot/prevuew.png)
 
 ## 🚀 Cara Menjalankan Proyek
 
