@@ -1213,7 +1213,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Update mobile filter buttons
+
         const mobileButtons = document.querySelectorAll('.weekly-filter-btn.snap-start');
         mobileButtons.forEach(btn => {
             const btnCategory = btn.dataset.category;
@@ -1228,9 +1228,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Show card with specific category
     function showCardWithCategory(category) {
-        // Find the first card with this category
+
         let targetIndex = 0;
         weeklyCards.forEach((card, index) => {
             if (card.dataset.category === category) {
@@ -1239,33 +1238,33 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Update filter buttons
+
         updateFilterButtonsForCategory(category);
 
-        // Show the card
+
         showCard(targetIndex);
     }
 
-    // Update navigation to show correct category when sliding
+
     function updateCategoryOnSlide(index) {
         const currentCard = weeklyCards[index];
         if (!currentCard) return;
 
         const category = currentCard.dataset.category;
         if (category) {
-            // Only update filter buttons, don't filter cards again
+
             updateFilterButtonsForCategory(category);
         }
     }
 
-    // Override showCard to update category
+
     const originalShowCard = showCard;
     showCard = function (index, animate = true) {
         originalShowCard(index, animate);
         updateCategoryOnSlide(index);
     };
 
-    // Initialize weekly picks
+
     initializeWeeklyPicks();
 });
 
@@ -1273,180 +1272,177 @@ document.addEventListener('DOMContentLoaded', function () {
 // 6. COLLECTION SECTION (Slider)
 // =====================
 
-// Collection Slider, Dots, Nav
-let sliderInterval;
-let isSliderPaused = false;
-let currentSlideIndex = 0;
-
-function moveSlider(direction) {
-    const slideTrack = document.querySelector('.slider-track');
-    const slides = document.querySelectorAll('.slide-item');
-    const dots = document.querySelectorAll('.slider-dot');
-
-    if (!slideTrack || slides.length === 0) return;
-
-    // Stop the automatic animation
-    slideTrack.style.animationPlayState = 'paused';
-    slideTrack.classList.remove('animate-slide');
-
-    // Get current active slide
-    let activeIndex = 0;
-    dots.forEach((dot, index) => {
-        if (dot.classList.contains('active')) {
-            activeIndex = parseInt(dot.dataset.index) - 1;
-        }
-    });
-
-    // Calculate next index
-    if (direction === 'next') {
-        currentSlideIndex = (activeIndex + 1) % slides.length;
-    } else {
-        currentSlideIndex = (activeIndex - 1 + slides.length) % slides.length;
-    }
-
-    // Update active dot
-    dots.forEach(dot => {
-        dot.classList.remove('active', 'bg-primary');
-        dot.classList.add('bg-gray-300');
-
-        if (parseInt(dot.dataset.index) - 1 === currentSlideIndex) {
-            dot.classList.add('active', 'bg-primary');
-            dot.classList.remove('bg-gray-300');
-        }
-    });
-
-    // Scroll to the selected slide
-    const slideWidth = slides[0].offsetWidth + parseInt(window.getComputedStyle(slides[0]).marginRight);
-    const scrollPosition = currentSlideIndex * slideWidth;
-
-    slideTrack.style.transition = 'transform 0.5s ease-in-out';
-    slideTrack.style.transform = `translateX(-${scrollPosition}px)`;
-}
-
-function startSliderAutoplay() {
-    if (sliderInterval) clearInterval(sliderInterval);
-
-    sliderInterval = setInterval(() => {
-        if (!isSliderPaused) {
-            moveSlider('next');
-        }
-    }, 5000); // Change slide every 5 seconds
-}
-
-function pauseSlider() {
-    isSliderPaused = true;
-}
-
-function resumeSlider() {
-    isSliderPaused = false;
-}
-
-// Initialize slider dots and autoplay
 document.addEventListener('DOMContentLoaded', function () {
     const sliderContainer = document.querySelector('.slider-container');
     const slideTrack = document.querySelector('.slider-track');
     const slides = document.querySelectorAll('.slide-item');
     const dots = document.querySelectorAll('.slider-dot');
-    const prevBtn = document.querySelector('.slider-nav.prev');
-    const nextBtn = document.querySelector('.slider-nav.next');
+    
+    if (!sliderContainer || !slideTrack || slides.length === 0) return;
 
-    if (sliderContainer && slides.length > 0) {
-        // Clone slides for infinite loop effect if needed
-        const slideWidth = slides[0].offsetWidth + parseInt(window.getComputedStyle(slides[0]).marginRight || 0);
 
-        // Remove animation initially
-        if (slideTrack.classList.contains('animate-slide')) {
-            slideTrack.classList.remove('animate-slide');
-        }
+    const slideSpeed = 2; 
+    const pauseDuration = 1000; 
+    const transitionSpeed = 0.3; 
+    
 
-        // Set up initial position and styles
-        slideTrack.style.display = 'flex';
-        slideTrack.style.transition = 'transform 0.5s ease-in-out';
+    let animationId;
+    let isPaused = false;
+    let currentPosition = 0;
+    let targetPosition = 0;
+    let currentIndex = 0;
+    let slideWidth = slides[0].offsetWidth + parseInt(window.getComputedStyle(slides[0]).marginRight || 0);
+    let isTransitioning = false;
+    let pauseTimeout;
 
-        // Make first dot active
-        if (dots.length > 0) {
-            dots[0].classList.add('active', 'bg-primary');
-            dots[0].classList.remove('bg-gray-300');
-        }
-
-        // Set up click handlers for dots
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', function () {
-                currentSlideIndex = index;
-
-                // Update active dot
-                dots.forEach(d => {
-                    d.classList.remove('active', 'bg-primary');
-                    d.classList.add('bg-gray-300');
-                });
-                this.classList.add('active', 'bg-primary');
-                this.classList.remove('bg-gray-300');
-
-                // Scroll to the selected slide
-                const scrollPosition = currentSlideIndex * slideWidth;
-
-                slideTrack.style.transform = `translateX(-${scrollPosition}px)`;
-
-                // Temporarily pause autoplay when manually changing slides
-                pauseSlider();
-                setTimeout(resumeSlider, 3000);
-            });
-        });
-
-        // Set up click handlers for navigation buttons
-        if (prevBtn) {
-            prevBtn.addEventListener('click', function () {
-                moveSlider('prev');
-                pauseSlider();
-                setTimeout(resumeSlider, 3000);
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', function () {
-                moveSlider('next');
-                pauseSlider();
-                setTimeout(resumeSlider, 3000);
-            });
-        }
-
-        // Start autoplay
-        startSliderAutoplay();
-
-        // Pause autoplay on hover
-        sliderContainer.addEventListener('mouseenter', pauseSlider);
-        sliderContainer.addEventListener('mouseleave', resumeSlider);
-
-        // Pause autoplay on touch
-        sliderContainer.addEventListener('touchstart', pauseSlider);
-        sliderContainer.addEventListener('touchend', () => {
-            // Resume after a short delay to allow for touch navigation
-            setTimeout(resumeSlider, 1000);
-        });
-
-        // Handle window resize
-        let resizeTimer;
-        window.addEventListener('resize', function () {
-            clearTimeout(resizeTimer);
-            pauseSlider();
-
-            resizeTimer = setTimeout(function () {
-                // Recalculate slide width
-                const newSlideWidth = slides[0].offsetWidth + parseInt(window.getComputedStyle(slides[0]).marginRight || 0);
-                const scrollPosition = currentSlideIndex * newSlideWidth;
-
-                // Update position without animation
-                slideTrack.style.transition = 'none';
-                slideTrack.style.transform = `translateX(-${scrollPosition}px)`;
-
-                // Re-enable animation after a short delay
-                setTimeout(() => {
-                    slideTrack.style.transition = 'transform 0.5s ease-in-out';
-                    resumeSlider();
-                }, 50);
-            }, 250);
+    const slidesToClone = 2; 
+    
+    for (let i = 0; i < slidesToClone; i++) {
+        const firstClone = slides[i].cloneNode(true);
+        const lastClone = slides[slides.length - 1 - i].cloneNode(true);
+        slideTrack.appendChild(firstClone);
+        slideTrack.insertBefore(lastClone, slides[0]);
+    }
+    
+    currentPosition = slidesToClone * slideWidth;
+    slideTrack.style.transform = `translateX(-${currentPosition}px)`;
+    
+    function updateActiveDot(index) {
+        dots.forEach((dot, i) => {
+            dot.classList.remove('active', 'bg-primary');
+            dot.classList.add('bg-gray-300');
+            
+            if (i === index) {
+                dot.classList.add('active', 'bg-primary');
+                dot.classList.remove('bg-gray-300');
+            }
         });
     }
+    
+    
+    function animateSlide() {
+        if (isPaused) {
+            animationId = requestAnimationFrame(animateSlide);
+            return;
+        }
+        
+        if (isTransitioning) {
+            animationId = requestAnimationFrame(animateSlide);
+            return;
+        }
+        
+        if (Math.abs(currentPosition - targetPosition) < 1) {
+            isTransitioning = true;
+            
+            clearTimeout(pauseTimeout);
+            pauseTimeout = setTimeout(() => {
+                targetPosition = currentPosition + slideWidth;
+                currentIndex = (currentIndex + 1) % slides.length;
+                
+                updateActiveDot(currentIndex);
+                
+                if (currentIndex === 0) {
+                    const totalWidth = slides.length * slideWidth;
+                    slideTrack.style.transition = `transform ${transitionSpeed}s ease`;
+                    slideTrack.style.transform = `translateX(-${currentPosition + slideWidth}px)`;
+                    
+                    setTimeout(() => {
+                        slideTrack.style.transition = 'none';
+                        currentPosition = slidesToClone * slideWidth;
+                        targetPosition = currentPosition;
+                        slideTrack.style.transform = `translateX(-${currentPosition}px)`;
+                        isTransitioning = false;
+                    }, transitionSpeed * 1000);
+                } else {
+                    isTransitioning = false;
+                }
+            }, pauseDuration);
+        } else {
+            currentPosition += slideSpeed;
+            slideTrack.style.transform = `translateX(-${currentPosition}px)`;
+        }
+        
+        animationId = requestAnimationFrame(animateSlide);
+    }
+    
+    function slideToIndex(index, animate = true) {
+        cancelAnimationFrame(animationId);
+        clearTimeout(pauseTimeout);
+        
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        
+        currentIndex = index;
+        updateActiveDot(currentIndex);
+        
+        const newPosition = (slidesToClone + currentIndex) * slideWidth;
+        
+        if (animate) {
+            slideTrack.style.transition = `transform ${transitionSpeed}s ease`;
+            slideTrack.style.transform = `translateX(-${newPosition}px)`;
+            
+            setTimeout(() => {
+                slideTrack.style.transition = 'none';
+                currentPosition = newPosition;
+                targetPosition = newPosition;
+                isPaused = false;
+                isTransitioning = false;
+                animateSlide();
+            }, transitionSpeed * 1000);
+        } else {
+            slideTrack.style.transition = 'none';
+            slideTrack.style.transform = `translateX(-${newPosition}px)`;
+            currentPosition = newPosition;
+            targetPosition = newPosition;
+            
+            isPaused = false;
+            isTransitioning = false;
+            animateSlide();
+        }
+    }
+    
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            slideToIndex(index);
+        });
+    });
+    
+    const prevBtn = document.querySelector('.slider-nav.prev');
+    const nextBtn = document.querySelector('.slider-nav.next');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            slideToIndex(currentIndex - 1);
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            slideToIndex(currentIndex + 1);
+        });
+    }
+    
+    sliderContainer.addEventListener('mouseenter', () => {
+        isPaused = true;
+    });
+    
+    sliderContainer.addEventListener('mouseleave', () => {
+        isPaused = false;
+    });
+    
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        cancelAnimationFrame(animationId);
+        
+        resizeTimer = setTimeout(() => {
+            slideWidth = slides[0].offsetWidth + parseInt(window.getComputedStyle(slides[0]).marginRight || 0);
+            slideToIndex(currentIndex, false);
+        }, 250);
+    });
+    
+    updateActiveDot(0);
+    animateSlide();
 });
 
 // =====================
@@ -1461,100 +1457,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeModalBtn = document.getElementById('close-modal');
     const quickViewBtns = document.querySelectorAll('.quick-view-btn');
 
-    // Modal elements
-    const modalProductImage = document.getElementById('modal-product-image');
-    const modalProductName = document.getElementById('modal-product-name');
-    const modalProductCategory = document.getElementById('modal-product-category');
-    const modalProductPrice = document.getElementById('modal-product-price');
-    const modalProductDescription = document.getElementById('modal-product-description');
-
-    // Product descriptions - would normally come from a database
-    const productDescriptions = {
-        1: "Oversized T-Shirt dengan potongan longgar yang nyaman dipakai sehari-hari. Terbuat dari 100% katun premium yang lembut di kulit dan breathable.",
-        2: "Cargo Pants dengan desain modern dan fungsional. Dilengkapi dengan kantong serbaguna dan material yang tahan lama namun tetap nyaman dipakai.",
-        3: "Denim Jacket oversized dengan potongan yang sempurna. Terbuat dari denim premium yang akan semakin nyaman seiring waktu pemakaian.",
-        4: "Basic Hoodie dengan desain minimalis yang timeless. Terbuat dari french terry yang lembut dan hangat, cocok untuk daily outfit."
-    };
-
-    // Open modal function
-    function openModal(productData) {
-        // Set product data
-        modalProductImage.src = productData.image;
-        modalProductName.textContent = productData.name;
-        modalProductCategory.textContent = productData.category;
-        modalProductPrice.textContent = productData.price;
-        modalProductDescription.textContent = productDescriptions[productData.id] || "Tampil minimalis dengan desain yang simpel namun tetap stylish. Dibuat dengan material premium yang nyaman dipakai sepanjang hari.";
-
-        // Show modal with animation
-        modal.classList.remove('hidden');
-        setTimeout(() => {
-            modalBackdrop.classList.add('opacity-100');
-            modalContent.classList.add('opacity-100', 'scale-100');
-            modalContent.classList.remove('scale-95');
-        }, 10);
-
-        // Prevent body scroll
-        document.body.style.overflow = 'hidden';
-    }
-
-    // Close modal function
-    function closeModal() {
-        modalBackdrop.classList.remove('opacity-100');
-        modalContent.classList.remove('opacity-100', 'scale-100');
-        modalContent.classList.add('scale-95');
-
-        setTimeout(() => {
-            modal.classList.add('hidden');
-            // Re-enable body scroll
-            document.body.style.overflow = '';
-        }, 300);
-    }
-
-    // Add click event to quick view buttons
     quickViewBtns.forEach(btn => {
-        btn.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            const productData = {
-                id: this.dataset.productId,
-                name: this.dataset.productName,
-                price: this.dataset.productPrice,
-                image: this.dataset.productImage,
-                category: this.dataset.productCategory
-            };
-
-            openModal(productData);
-        });
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
     });
 
-    // Close modal events
-    closeModalBtn.addEventListener('click', closeModal);
-    modalBackdrop.addEventListener('click', closeModal);
-
-    // Prevent closing when clicking inside modal content
-    modalContent.addEventListener('click', function (e) {
-        e.stopPropagation();
-    });
-
-    // Close on escape key
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-            closeModal();
-        }
-    });
-
-    // Product image dots navigation
-    const productImageDots = document.querySelectorAll('.product-image-dot');
-    productImageDots.forEach(dot => {
-        dot.addEventListener('click', function () {
-            // Here you would normally switch the product image
-            // For this demo we'll just update the active dot
-            productImageDots.forEach(d => d.classList.remove('active', 'bg-white'));
-            productImageDots.forEach(d => d.classList.add('bg-white/50'));
-            this.classList.add('active', 'bg-white');
-            this.classList.remove('bg-white/50');
-        });
-    });
+    if (modal && !modal.classList.contains('hidden')) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
 });
 
 // =====================
@@ -1618,7 +1529,7 @@ window.addEventListener("mousemove", e => {
     yToOutline(e.clientY);
 });
 
-// Hover effect for interactive elements
+
 const interactiveElements = document.querySelectorAll('a, button, .interactive');
 interactiveElements.forEach(el => {
     el.addEventListener('mouseenter', () => {
@@ -1643,7 +1554,6 @@ document.addEventListener('mousemove', (e) => {
     const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
     const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
 
-    // Periksa apakah elemen parallax ada sebelum animasi
     const parallaxElements = document.querySelectorAll('.parallax');
     if (parallaxElements.length > 0) {
         gsap.to('.parallax', {
@@ -1677,33 +1587,26 @@ document.addEventListener('DOMContentLoaded', function () {
         step3: ''
     };
 
-    // Open Quiz Modal
     function openQuiz() {
         quizModal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
 
-        // Animate backdrop
         setTimeout(() => {
             quizBackdrop.classList.add('opacity-100');
         }, 50);
 
-        // Animate content
         setTimeout(() => {
             quizContent.classList.remove('scale-95', 'opacity-0');
             quizContent.classList.add('scale-100', 'opacity-100');
         }, 150);
     }
 
-    // Close Quiz Modal
     function closeQuiz() {
-        // Animate content out
         quizContent.classList.add('scale-95', 'opacity-0');
         quizContent.classList.remove('scale-100', 'opacity-100');
 
-        // Animate backdrop out
         quizBackdrop.classList.remove('opacity-100');
 
-        // Hide modal
         setTimeout(() => {
             quizModal.classList.add('hidden');
             document.body.style.overflow = '';
@@ -1711,7 +1614,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 300);
     }
 
-    // Reset Quiz
     function resetQuiz() {
         currentStep = 1;
         answers = {
@@ -1720,64 +1622,50 @@ document.addEventListener('DOMContentLoaded', function () {
             step3: ''
         };
 
-        // Hide all steps and show first step
         document.querySelectorAll('#quiz-step-1, #quiz-step-2, #quiz-step-3, #quiz-result').forEach(step => {
             step.classList.add('hidden');
         });
         document.getElementById('quiz-step-1').classList.remove('hidden');
 
-        // Reset progress bar
         progressBar.style.width = '33.33%';
 
-        // Reset result sections
         document.querySelectorAll('#result-clean, #result-bold').forEach(result => {
             result.classList.add('hidden');
         });
     }
 
-    // Handle Answer Selection
     function handleAnswer(step, value) {
         answers[`step${step}`] = value;
 
         if (step < 3) {
-            // Show next step
             document.getElementById(`quiz-step-${step}`).classList.add('hidden');
             document.getElementById(`quiz-step-${step + 1}`).classList.remove('hidden');
 
-            // Update progress bar
             progressBar.style.width = `${(step + 1) * 33.33}%`;
 
             currentStep++;
         } else {
-            // Show result
             showQuizResult();
         }
     }
 
-    // Show Quiz Result
     function showQuizResult() {
-        // Hide last step
         document.getElementById('quiz-step-3').classList.add('hidden');
 
-        // Show result container
         const resultContainer = document.getElementById('quiz-result');
         resultContainer.classList.remove('hidden');
 
-        // Determine result type based on answers
-        const cleanAnswers = ['A', 'A', 'A']; // Answers that lead to clean result
+        const cleanAnswers = ['A', 'A', 'A']; 
         const userAnswers = [answers.step1, answers.step2, answers.step3];
 
-        // Count matching answers
         const matchingAnswers = userAnswers.filter((answer, index) => answer === cleanAnswers[index]).length;
 
-        // Show appropriate result
         if (matchingAnswers >= 2) {
             document.getElementById('result-clean').classList.remove('hidden');
         } else {
             document.getElementById('result-bold').classList.remove('hidden');
         }
 
-        // Animate result cards
         gsap.from('#quiz-result .group', {
             y: 50,
             opacity: 0,
@@ -1787,7 +1675,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Event Listeners
     if (openQuizBtn) {
         openQuizBtn.addEventListener('click', openQuiz);
     }
@@ -1796,15 +1683,12 @@ document.addEventListener('DOMContentLoaded', function () {
         closeQuizBtn.addEventListener('click', closeQuiz);
     }
 
-    // Close on backdrop click
     quizBackdrop.addEventListener('click', closeQuiz);
 
-    // Try Again buttons
     tryAgainBtns.forEach(btn => {
         btn.addEventListener('click', resetQuiz);
     });
 
-    // Answer buttons
     document.querySelectorAll('.quiz-answer').forEach(button => {
         button.addEventListener('click', function () {
             const step = parseInt(this.dataset.step);
