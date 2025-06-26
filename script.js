@@ -3,7 +3,7 @@
 // =====================
 
 // Mobile Menu Functionality
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const closeMenuButton = document.getElementById('close-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburgerLines = document.querySelectorAll('.hamburger-line');
     const body = document.body;
     const backToTopButton = document.getElementById('back-to-top');
-    
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             backToTopButton.classList.remove('opacity-0', 'invisible');
@@ -22,35 +22,35 @@ document.addEventListener('DOMContentLoaded', function() {
             backToTopButton.classList.remove('opacity-100');
         }
     });
-    
+
     backToTopButton.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
     });
-    
+
     // Handle all navigation links with custom scroll
     const allNavLinks = document.querySelectorAll('a[href^="#"]');
-    
+
     allNavLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault(); // Prevent default anchor behavior
-            
+
             // Get target section
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
-            
+
             if (targetSection) {
                 // Smooth scroll with JavaScript
                 const yOffset = -80; // Offset for fixed header
                 const y = targetSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                
+
                 window.scrollTo({
                     top: y,
                     behavior: 'smooth'
                 });
-                
+
                 // Close mobile menu if open
                 if (mobileMenu.classList.contains('translate-x-0')) {
                     closeMenu();
@@ -62,43 +62,43 @@ document.addEventListener('DOMContentLoaded', function() {
     function openMenu() {
         mobileMenu.classList.remove('translate-x-full');
         mobileMenu.classList.add('translate-x-0');
-        
+
         mobileBackdrop.classList.add('opacity-100');
-        
+
         hamburgerLines[0].classList.add('rotate-45', 'translate-y-2');
         hamburgerLines[1].classList.add('opacity-0');
         hamburgerLines[2].classList.add('-rotate-45', '-translate-y-2');
-        
+
         mobileMenuItems.forEach(item => {
             item.classList.remove('-translate-x-8', 'opacity-0');
             item.classList.add('translate-x-0', 'opacity-100');
         });
-        
+
         body.style.overflow = 'hidden';
     }
-    
+
     function closeMenu() {
         mobileMenu.classList.add('translate-x-full');
         mobileMenu.classList.remove('translate-x-0');
-        
+
         mobileBackdrop.classList.remove('opacity-100');
-        
+
         // Animate X back to hamburger
         hamburgerLines[0].classList.remove('rotate-45', 'translate-y-2');
         hamburgerLines[1].classList.remove('opacity-0');
         hamburgerLines[2].classList.remove('-rotate-45', '-translate-y-2');
-        
+
         mobileMenuItems.forEach(item => {
             item.classList.add('-translate-x-8', 'opacity-0');
             item.classList.remove('translate-x-0', 'opacity-100');
         });
-        
+
         body.style.overflow = '';
     }
-    
+
     function toggleMenu() {
         const isOpen = mobileMenu.classList.contains('translate-x-0');
-        
+
         if (!isOpen) {
             openMenu();
         } else {
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (mobileMenuButton) {
         mobileMenuButton.addEventListener('click', toggleMenu);
     }
-    
+
     if (closeMenuButton) {
         closeMenuButton.addEventListener('click', closeMenu);
     }
@@ -125,15 +125,15 @@ document.addEventListener('DOMContentLoaded', function() {
             closeMenu();
         }
     });
-    
+
     // Add hover effects to menu items
     document.querySelectorAll('#mobile-menu li a').forEach(link => {
-        link.addEventListener('mouseenter', function() {
+        link.addEventListener('mouseenter', function () {
             const line = this.querySelector('span');
             line.classList.add('scale-x-100');
         });
-        
-        link.addEventListener('mouseleave', function() {
+
+        link.addEventListener('mouseleave', function () {
             const line = this.querySelector('span');
             line.classList.remove('scale-x-100');
         });
@@ -142,11 +142,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // =====================
     // GALLERY SHOWCASE
     // =====================
-    
+
     // Initialize Gallery Hover Effects
     function initializeGallery() {
         const galleryItems = document.querySelectorAll('#gallery-showcase .group');
-        
+
         galleryItems.forEach((item, index) => {
             // Add staggered animation on scroll
             gsap.from(item, {
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     toggleActions: "play none none none"
                 }
             });
-            
+
             // Add hover effect
             item.addEventListener('mouseenter', () => {
                 const img = item.querySelector('img');
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         ease: "power2.out"
                     });
                 }
-                
+
                 const overlay = item.querySelector('div');
                 if (overlay) {
                     gsap.to(overlay, {
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             });
-            
+
             item.addEventListener('mouseleave', () => {
                 const img = item.querySelector('img');
                 if (img) {
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         ease: "power2.out"
                     });
                 }
-                
+
                 const overlay = item.querySelector('div');
                 if (overlay) {
                     gsap.to(overlay, {
@@ -200,22 +200,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
-        
+
         // Animate the quote with text splitting for more refined animation
         const quoteElement = document.querySelector("#gallery-showcase h2");
         if (quoteElement) {
             // Split text into lines
             const lines = quoteElement.innerHTML.split('<br>');
             quoteElement.innerHTML = '';
-            
+
             lines.forEach((line, i) => {
                 const lineDiv = document.createElement('div');
                 lineDiv.innerHTML = line;
                 lineDiv.style.overflow = 'hidden';
                 quoteElement.appendChild(lineDiv);
-                
+
                 const textContent = lineDiv.firstChild;
-                
+
                 gsap.from(textContent, {
                     y: 50,
                     opacity: 0,
@@ -231,10 +231,42 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
-    
+
+    function initGalleryVideo() {
+        const video = document.querySelector('.item-6 .my-video');
+        const unmuteBtn = document.querySelector('.unmute-btn');
+        
+        if (!video || !unmuteBtn) return; // Exit jika elemen tidak ditemukan
+
+        // Autoplay muted ketika masuk viewport
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    video.play().catch(e => console.log('Autoplay error:', e));
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(video);
+
+        // Unmute functionality
+        unmuteBtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+            unmuteBtn.textContent = video.muted ? '🔇' : '🔊';
+            
+            // Coba play lagi setelah unmute (untuk beberapa browser)
+            if (!video.paused) {
+                video.play().catch(e => console.log('Play after unmute error:', e));
+            }
+        });
+    }
+
     // Call gallery initialization
     if (document.querySelector('#gallery-showcase')) {
         initializeGallery();
+        initGalleryVideo();
     }
 });
 
@@ -295,12 +327,12 @@ const heroSwiper = new Swiper('.hero-swiper', {
         disableOnInteraction: false,
     },
     on: {
-        init: function() {
+        init: function () {
             updateSlideInfo(this.realIndex);
             updateThumbnailActive(this.realIndex);
             adjustSlideInfoPosition();
         },
-        slideChange: function() {
+        slideChange: function () {
             updateSlideInfo(this.realIndex);
             updateThumbnailActive(this.realIndex);
         }
@@ -331,7 +363,7 @@ function updateSlideInfo(index) {
 // Adjust slide info position based on screen size
 function adjustSlideInfoPosition() {
     const slideInfoContainer = document.querySelector('.slide-info').parentElement;
-    
+
     function updatePosition() {
         if (window.innerWidth < 768) {
             slideInfoContainer.style.bottom = '90px';
@@ -339,10 +371,10 @@ function adjustSlideInfoPosition() {
             slideInfoContainer.style.bottom = '50px';
         }
     }
-    
+
     // Initial position
     updatePosition();
-    
+
     // Update on resize
     window.addEventListener('resize', updatePosition);
 }
@@ -353,16 +385,16 @@ function updateThumbnailActive(index) {
     thumbnails.forEach((thumb, i) => {
         const border = thumb.querySelector('.border-2');
         const overlay = thumb.querySelector('.bg-black\\/20');
-        
+
         // Periksa apakah border dan overlay ada
         if (!border || !overlay) return;
-        
+
         if (i === index) {
             border.classList.remove('border-transparent');
             border.classList.add('border-white');
             overlay.classList.add('bg-black/0');
             overlay.classList.remove('bg-black/20');
-            
+
             // Scale effect
             gsap.to(thumb, {
                 scale: 1.1,
@@ -374,7 +406,7 @@ function updateThumbnailActive(index) {
             border.classList.remove('border-white');
             overlay.classList.remove('bg-black/0');
             overlay.classList.add('bg-black/20');
-            
+
             // Reset scale
             gsap.to(thumb, {
                 scale: 1,
@@ -390,7 +422,7 @@ document.querySelectorAll('.thumbnail-container').forEach((thumb, index) => {
     thumb.addEventListener('click', () => {
         heroSwiper.slideTo(index);
     });
-    
+
     // Hover effect
     thumb.addEventListener('mouseenter', () => {
         if (index !== heroSwiper.realIndex) {
@@ -401,7 +433,7 @@ document.querySelectorAll('.thumbnail-container').forEach((thumb, index) => {
             });
         }
     });
-    
+
     thumb.addEventListener('mouseleave', () => {
         if (index !== heroSwiper.realIndex) {
             gsap.to(thumb, {
@@ -419,7 +451,7 @@ document.querySelectorAll('.swiper-slide').forEach(slide => {
         const { left, top, width, height } = slide.getBoundingClientRect();
         const x = (e.clientX - left) / width - 0.5;
         const y = (e.clientY - top) / height - 0.5;
-        
+
         const image = slide.querySelector('img');
         gsap.to(image, {
             x: x * 20,
@@ -428,7 +460,7 @@ document.querySelectorAll('.swiper-slide').forEach(slide => {
             ease: "power2.out"
         });
     });
-    
+
     slide.addEventListener('mouseleave', () => {
         const image = slide.querySelector('img');
         gsap.to(image, {
@@ -488,45 +520,45 @@ document.addEventListener('DOMContentLoaded', function () {
     const weeklyCards = document.querySelectorAll('.weekly-card');
     const mainCard = document.querySelector('.main-card');
     const secondaryCards = document.querySelectorAll('.secondary-card');
-    
+
     // Get initial dimensions
     const mainCardRect = mainCard.getBoundingClientRect();
     const mainCardWidth = mainCardRect.width;
     const secondaryCardRect = secondaryCards[0].getBoundingClientRect();
     const secondaryCardWidth = secondaryCardRect.width;
-    
+
     // Set same height for all cards initially
     const targetHeight = 500; // Set fixed height for all cards
     weeklyCards.forEach(card => {
         const imageContainer = card.querySelector('.relative.overflow-hidden');
         card.style.height = `${targetHeight}px`;
         imageContainer.style.height = `${targetHeight * 0.7}px`; // Image takes 70% of card height
-        
+
         // Tambahkan overlay gradient untuk efek hover
         const overlay = document.createElement('div');
         overlay.className = 'absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300';
         imageContainer.appendChild(overlay);
-        
+
         // Tambahkan efek shine
         const shine = document.createElement('div');
         shine.className = 'absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent -translate-x-full';
         imageContainer.appendChild(shine);
     });
-    
+
     weeklyCards.forEach((card, index) => {
         const rect = card.getBoundingClientRect();
         card.dataset.originalWidth = rect.width;
         card.dataset.index = index;
         card.style.position = 'relative';
-        
+
         // Tambahkan efek hover untuk teks
         const textContainer = card.querySelector('.py-6');
         const title = textContainer.querySelector('h3');
         const category = textContainer.querySelector('.text-sm');
-        
+
         title.style.transition = 'transform 0.3s ease, color 0.3s ease';
         category.style.transition = 'transform 0.3s ease, color 0.3s ease';
-        
+
         if (card.classList.contains('main-card')) {
             card.dataset.isExpanded = 'true';
         } else {
@@ -546,14 +578,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const textContainer = card.querySelector('.py-6');
             const title = textContainer.querySelector('h3');
             const category = textContainer.querySelector('.text-sm');
-            
+
             const isMainCard = card.classList.contains('main-card');
             const cardIndex = parseInt(card.dataset.index);
-            
+
             // Reset semua transisi untuk smooth animation
             card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
             imageContainer.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-            
+
             if (isHovering) {
                 if (isMainCard) {
                     // Card 1 mengecil
@@ -566,22 +598,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Card yang di-hover membesar dan bergerak ke posisi card 1
                     card.style.width = `${mainCardWidth}px`;
                     imageContainer.style.aspectRatio = '3/2';
-                    
+
                     // Jika card 2 yang di-hover, geser ke kiri dengan offset khusus
                     if (cardIndex === 1) {
                         card.style.transform = `translateX(-${moveDistance}px) scale(1.02)`;
                     } else {
                         card.style.transform = `translateX(-${moveDistance}px) scale(1.02)`;
                     }
-                    
+
                     card.style.zIndex = '10';
                     overlay.style.opacity = '1';
-                    
+
                     // Animate text
                     title.style.transform = 'translateY(-5px)';
                     title.style.color = '#000';
                     category.style.transform = 'translateX(5px)';
-                    
+
                     // Animate shine effect
                     shine.style.transition = 'transform 0.8s ease';
                     shine.style.transform = 'translateX(100%)';
@@ -589,16 +621,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Card lain mengecil dan bergerak
                     card.style.width = `${secondaryCardWidth}px`;
                     imageContainer.style.aspectRatio = '2/3';
-                    
+
                     // Jika ini card 3 dan card 2 yang di-hover
                     if (cardIndex === 2 && hoveredIndex === 1) {
                         // Bergerak lebih jauh ke kanan untuk menghindari overlap
                         const card2Width = mainCardWidth - secondaryCardWidth;
-                        card.style.transform = `translateX(-${moveDistance - card2Width/2}px)`;
+                        card.style.transform = `translateX(-${moveDistance - card2Width / 2}px)`;
                     } else {
                         card.style.transform = `translateX(-${moveDistance}px)`;
                     }
-                    
+
                     card.style.zIndex = '1';
                     overlay.style.opacity = '0';
                 }
@@ -614,12 +646,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.style.transform = 'none';
                 card.style.zIndex = isMainCard ? '2' : '1';
                 overlay.style.opacity = '0';
-                
+
                 // Reset text animation
                 title.style.transform = 'none';
                 title.style.color = '';
                 category.style.transform = 'none';
-                
+
                 // Reset shine
                 shine.style.transform = '-translateX(-100%)';
             }
@@ -630,22 +662,22 @@ document.addEventListener('DOMContentLoaded', function () {
     weeklyCards.forEach(card => {
         card.addEventListener('mouseenter', () => handleCardHover(card, true));
         card.addEventListener('mouseleave', () => handleCardHover(card, false));
-        
+
         // Tambahkan efek mouse move untuk parallax
         card.addEventListener('mousemove', (e) => {
             if (card.dataset.isExpanded === 'true' || card === e.currentTarget) {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
+
                 const xPercent = (x / rect.width - 0.5) * 5;
                 const yPercent = (y / rect.height - 0.5) * 5;
-                
+
                 const image = card.querySelector('img');
                 image.style.transform = `translate(${xPercent}px, ${yPercent}px) scale(1.05)`;
             }
         });
-        
+
         // Reset parallax on mouse leave
         card.addEventListener('mouseleave', () => {
             const image = card.querySelector('img');
@@ -659,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // =====================
 
 // Vision Gallery, Stats, Values
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const visionSlides = document.querySelectorAll('.vision-slide');
     const visionQuotes = document.querySelectorAll('.vision-quote');
     const visionDots = document.querySelectorAll('.vision-dot');
@@ -781,11 +813,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Vision Values Animation
     const visionValues = document.querySelectorAll('.vision-value');
-    
+
     visionValues.forEach((value, index) => {
         value.style.opacity = '0';
         value.style.transform = 'translateX(-20px)';
-        
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -797,26 +829,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }, { threshold: 0.5 });
-        
+
         observer.observe(value);
     });
 
     // Parallax effect for vision gallery
     const visionGallery = document.querySelector('.vision-gallery');
-    
+
     if (visionGallery) {
         window.addEventListener('mousemove', (e) => {
             const { left, top, width, height } = visionGallery.getBoundingClientRect();
             const x = (e.clientX - left) / width - 0.5;
             const y = (e.clientY - top) / height - 0.5;
-            
+
             visionGallery.style.transform = `
                 perspective(1000px)
                 rotateY(${x * 5}deg)
                 rotateX(${-y * 5}deg)
             `;
         });
-        
+
         visionGallery.addEventListener('mouseleave', () => {
             visionGallery.style.transform = 'none';
         });
@@ -827,7 +859,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // 5. WEEKLY PICKS SECTION (New Interactive Version)
 // =====================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Weekly Picks Slider
     const weeklyPicksContainer = document.querySelector('.weekly-picks-container');
     if (!weeklyPicksContainer) return;
@@ -838,30 +870,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevBtn = document.querySelector('.weekly-nav-btn.prev');
     const nextBtn = document.querySelector('.weekly-nav-btn.next');
     const filterBtns = document.querySelectorAll('.weekly-filter-btn');
-    
+
     let currentIndex = 0;
     let cardWidth = 0;
     let slideInterval;
     let isAnimating = false;
     let touchStartX = 0;
     let touchEndX = 0;
-    
+
     // Initialize
     function initializeWeeklyPicks() {
         // Calculate card width
         updateCardWidth();
-        
+
         // Set initial position
         showCard(currentIndex);
-        
+
         // Start autoplay for desktop
         if (window.innerWidth >= 1024) {
             startAutoplay();
         }
-        
+
         // Add event listeners
         setupEventListeners();
-        
+
         // Initialize filter buttons
         initializeFilters();
     }
@@ -874,22 +906,22 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (window.innerWidth >= 768) {
             // Tablet
             cardWidth = weeklyPicksContainer.offsetWidth * 0.8;
-            } else {
+        } else {
             // Mobile
             cardWidth = weeklyPicksContainer.offsetWidth;
         }
     }
-    
+
     // Show specific card
     function showCard(index, animate = true) {
         if (isAnimating) return;
-        
+
         // Update current index
         currentIndex = index;
-        
+
         // Calculate position
         const position = -index * cardWidth;
-        
+
         // Apply transition if animate is true
         if (animate) {
             isAnimating = true;
@@ -900,14 +932,14 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             weeklyTrack.style.transition = 'none';
         }
-        
+
         // Move track
         weeklyTrack.style.transform = `translateX(${position}px)`;
-        
+
         // Update dots
         updateDots();
     }
-    
+
     // Update dot indicators
     function updateDots() {
         weeklyDots.forEach((dot, index) => {
@@ -921,24 +953,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 dot.style.width = '8px';
             }
         });
-        }
+    }
 
     // Next slide
     function nextSlide() {
         if (isAnimating) return;
-        
+
         const nextIndex = (currentIndex + 1) % weeklyCards.length;
         showCard(nextIndex);
     }
-    
+
     // Previous slide
     function prevSlide() {
         if (isAnimating) return;
-        
+
         const prevIndex = (currentIndex - 1 + weeklyCards.length) % weeklyCards.length;
         showCard(prevIndex);
     }
-    
+
     // Start autoplay
     function startAutoplay() {
         if (slideInterval) clearInterval(slideInterval);
@@ -946,7 +978,7 @@ document.addEventListener('DOMContentLoaded', function() {
             nextSlide();
         }, 5000);
     }
-    
+
     // Stop autoplay
     function stopAutoplay() {
         if (slideInterval) {
@@ -954,31 +986,31 @@ document.addEventListener('DOMContentLoaded', function() {
             slideInterval = null;
         }
     }
-    
+
     // Handle touch events
     function handleTouchStart(e) {
         touchStartX = e.touches[0].clientX;
         stopAutoplay();
     }
-    
+
     function handleTouchMove(e) {
         if (!touchStartX) return;
-        
+
         const touchX = e.touches[0].clientX;
         const diff = touchStartX - touchX;
         const offset = -currentIndex * cardWidth - diff;
-        
+
         // Apply drag effect
         weeklyTrack.style.transition = 'none';
         weeklyTrack.style.transform = `translateX(${offset}px)`;
     }
-    
+
     function handleTouchEnd(e) {
         touchEndX = e.changedTouches[0].clientX;
-        
+
         const diff = touchStartX - touchEndX;
         const threshold = cardWidth * 0.2;
-        
+
         if (Math.abs(diff) > threshold) {
             if (diff > 0) {
                 // Swipe left, go to next
@@ -991,15 +1023,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // Return to current slide
             showCard(currentIndex);
         }
-        
+
         touchStartX = 0;
         touchEndX = 0;
-        
+
         if (window.innerWidth >= 1024) {
             startAutoplay();
         }
     }
-    
+
     // Setup event listeners
     function setupEventListeners() {
         // Navigation buttons
@@ -1007,12 +1039,12 @@ document.addEventListener('DOMContentLoaded', function() {
             prevSlide();
             stopAutoplay();
         });
-        
+
         if (nextBtn) nextBtn.addEventListener('click', () => {
             nextSlide();
             stopAutoplay();
         });
-        
+
         // Dot indicators
         weeklyDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
@@ -1025,7 +1057,7 @@ document.addEventListener('DOMContentLoaded', function() {
         weeklyPicksContainer.addEventListener('touchstart', handleTouchStart);
         weeklyPicksContainer.addEventListener('touchmove', handleTouchMove);
         weeklyPicksContainer.addEventListener('touchend', handleTouchEnd);
-        
+
         // Mouse events for desktop
         weeklyPicksContainer.addEventListener('mouseenter', () => {
             stopAutoplay();
@@ -1036,14 +1068,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 startAutoplay();
             }
         });
-        
+
         // Window resize
         window.addEventListener('resize', () => {
             updateCardWidth();
             showCard(currentIndex, false);
         });
     }
-    
+
     // Initialize filter functionality
     function initializeFilters() {
         filterBtns.forEach(btn => {
@@ -1057,19 +1089,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         button.querySelector('span:last-child').classList.remove('text-primary');
                         button.querySelector('span:last-child').classList.add('text-gray-500');
                     }
-                    
+
                     // Mobile filter
                     if (button.classList.contains('snap-start')) {
                         button.classList.remove('bg-primary', 'text-white');
                         button.classList.add('bg-gray-100', 'text-secondary');
                     }
-                    
+
                     button.classList.remove('active');
                 });
-                
+
                 // Add active class to clicked button
                 btn.classList.add('active');
-                
+
                 // Desktop filter
                 if (btn.querySelector('span:first-child')) {
                     btn.querySelector('span:first-child').classList.add('scale-x-100');
@@ -1077,29 +1109,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     btn.querySelector('span:last-child').classList.add('text-primary');
                     btn.querySelector('span:last-child').classList.remove('text-gray-500');
                 }
-                
+
                 // Mobile filter
                 if (btn.classList.contains('snap-start')) {
                     btn.classList.add('bg-primary', 'text-white');
                     btn.classList.remove('bg-gray-100', 'text-secondary');
                 }
-                
+
                 // Filter cards
                 const category = btn.dataset.category;
                 filterCards(category);
             });
         });
     }
-    
+
     // Filter cards by category
     function filterCards(category) {
         // Reset position and current index
         currentIndex = 0;
-        
+
         // Variable to count visible cards
         let visibleCount = 0;
         let visibleCards = [];
-        
+
         if (category === 'all') {
             // Show all cards
             weeklyCards.forEach(card => {
@@ -1119,36 +1151,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
-        
+
         // Update mobile dots based on visible cards
         const dotsContainer = document.querySelector('.weekly-picks-container .flex.justify-center');
         if (dotsContainer) {
             // Clear existing dots
             dotsContainer.innerHTML = '';
-            
+
             // Create new dots based on visible cards
             visibleCards.forEach((card, index) => {
                 const dot = document.createElement('button');
                 dot.className = `weekly-dot w-8 h-1 rounded-full ${index === 0 ? 'bg-primary' : 'bg-gray-200'} transition-all duration-300`;
                 dot.dataset.index = index;
-                
+
                 // Add click event
                 dot.addEventListener('click', () => {
                     showCard(index);
                     stopAutoplay();
                 });
-                
+
                 dotsContainer.appendChild(dot);
             });
         }
-        
+
         // Update display
         showCard(0, true);
-        
+
         // Update all filter buttons to match this category
         updateFilterButtonsForCategory(category);
     }
-    
+
     // Update filter buttons to match selected category
     function updateFilterButtonsForCategory(category) {
         // Update desktop filter buttons
@@ -1157,7 +1189,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const btnCategory = btn.dataset.category;
             const lineElement = btn.querySelector('span:first-child');
             const textElement = btn.querySelector('span:last-child');
-            
+
             if (btnCategory === category) {
                 btn.classList.add('active');
                 if (lineElement) {
@@ -1180,12 +1212,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-        
+
         // Update mobile filter buttons
         const mobileButtons = document.querySelectorAll('.weekly-filter-btn.snap-start');
         mobileButtons.forEach(btn => {
             const btnCategory = btn.dataset.category;
-            
+
             if (btnCategory === category) {
                 btn.classList.add('bg-primary', 'text-white');
                 btn.classList.remove('bg-gray-100', 'text-secondary');
@@ -1195,7 +1227,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     // Show card with specific category
     function showCardWithCategory(category) {
         // Find the first card with this category
@@ -1206,33 +1238,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
         });
-        
+
         // Update filter buttons
         updateFilterButtonsForCategory(category);
-        
+
         // Show the card
         showCard(targetIndex);
     }
-    
+
     // Update navigation to show correct category when sliding
     function updateCategoryOnSlide(index) {
         const currentCard = weeklyCards[index];
         if (!currentCard) return;
-        
+
         const category = currentCard.dataset.category;
         if (category) {
             // Only update filter buttons, don't filter cards again
             updateFilterButtonsForCategory(category);
         }
     }
-    
+
     // Override showCard to update category
     const originalShowCard = showCard;
-    showCard = function(index, animate = true) {
+    showCard = function (index, animate = true) {
         originalShowCard(index, animate);
         updateCategoryOnSlide(index);
     };
-    
+
     // Initialize weekly picks
     initializeWeeklyPicks();
 });
@@ -1250,13 +1282,13 @@ function moveSlider(direction) {
     const slideTrack = document.querySelector('.slider-track');
     const slides = document.querySelectorAll('.slide-item');
     const dots = document.querySelectorAll('.slider-dot');
-    
+
     if (!slideTrack || slides.length === 0) return;
-    
+
     // Stop the automatic animation
     slideTrack.style.animationPlayState = 'paused';
     slideTrack.classList.remove('animate-slide');
-    
+
     // Get current active slide
     let activeIndex = 0;
     dots.forEach((dot, index) => {
@@ -1264,36 +1296,36 @@ function moveSlider(direction) {
             activeIndex = parseInt(dot.dataset.index) - 1;
         }
     });
-    
+
     // Calculate next index
     if (direction === 'next') {
         currentSlideIndex = (activeIndex + 1) % slides.length;
     } else {
         currentSlideIndex = (activeIndex - 1 + slides.length) % slides.length;
     }
-    
+
     // Update active dot
     dots.forEach(dot => {
         dot.classList.remove('active', 'bg-primary');
         dot.classList.add('bg-gray-300');
-        
+
         if (parseInt(dot.dataset.index) - 1 === currentSlideIndex) {
             dot.classList.add('active', 'bg-primary');
             dot.classList.remove('bg-gray-300');
         }
     });
-    
+
     // Scroll to the selected slide
     const slideWidth = slides[0].offsetWidth + parseInt(window.getComputedStyle(slides[0]).marginRight);
     const scrollPosition = currentSlideIndex * slideWidth;
-    
+
     slideTrack.style.transition = 'transform 0.5s ease-in-out';
     slideTrack.style.transform = `translateX(-${scrollPosition}px)`;
 }
 
 function startSliderAutoplay() {
     if (sliderInterval) clearInterval(sliderInterval);
-    
+
     sliderInterval = setInterval(() => {
         if (!isSliderPaused) {
             moveSlider('next');
@@ -1310,38 +1342,38 @@ function resumeSlider() {
 }
 
 // Initialize slider dots and autoplay
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const sliderContainer = document.querySelector('.slider-container');
     const slideTrack = document.querySelector('.slider-track');
     const slides = document.querySelectorAll('.slide-item');
     const dots = document.querySelectorAll('.slider-dot');
     const prevBtn = document.querySelector('.slider-nav.prev');
     const nextBtn = document.querySelector('.slider-nav.next');
-    
+
     if (sliderContainer && slides.length > 0) {
         // Clone slides for infinite loop effect if needed
         const slideWidth = slides[0].offsetWidth + parseInt(window.getComputedStyle(slides[0]).marginRight || 0);
-        
+
         // Remove animation initially
         if (slideTrack.classList.contains('animate-slide')) {
             slideTrack.classList.remove('animate-slide');
         }
-        
+
         // Set up initial position and styles
         slideTrack.style.display = 'flex';
         slideTrack.style.transition = 'transform 0.5s ease-in-out';
-        
+
         // Make first dot active
         if (dots.length > 0) {
             dots[0].classList.add('active', 'bg-primary');
             dots[0].classList.remove('bg-gray-300');
         }
-        
+
         // Set up click handlers for dots
         dots.forEach((dot, index) => {
-            dot.addEventListener('click', function() {
+            dot.addEventListener('click', function () {
                 currentSlideIndex = index;
-                
+
                 // Update active dot
                 dots.forEach(d => {
                     d.classList.remove('active', 'bg-primary');
@@ -1349,64 +1381,64 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 this.classList.add('active', 'bg-primary');
                 this.classList.remove('bg-gray-300');
-                
+
                 // Scroll to the selected slide
                 const scrollPosition = currentSlideIndex * slideWidth;
-                
+
                 slideTrack.style.transform = `translateX(-${scrollPosition}px)`;
-                
+
                 // Temporarily pause autoplay when manually changing slides
                 pauseSlider();
                 setTimeout(resumeSlider, 3000);
             });
         });
-        
+
         // Set up click handlers for navigation buttons
         if (prevBtn) {
-            prevBtn.addEventListener('click', function() {
+            prevBtn.addEventListener('click', function () {
                 moveSlider('prev');
                 pauseSlider();
                 setTimeout(resumeSlider, 3000);
             });
         }
-        
+
         if (nextBtn) {
-            nextBtn.addEventListener('click', function() {
+            nextBtn.addEventListener('click', function () {
                 moveSlider('next');
                 pauseSlider();
                 setTimeout(resumeSlider, 3000);
             });
         }
-        
+
         // Start autoplay
         startSliderAutoplay();
-        
+
         // Pause autoplay on hover
         sliderContainer.addEventListener('mouseenter', pauseSlider);
         sliderContainer.addEventListener('mouseleave', resumeSlider);
-        
+
         // Pause autoplay on touch
         sliderContainer.addEventListener('touchstart', pauseSlider);
         sliderContainer.addEventListener('touchend', () => {
             // Resume after a short delay to allow for touch navigation
             setTimeout(resumeSlider, 1000);
         });
-        
+
         // Handle window resize
         let resizeTimer;
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             clearTimeout(resizeTimer);
             pauseSlider();
-            
-            resizeTimer = setTimeout(function() {
+
+            resizeTimer = setTimeout(function () {
                 // Recalculate slide width
                 const newSlideWidth = slides[0].offsetWidth + parseInt(window.getComputedStyle(slides[0]).marginRight || 0);
                 const scrollPosition = currentSlideIndex * newSlideWidth;
-                
+
                 // Update position without animation
                 slideTrack.style.transition = 'none';
                 slideTrack.style.transform = `translateX(-${scrollPosition}px)`;
-                
+
                 // Re-enable animation after a short delay
                 setTimeout(() => {
                     slideTrack.style.transition = 'transform 0.5s ease-in-out';
@@ -1422,20 +1454,20 @@ document.addEventListener('DOMContentLoaded', function() {
 // =====================
 
 // Product Quick View Modal
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('product-modal');
     const modalBackdrop = document.getElementById('modal-backdrop');
     const modalContent = document.getElementById('modal-content');
     const closeModalBtn = document.getElementById('close-modal');
     const quickViewBtns = document.querySelectorAll('.quick-view-btn');
-    
+
     // Modal elements
     const modalProductImage = document.getElementById('modal-product-image');
     const modalProductName = document.getElementById('modal-product-name');
     const modalProductCategory = document.getElementById('modal-product-category');
     const modalProductPrice = document.getElementById('modal-product-price');
     const modalProductDescription = document.getElementById('modal-product-description');
-    
+
     // Product descriptions - would normally come from a database
     const productDescriptions = {
         1: "Oversized T-Shirt dengan potongan longgar yang nyaman dipakai sehari-hari. Terbuat dari 100% katun premium yang lembut di kulit dan breathable.",
@@ -1443,7 +1475,7 @@ document.addEventListener('DOMContentLoaded', function() {
         3: "Denim Jacket oversized dengan potongan yang sempurna. Terbuat dari denim premium yang akan semakin nyaman seiring waktu pemakaian.",
         4: "Basic Hoodie dengan desain minimalis yang timeless. Terbuat dari french terry yang lembut dan hangat, cocok untuk daily outfit."
     };
-    
+
     // Open modal function
     function openModal(productData) {
         // Set product data
@@ -1452,7 +1484,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modalProductCategory.textContent = productData.category;
         modalProductPrice.textContent = productData.price;
         modalProductDescription.textContent = productDescriptions[productData.id] || "Tampil minimalis dengan desain yang simpel namun tetap stylish. Dibuat dengan material premium yang nyaman dipakai sepanjang hari.";
-        
+
         // Show modal with animation
         modal.classList.remove('hidden');
         setTimeout(() => {
@@ -1460,29 +1492,29 @@ document.addEventListener('DOMContentLoaded', function() {
             modalContent.classList.add('opacity-100', 'scale-100');
             modalContent.classList.remove('scale-95');
         }, 10);
-        
+
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
     }
-    
+
     // Close modal function
     function closeModal() {
         modalBackdrop.classList.remove('opacity-100');
         modalContent.classList.remove('opacity-100', 'scale-100');
         modalContent.classList.add('scale-95');
-        
+
         setTimeout(() => {
             modal.classList.add('hidden');
             // Re-enable body scroll
             document.body.style.overflow = '';
         }, 300);
     }
-    
+
     // Add click event to quick view buttons
     quickViewBtns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             const productData = {
                 id: this.dataset.productId,
                 name: this.dataset.productName,
@@ -1490,31 +1522,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 image: this.dataset.productImage,
                 category: this.dataset.productCategory
             };
-            
+
             openModal(productData);
         });
     });
-    
+
     // Close modal events
     closeModalBtn.addEventListener('click', closeModal);
     modalBackdrop.addEventListener('click', closeModal);
-    
+
     // Prevent closing when clicking inside modal content
-    modalContent.addEventListener('click', function(e) {
+    modalContent.addEventListener('click', function (e) {
         e.stopPropagation();
     });
-    
+
     // Close on escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
             closeModal();
         }
     });
-    
+
     // Product image dots navigation
     const productImageDots = document.querySelectorAll('.product-image-dot');
     productImageDots.forEach(dot => {
-        dot.addEventListener('click', function() {
+        dot.addEventListener('click', function () {
             // Here you would normally switch the product image
             // For this demo we'll just update the active dot
             productImageDots.forEach(d => d.classList.remove('active', 'bg-white'));
@@ -1554,7 +1586,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         if (target) {
             const yOffset = -80; // Header offset
             const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            
+
             window.scrollTo({
                 top: y,
                 behavior: 'smooth'
@@ -1596,7 +1628,7 @@ interactiveElements.forEach(el => {
             ease: "power2.out"
         });
     });
-    
+
     el.addEventListener('mouseleave', () => {
         gsap.to(cursorOutline, {
             scale: 1,
@@ -1610,7 +1642,7 @@ interactiveElements.forEach(el => {
 document.addEventListener('mousemove', (e) => {
     const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
     const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
-    
+
     // Periksa apakah elemen parallax ada sebelum animasi
     const parallaxElements = document.querySelectorAll('.parallax');
     if (parallaxElements.length > 0) {
@@ -1629,7 +1661,7 @@ document.addEventListener('mousemove', (e) => {
 
 // STYLE QUIZ FUNCTIONALITY
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const quizModal = document.getElementById('style-quiz-modal');
     const quizContent = document.getElementById('style-quiz-content');
     const quizBackdrop = document.getElementById('style-quiz-backdrop');
@@ -1637,7 +1669,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeQuizBtn = document.getElementById('close-style-quiz');
     const tryAgainBtns = document.querySelectorAll('#try-again-btn, #try-again-btn-2');
     const progressBar = document.getElementById('quiz-progress');
-    
+
     let currentStep = 1;
     let answers = {
         step1: '',
@@ -1649,12 +1681,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function openQuiz() {
         quizModal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
-        
+
         // Animate backdrop
         setTimeout(() => {
             quizBackdrop.classList.add('opacity-100');
         }, 50);
-        
+
         // Animate content
         setTimeout(() => {
             quizContent.classList.remove('scale-95', 'opacity-0');
@@ -1667,10 +1699,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Animate content out
         quizContent.classList.add('scale-95', 'opacity-0');
         quizContent.classList.remove('scale-100', 'opacity-100');
-        
+
         // Animate backdrop out
         quizBackdrop.classList.remove('opacity-100');
-        
+
         // Hide modal
         setTimeout(() => {
             quizModal.classList.add('hidden');
@@ -1687,64 +1719,64 @@ document.addEventListener('DOMContentLoaded', function() {
             step2: '',
             step3: ''
         };
-        
+
         // Hide all steps and show first step
         document.querySelectorAll('#quiz-step-1, #quiz-step-2, #quiz-step-3, #quiz-result').forEach(step => {
             step.classList.add('hidden');
         });
         document.getElementById('quiz-step-1').classList.remove('hidden');
-        
+
         // Reset progress bar
         progressBar.style.width = '33.33%';
-        
+
         // Reset result sections
         document.querySelectorAll('#result-clean, #result-bold').forEach(result => {
             result.classList.add('hidden');
-    });
+        });
     }
 
     // Handle Answer Selection
     function handleAnswer(step, value) {
         answers[`step${step}`] = value;
-        
+
         if (step < 3) {
             // Show next step
             document.getElementById(`quiz-step-${step}`).classList.add('hidden');
             document.getElementById(`quiz-step-${step + 1}`).classList.remove('hidden');
-            
+
             // Update progress bar
             progressBar.style.width = `${(step + 1) * 33.33}%`;
-            
+
             currentStep++;
         } else {
             // Show result
-                showQuizResult();
-            }
+            showQuizResult();
+        }
     }
 
     // Show Quiz Result
     function showQuizResult() {
         // Hide last step
         document.getElementById('quiz-step-3').classList.add('hidden');
-        
+
         // Show result container
         const resultContainer = document.getElementById('quiz-result');
         resultContainer.classList.remove('hidden');
-        
+
         // Determine result type based on answers
         const cleanAnswers = ['A', 'A', 'A']; // Answers that lead to clean result
         const userAnswers = [answers.step1, answers.step2, answers.step3];
-        
+
         // Count matching answers
         const matchingAnswers = userAnswers.filter((answer, index) => answer === cleanAnswers[index]).length;
-        
+
         // Show appropriate result
         if (matchingAnswers >= 2) {
             document.getElementById('result-clean').classList.remove('hidden');
         } else {
             document.getElementById('result-bold').classList.remove('hidden');
         }
-        
+
         // Animate result cards
         gsap.from('#quiz-result .group', {
             y: 50,
@@ -1759,22 +1791,22 @@ document.addEventListener('DOMContentLoaded', function() {
     if (openQuizBtn) {
         openQuizBtn.addEventListener('click', openQuiz);
     }
-    
+
     if (closeQuizBtn) {
         closeQuizBtn.addEventListener('click', closeQuiz);
-        }
-    
+    }
+
     // Close on backdrop click
     quizBackdrop.addEventListener('click', closeQuiz);
-    
+
     // Try Again buttons
     tryAgainBtns.forEach(btn => {
         btn.addEventListener('click', resetQuiz);
     });
-    
+
     // Answer buttons
     document.querySelectorAll('.quiz-answer').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const step = parseInt(this.dataset.step);
             const value = this.dataset.value;
             handleAnswer(step, value);
