@@ -1294,7 +1294,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let slideWidth = slides[0].offsetWidth + parseInt(window.getComputedStyle(slides[0]).marginRight || 0);
     let isTransitioning = false;
     let pauseTimeout;
-
+    let isAnimating = true;
     const slidesToClone = 1; 
     
     for (let i = 0; i < slidesToClone; i++) {
@@ -1321,6 +1321,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
     function animateSlide() {
+        // Hentikan animasi jika flag isAnimating false
+        if (!isAnimating) {
+            cancelAnimationFrame(animationId);
+            return;
+        }
+        
         if (isPaused) {
             animationId = requestAnimationFrame(animateSlide);
             return;
@@ -1362,7 +1368,10 @@ document.addEventListener('DOMContentLoaded', function () {
             slideTrack.style.transform = `translateX(-${currentPosition}px)`;
         }
         
-        animationId = requestAnimationFrame(animateSlide);
+        // Hanya lanjutkan animasi jika masih dalam viewport
+        if (isAnimating) {
+            animationId = requestAnimationFrame(animateSlide);
+        }
     }
     
     function slideToIndex(index, animate = true) {
@@ -1387,6 +1396,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 targetPosition = newPosition;
                 isPaused = false;
                 isTransitioning = false;
+                // Restart animasi
+                isAnimating = true;
                 animateSlide();
             }, transitionSpeed * 1000);
         } else {
@@ -1397,6 +1408,8 @@ document.addEventListener('DOMContentLoaded', function () {
             
             isPaused = false;
             isTransitioning = false;
+            // Restart animasi
+            isAnimating = true;
             animateSlide();
         }
     }
@@ -1430,6 +1443,17 @@ document.addEventListener('DOMContentLoaded', function () {
         isPaused = false;
     });
     
+    // Tambahkan event untuk menghentikan animasi ketika pengguna meninggalkan halaman
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            isAnimating = false;
+            cancelAnimationFrame(animationId);
+        } else {
+            isAnimating = true;
+            animateSlide();
+        }
+    });
+    
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
@@ -1440,6 +1464,22 @@ document.addEventListener('DOMContentLoaded', function () {
             slideToIndex(currentIndex, false);
         }, 250);
     });
+    
+    const sliderObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (!isAnimating) {
+                    isAnimating = true;
+                    animateSlide();
+                }
+            } else {
+                isAnimating = false;
+                cancelAnimationFrame(animationId);
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    sliderObserver.observe(sliderContainer);
     
     updateActiveDot(0);
     animateSlide();
