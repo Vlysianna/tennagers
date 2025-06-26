@@ -784,32 +784,54 @@ html {
 
 @media (max-width: 768px) {
     .gallery-grid {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        gap: 20px;
+        justify-content: center;
     }
 
     .column {
         margin-bottom: 20px;
     }
 
-    .left-column .item-1,
-    .center-column .item-2,
-    .right-column .item-3 {
-        height: 250px;
+    .grid-item {
+        width: 100px;
+        height: 100px;
+        background: #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .left-column .item-4,
-    .left-column .item-7,
+    .left-column .item-1 {
+        height: 100px;
+    }
+
+    .center-column .item-2 {
+        height: 150px;
+    }
+    .right-column .item-3 {
+        height: 75px;
+    }
+
+    .left-column .item-4 {
+        height: 75px;
+    }
+
     .center-column .item-5 {
-        height: 180px;
+        height: 100px;
     }
 
     .right-column .item-6 {
-        height: 372px;
+        height: 175px;
+    }
+
+    .left-column .item-7 {
+        height: 75px;
     }
 
     .center-column .item-2 h3 {
-        font-size: 28px;
-        transform: rotate(0deg);
+        font-size: 10px;
     }
 
     .text-section h2 {
