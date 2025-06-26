@@ -892,3 +892,23 @@ html {
 /* =====================
    END GALLERY SHOWCASE
    ===================== */ 
+
+
+/* =====================
+   DIVIDER
+   ===================== */ 
+
+   .img-its-day img {
+        width: 100px;
+        height: 100px;
+   }
+
+   @media (max-width: 768px) {
+        .its-day-present {
+            display: flex;
+            justify-content: center;
+        }
+   }
+/* =====================
+   END DIVIDER
+   ===================== */ 
