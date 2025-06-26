@@ -1281,7 +1281,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!sliderContainer || !slideTrack || slides.length === 0) return;
 
 
-    const slideSpeed = 2; 
+    const slideSpeed = 1; 
     const pauseDuration = 1000; 
     const transitionSpeed = 0.3; 
     
@@ -1295,7 +1295,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let isTransitioning = false;
     let pauseTimeout;
 
-    const slidesToClone = 2; 
+    const slidesToClone = 1; 
     
     for (let i = 0; i < slidesToClone; i++) {
         const firstClone = slides[i].cloneNode(true);
