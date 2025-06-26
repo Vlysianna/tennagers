@@ -67,7 +67,7 @@ Bagian yang menampilkan visi brand dengan quotes dari tim kreatif yang ditampilk
 
 ## 📱 Screenshot
 
-![Teenagers Website](img/GAMBAR1.png)
+![Teenagers Website](img/prevuew.png)
 
 ## 🚀 Cara Menjalankan Proyek
 
@@ -82,10 +82,10 @@ git clone https://github.com/username/teenagers.git
 
 ## 📞 Kontak
 
-- **Website**: [teenagers.id](https://teenagers.id)
+- **Website**: [teenagers.id](https://tennagers.vercel.app/)
 - **Email**: hello@teenagers.id
-- **Instagram**: @teenagers.id
+- **Instagram**: @teenagers.us
 
 ---
 
-&copy; 2023 Teenagers. All rights reserved. 
+&copy; 2025 Teenagers. All rights reserved. 
