@@ -807,8 +807,8 @@ html {
 
     .gallery-grid {
         display: grid;
-        grid-template-columns: repeat(3, 140px);
-        gap: 20px;
+        grid-template-columns: repeat(3, 120px);
+        gap: 15px;
         justify-content: center;
     }
 
