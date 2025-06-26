@@ -2,7 +2,15 @@
    HEADER & NAVBAR
    ===================== */
 
-/* Hamburger Animation */
+html {
+    scroll-behavior: auto;
+}
+
+@font-face {
+    font-family: Satoshi;
+    src: url(Satoshi.ttf);
+}
+
 .hamburger-line {
     transform-origin: center;
 }
@@ -15,7 +23,6 @@
     transform: rotate(-45deg) translate(2px, -2px);
 }
 
-/* Navbar Glassmorphism */
 .navbar-glass {
     background: linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
     backdrop-filter: blur(12px);
@@ -24,7 +31,6 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Navbar Links */
 .nav-link {
     position: relative;
     color: black;
@@ -46,26 +52,21 @@
     width: 100%;
 }
 
-/* Get in Touch Button */
 .get-in-touch-btn {
-    background: #303030;
-    color: white;
+    color: black;
     border-radius: 9999px;
     padding: 8px 20px;
     font-weight: 500;
     transition: all 0.3s ease;
-    border: 1px solid transparent;
 }
 
 .get-in-touch-btn:hover {
-    background: white;
     color: #303030;
     border: 1px solid #303030;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Cursor effect (tambahan, jika ada perbedaan dengan yang sudah ada, silakan sesuaikan) */
 .cursor-dot {
     width: 8px;
     height: 8px;
@@ -90,7 +91,6 @@
     transition: all 0.1s ease;
 }
 
-/* Animasi untuk elemen yang muncul saat di-scroll */
 .animate-on-scroll {
     opacity: 0;
     transform: translateY(20px);
@@ -109,7 +109,6 @@
     }
 }
 
-/* Slider styles (Collection section) */
 .slider-container {
     width: 100%;
     overflow: hidden;
@@ -137,16 +136,9 @@
 }
 
 /* =====================
-   END HEADER & NAVBAR
+   BASE STYLES
    ===================== */
 
-/* Base styles */
-@font-face {
-    font-family: Satoshi;
-    src: url(Satoshi.ttf);
-}
-
-/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -159,7 +151,6 @@ body {
     background-color: white;
 }
 
-/* Modern Cursor Effect */
 .cursor-dot,
 .cursor-outline {
     pointer-events: none;
@@ -185,14 +176,16 @@ body {
     transition: transform 0.2s ease-out;
 }
 
-/* Smooth Transitions */
 .transition-all {
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 300ms;
 }
 
-/* Modern Button Hover Effects */
+/* =====================
+   BUTTON & HOVER EFFECTS
+   ===================== */
+
 .btn-hover-effect {
     position: relative;
     overflow: hidden;
@@ -219,7 +212,10 @@ body {
     left: 100%;
 }
 
-/* Swiper Custom Styles */
+/* =====================
+   SWIPER & SLIDER STYLES
+   ===================== */
+
 .swiper-button-next,
 .swiper-button-prev {
     background-color: rgba(255, 255, 255, 0.9);
@@ -253,7 +249,6 @@ body {
     left: 20px !important;
 }
 
-/* Modern Card Hover Effects */
 .hover-card {
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -263,7 +258,6 @@ body {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* Gradient Text Effect */
 .gradient-text {
     background: linear-gradient(to right, #303030, #4A4A4A);
     -webkit-background-clip: text;
@@ -271,7 +265,6 @@ body {
     color: transparent;
 }
 
-/* Modern Image Hover Effect */
 .image-hover {
     overflow: hidden;
 }
@@ -284,7 +277,6 @@ body {
     transform: scale(1.1);
 }
 
-/* Glassmorphism Effect */
 .glass {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -292,7 +284,6 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .cursor-dot,
     .cursor-outline {
@@ -300,7 +291,10 @@ body {
     }
 }
 
-/* Custom Animations */
+/* =====================
+   ANIMATIONS
+   ===================== */
+
 @keyframes float {
     0%, 100% {
         transform: translateY(0);
@@ -345,12 +339,10 @@ body {
     animation: shine 3s infinite;
 }
 
-/* Smooth Scrollbar */
 html {
     scroll-behavior: smooth;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -370,7 +362,6 @@ html {
     background: #555;
 }
 
-/* Loading Animation */
 .loading {
     position: relative;
     overflow: hidden;
@@ -401,7 +392,6 @@ html {
     }
 }
 
-/* Slider styles */
 .slider-container {
     position: relative;
     width: 100%;
@@ -418,9 +408,14 @@ html {
 
 .slide-item {
     flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Improved slider navigation */
+.slide-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
 .slider-nav {
     opacity: 0;
     transform: translateY(-50%) scale(0.9);
@@ -441,17 +436,6 @@ html {
     transform: scaleX(1.2);
 }
 
-/* Product card hover effects */
-.slide-item {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.slide-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-/* Custom animations */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -491,14 +475,16 @@ html {
     animation: slideInRight 0.5s ease forwards;
 }
 
-/* Staggered animation delays */
 .stagger-1 { animation-delay: 0.1s; }
 .stagger-2 { animation-delay: 0.2s; }
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 .stagger-5 { animation-delay: 0.5s; }
 
-/* Utility classes */
+/* =====================
+   UTILITY CLASSES
+   ===================== */
+
 .hidden {
     display: none;
 }
@@ -507,7 +493,6 @@ html {
     display: block;
 }
 
-/* Mobile menu transitions */
 .mobile-menu-enter {
     transform: translateX(100%);
 }
@@ -526,7 +511,10 @@ html {
     transition: transform 300ms ease-in-out;
 }
 
-/* Trend Section Styles */
+/* =====================
+   TREND SECTION
+   ===================== */
+
 #trend {
     position: relative;
     overflow: hidden;
@@ -564,7 +552,6 @@ html {
     transform: translateY(-2px);
 }
 
-/* Mobile Hero Section Enhancements */
 .slide-info {
     backdrop-filter: blur(6px);
     max-width: 260px;
@@ -579,7 +566,6 @@ html {
         z-index: 30;
     }
     
-    /* Increase contrast for better visibility */
     .slide-info {
         background-color: rgba(255, 255, 255, 0.9);
     }
@@ -611,7 +597,6 @@ html {
     transform: translateY(-8px);
 }
 
-/* Weekly Filter Buttons */
 .weekly-filter-btn {
     position: relative;
     cursor: pointer;
@@ -626,7 +611,6 @@ html {
     color: var(--color-primary, #303030);
 }
 
-/* Weekly Navigation Buttons */
 .weekly-nav-btn {
     cursor: pointer;
     z-index: 10;
@@ -639,13 +623,11 @@ html {
     }
 }
 
-/* Weekly Dots */
 .weekly-dot {
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
-/* Card Content Animation */
 .weekly-card:hover .transform.translate-y-10 {
     transform: translateY(0);
     opacity: 1;
@@ -666,17 +648,15 @@ html {
     width: 100%;
 }
 
-/* Mobile Scrollbar Hide */
 .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari, Opera */
+    display: none;
 }
 
-/* Responsive Adjustments */
 @media (max-width: 768px) {
     .weekly-card {
         padding: 0.5rem;
@@ -694,10 +674,6 @@ html {
         height: 36px;
     }
 }
-
-/* =====================
-   END WEEKLY PICKS SECTION
-   ===================== */
 
 /* =====================
    GALLERY SHOWCASE
@@ -892,3 +868,5 @@ html {
 /* =====================
    END GALLERY SHOWCASE
    ===================== */ 
+=======
+} 
