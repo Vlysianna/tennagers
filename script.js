@@ -1201,7 +1201,6 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
     function animateSlide() {
-        // Hentikan animasi jika flag isAnimating false
         if (!isAnimating) {
             cancelAnimationFrame(animationId);
             return;
@@ -1248,7 +1247,6 @@ document.addEventListener('DOMContentLoaded', function () {
             slideTrack.style.transform = `translateX(-${currentPosition}px)`;
         }
         
-        // Hanya lanjutkan animasi jika masih dalam viewport
         if (isAnimating) {
             animationId = requestAnimationFrame(animateSlide);
         }
@@ -1276,7 +1274,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 targetPosition = newPosition;
                 isPaused = false;
                 isTransitioning = false;
-                // Restart animasi
                 isAnimating = true;
                 animateSlide();
             }, transitionSpeed * 1000);
@@ -1288,7 +1285,6 @@ document.addEventListener('DOMContentLoaded', function () {
             
             isPaused = false;
             isTransitioning = false;
-            // Restart animasi
             isAnimating = true;
             animateSlide();
         }
@@ -1323,7 +1319,6 @@ document.addEventListener('DOMContentLoaded', function () {
         isPaused = false;
     });
     
-    // Tambahkan event untuk menghentikan animasi ketika pengguna meninggalkan halaman
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
             isAnimating = false;
@@ -1610,6 +1605,113 @@ document.addEventListener('DOMContentLoaded', function () {
             handleAnswer(step, value);
         });
     });
+});
+
+// =====================
+// CONTACT FORM
+// =====================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.querySelector('#contactForm');
+    
+    if (contactForm) {
+        // Buat elemen pop-up
+        const popupOverlay = document.createElement('div');
+        popupOverlay.classList.add('popup-overlay');
+        popupOverlay.style.display = 'none';
+        
+        const popupContent = document.createElement('div');
+        popupContent.classList.add('popup-content');
+        
+        const popupMessage = document.createElement('div');
+        popupMessage.classList.add('popup-message');
+        
+        const popupCloseBtn = document.createElement('button');
+        popupCloseBtn.classList.add('popup-close-btn');
+        popupCloseBtn.innerHTML = '&times;';
+        
+        popupContent.appendChild(popupCloseBtn);
+        popupContent.appendChild(popupMessage);
+        popupOverlay.appendChild(popupContent);
+        document.body.appendChild(popupOverlay);
+        function showPopup(message, isSuccess = true) {
+            popupMessage.innerHTML = message;
+            popupContent.className = 'popup-content';
+            popupContent.classList.add(isSuccess ? 'success' : 'error');
+            popupOverlay.style.display = 'flex';
+            gsap.fromTo(popupContent, 
+                { scale: 0.8, opacity: 0 }, 
+                { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.7)" }
+            );
+
+            if (isSuccess) {
+                setTimeout(() => {
+                    closePopup();
+                }, 5000);
+            }
+        }
+        
+        function closePopup() {
+            gsap.to(popupContent, {
+                scale: 0.8,
+                opacity: 0,
+                duration: 0.2,
+                onComplete: () => {
+                    popupOverlay.style.display = 'none';
+                }
+            });
+        }
+        
+        popupCloseBtn.addEventListener('click', closePopup);
+        
+        popupOverlay.addEventListener('click', function(e) {
+            if (e.target === popupOverlay) {
+                closePopup();
+            }
+        });
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nameInput = contactForm.querySelector('input[type="text"]');
+            const emailInput = contactForm.querySelector('input[type="email"]');
+            const messageInput = contactForm.querySelector('textarea');
+            
+            if (!nameInput.value.trim()) {
+                showPopup('Mohon masukkan nama Anda', false);
+                nameInput.focus();
+                return;
+            }
+            
+            if (!emailInput.value.trim()) {
+                showPopup('Mohon masukkan email Anda', false);
+                emailInput.focus();
+                return;
+            }
+            
+            if (!validateEmail(emailInput.value.trim())) {
+                showPopup('Mohon masukkan email yang valid', false);
+                emailInput.focus();
+                return;
+            }
+            
+            if (!messageInput.value.trim()) {
+                showPopup('Mohon masukkan pesan Anda', false);
+                messageInput.focus();
+                return;
+            }
+
+            setTimeout(() => {
+                showPopup('Terima kasih! Pesan Anda telah terkirim. Kami akan segera menghubungi Anda.', true);
+                contactForm.reset();
+            }, 1000);
+        });
+        
+        function validateEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+    }
 });
 
 // =====================
